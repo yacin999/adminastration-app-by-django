@@ -1,0 +1,43 @@
+{% extends 'dashboard/admin_panel.html' %}
+
+
+{% block content %}
+
+<div class="container-search">
+  <form class="form-inline my-2 my-lg-0 search">
+    <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+    <button class="btn btn-outline-primary my-2 my-sm-0" type="submit">Search</button>
+  </form>
+  <button type="button" class="btn btn-primary mb-4 adding"><a href="{% url 'new-teacher' %}">add teacher</a></button> 
+</div>
+
+<div id="table">
+  <table class="table">
+    <thead class="thead-dark">
+      <tr>
+        <th scope="col">id</th>
+        <th scope="col">nom</th>
+        <th scope="col">prenom</th>
+        <th scope="col">email</th>
+        <th scope="col" class="text-center">Action</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for teacher in teachers %}
+      <tr>
+        <th scope="row">{{ forloop.counter|add:0 }}</th>
+        <td>{{ teacher.prenom}}</td>
+        <td>{{ teacher.nom}}</td>
+        <td>{{ teacher.email}}</td>
+        <td class="td-btn">
+            <a href="{% url 'update-teacher' teacher.slug %}" class="btn btn-outline-primary "> update</a>
+            <a href="{% url 'delete-teacher' teacher.slug %} " class="btn btn-outline-danger"><i class="fal fa-trash-alt"></i> delete</a>
+        </td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+  <h6 class=" pb-2 border-bottom"> {{ teachers.count }} Enseignants</h6>
+
+{% endblock %}

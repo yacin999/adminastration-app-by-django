@@ -1,0 +1,46 @@
+{% extends "dashboard/admin_panel.html" %}
+
+
+{% block content %}
+
+<div class="container-search">
+  <form class="form-inline my-2 my-lg-0 search">
+    <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+    <button class="btn btn-outline-primary my-2 my-sm-0" type="submit"><i class="fas fa-search"></i> Search</button>
+  </form>
+  <button type="button" class="btn btn-primary mb-4 adding"><a href="{% url 'new-timetable' %}"><i class="fas fa-plus-circle"></i> ajouter Emploitemp</a></button> 
+  
+</div>
+
+
+<div class="container">
+  <div id="table">
+    <table class="table" >
+      <thead class="thead">
+        <tr>
+          <th scope="col">#</th>
+          <th scope="col">Nom de empoit de temps</th>
+          <th scope="col" class="text-center">Action</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for emploitemp in emploitemps %}
+        <tr>
+          <th scope="row">{{ forloop.counter|add:0 }}</th>
+          <td><a href="{% url 'timetable-detail'  emploitemp.id %}" id="timetable-name">{{ emploitemp.slug}}</a></td>
+          <td class="td-btn">
+            <a href="" class="btn btn-outline-primary "><i class="far fa-edit"></i> update</a>
+            <a href="{% url 'delete-timetable' emploitemp.id  %}" class="btn btn-outline-danger"><i class="far fa-trash-alt"></i> delete</a>
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+  </table>
+  </div>
+  
+  <h6 class=" pb-2 border-bottom"> {{ emploitemps.count }} emploi de temps</h6>
+</div>
+
+{% endblock %}
+
+

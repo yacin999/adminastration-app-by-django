@@ -1,0 +1,19 @@
+{% extends "dashboard/admin_panel.html" %}
+
+
+{% block content %}
+<div class="delete">
+    <h3 class="border-bottom mb-3 pb-3 ens">Are you sure you want to delete 'emploi du tempts' "{{timetable.slug}}"</h3>
+    <form method="post">
+        {% csrf_token %}
+        <div class="btns ">
+              <a href="{% url 'all_emploitemps' %}" class="btn btn-secondary m-1 ">Go back</a>
+              <input type="submit" class="btn btn-danger m-1" value="delete">
+        </div>
+    </form>
+
+</div>
+{% endblock content %}
+
+
+

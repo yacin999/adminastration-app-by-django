@@ -1,0 +1,55 @@
+{% extends 'dashboard/admin_panel.html' %}
+
+
+
+
+
+{% block content %}
+
+<div class="container-search">
+  <form class="form-inline my-2 my-lg-0 search">
+    <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+    <button class="btn btn-outline-primary my-2 my-sm-0" type="submit">Search</button>
+  </form>
+  <button type="button" class="btn btn-primary mb-4 adding"><a href="{% url 'new-module' %}">add Module</a></button> 
+  
+</div>
+
+<div class="container">
+  <div id="table">
+    <table class="table">
+      <thead class="thead">
+        <tr>
+          <th scope="col">id</th>
+          <th scope="col">Nom de module</th>
+          <th scope="col">Les enseignant</th>
+          <th scope="col">Code</th>
+          <th scope="col">niveau</th>
+          <th scope="col">Coefficient</th>
+          <th scope="col">Cridit</th>
+          <th scope="col" class="text-center">Action</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for module in modules %}
+        <tr>
+          <th scope="row">{{ forloop.counter|add:0 }}</th>
+          <td>{{ module.designation}}</td>
+          <td>{{ module.prof}}</td>
+          <td>{{ module.code}}</td>
+          <td>{{ module.niveau}}</td>
+          <td>{{ module.coeff}}</td>
+          <td>{{ module.credit}}</td>
+          <td class="td-btn">
+            <a href="{% url 'update-module' module.slug %}" class="btn btn-outline-primary "> update</a>
+            <a href="{% url 'delete-module' module.slug %} " class="btn btn-outline-danger"><i class="fal fa-trash-alt"></i> delete</a>
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+    <h6 class=" pb-2 border-bottom"> {{ modules.count }} modules</h6>
+</div>
+
+{% endblock %}

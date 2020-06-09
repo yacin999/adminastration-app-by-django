@@ -1,0 +1,44 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="{% static 'dashboard/css/bootstrap.min.css' %}">
+    <link rel="stylesheet" href="{% static 'dashboard/css/fontawesome.min.css' %}">
+    <link rel="stylesheet" href="{% static 'dashboard/css/main.css' %}">
+    {% if title %}
+      <title> {{title}} </title>
+    {% else %}  
+      <title>admin-panel</title>
+      {% endif %}
+</head>
+<body>
+
+
+
+
+
+                    <section class="container-fluid" id="logout">
+                        <section class="row justify-content-center ">
+                            <div class="border p-4 mb-5 bg-logout form-container">
+                                <h3 class="border-bottom pb-3 mb-3">Logged out</h3>
+                                    <p>Thanks for spending some time with the Web site today. </p>
+                                <small><a href="{% url 'login' %}" class="text-danger">Log in again</a> </small> or <small><a href="{% url 'home' %}" class="text-danger">Go back to home page</a> </small>
+                            </div>
+                        </section>
+                    </section>
+
+
+
+                    <script src="{% static 'dashboard/js/jquery-3.3.1.slim.min.js' %}"></script>
+                    <script src="{% static 'dashboard/js/popper.min.js' %}"></script>
+                    <script src="{% static 'dashboard/js/fontawesome-all.min.js' %}"></script>
+                    <script src="{% static 'dashboard/js/bootstrap.min.js' %}"></script>
+</body>
+</html>
+            
+
+            

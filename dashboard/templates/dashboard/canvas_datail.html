@@ -1,0 +1,41 @@
+{% extends "dashboard/admin_panel.html" %}
+
+
+
+
+{% block content %}
+
+<a class="btn btn-primary mb-5 off-set-right" href="{% url 'new-canvas' %}">ajouter un condition</a>
+   <div class="container">
+        <div class="table-responsive-sm">       
+            <table class="table table-striped table-dark">
+                <thead>
+                <tr>
+                    <th scope="col">ID</th>
+                    <th>Designation</th>
+                    <th>Semestre</th>
+                    <th>Cours/semain</th>
+                    <th>TD/semain</th>
+                    <th>TP/semain</th>
+                    <th>Niveau</th>
+                </tr>
+                </thead>
+                <tbody>
+                    {% for canvas in all_canvas %}
+                        {% if canvas.semestre == canvas_detail.semestre %}
+                            <tr>
+                                <td scope="row">{{ forloop.counter|add:0 }}</td>
+                                <td> {{canvas.modules}}</td>
+                                <td> {{canvas.semestre}}</td>
+                                <td> {{canvas.cours}}</td>
+                                <td> {{canvas.td}}</td>
+                                <td> {{canvas.tp}}</td>
+                                <td> {{canvas.niveau}}</td>
+                            </tr>
+                        {% endif %}
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+{% endblock content %}

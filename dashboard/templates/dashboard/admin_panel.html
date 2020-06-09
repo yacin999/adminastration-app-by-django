@@ -1,0 +1,514 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="{% static 'dashboard/css/bootstrap.min.css' %}">
+    <link rel="stylesheet" href="{% static 'dashboard/css/font-awesome.min.css' %}">
+    <link rel="stylesheet" href="{% static 'dashboard/css/main.css' %}">
+    {% if title %}
+      <title> {{title}} </title>
+    {% else %}  
+      <title>admin-panel</title>
+      {% endif %}
+</head>
+<body>
+
+
+        <div class="wrapper">
+                <!-- Sidebar  -->
+                <nav id="sidebar">
+                    <div class="sidebar-header">
+                        <h4><i class="fas fa-tachometer-alt icon"></i> Admin Panel</h4>
+                    </div>
+        
+                    <ul class="list-unstyled components">
+                        <li>
+                            <a href="#"><i class="fas fa-user"></i> users</a>
+                        </li>
+                        <li>
+                            <a href="{% url 'all_teachers' %}" class="pr-3"><i class="fas fa-angle-right"></i> Enseignants</a>
+                        </li>
+                        <li>
+                            <a href="{% url 'all_modules' %}"><i class="fas fa-angle-right"></i> Modules</a>
+                        </li>
+                        <li>
+                            <a href="{% url 'all_classrooms' %}"><i class="fas fa-angle-right"></i> Salles</a>
+                        </li>
+                        <li>
+                          <a href="{% url 'all_TT_conditions' %}"><i class="fas fa-angle-right"></i> verification de l'emploi ...</a>
+                        </li>
+                        <li>
+                            <a href="{% url 'all_emploitemps' %}"><i class="fas fa-angle-right"></i> Emploi de temps</a>
+                        </li>
+                    </ul>
+        
+                </nav>
+                <!-- Page Content  -->
+                <div id="content">        
+                    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+                        <div class="container-fluid">
+        
+                            <button type="button" id="sidebarCollapse" class="btn btn-info">
+                                <i class="fas fa-align-left"></i>
+                            </button>
+                            <button class="btn btn-dark d-inline-block d-lg-none ml-auto" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                                <i class="fas fa-align-justify"></i>
+                            </button>
+        
+                            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                                <ul class="nav navbar-nav ml-auto">
+
+                                    <li class="nav-item active">
+                                            <a class="nav-link home" href="#">Dashboard</a>
+                                    </li>
+                                    <li class="nav-item logout">
+                                        <a class="nav-link logou" href="{% url 'logout' %}"><i class="fas fa-sign-out-alt"></i> Logout</a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </nav>
+
+                    {% block content %}
+
+                    {% endblock %}
+                      
+                </div>
+            </div>
+            
+
+        <script src="{% static 'dashboard/js/jquery-3.4.1.min.js' %}"></script>
+        <script src="{% static 'dashboard/js/popper.min.js' %}"></script>
+        <script src="{% static 'dashboard/js/bootstrap.min.js' %}"></script>
+        <script src="{% static 'dashboard/js/fontawesome-all.min.js' %}"></script>
+        <script src="{% static 'dashboard/js/main.js' %}" defer></script>
+        
+
+        <!-- <script>
+//§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§= javascript part =§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§
+
+            let dataObject = {};
+            //console.log(dataObject);
+            let targets = document.querySelectorAll(".our_target");
+            targets.forEach(target => {target.addEventListener("click", appendDiv)});
+
+            // reset functions :
+            function resetInputs() {
+              document.getElementById('creates').innerHTML='';    
+              $('#select-TD-cours').val('');                            
+            }
+             
+            var django_list = [];
+
+            // To verify modules and teachers:
+            function verify_mod(module, target) {
+              var nbr_mod = "{{canvas.td}}";
+              
+
+            }
+
+            // To create the fields of periods, so the user can fill them :______________________
+            function create_TDs_cours(nbr_group, type){
+              var con_fields = document.getElementById('creates');
+              var niv = document.getElementById("level").value;
+              //resetInputs();
+              for (var i = 0; i < nbr_group; i++) {
+                var div = document.createElement('div');
+                div.className = 'removable border m-2 p-2'
+                if (type==="td-tp"){                  
+                  // create Elements part:=============================
+                   // for group part:
+                  var subDiv = document.createElement('div');
+                  var labelSelect = document.createElement('label');
+                  var selectElement = document.createElement('select');
+                  for (var s=1; s<=nbr_group; s++) {
+                    var optionElement = document.createElement('option');
+                    optionElement.textContent = `G${s}`;
+                    selectElement.appendChild(optionElement);
+                  }
+                  labelSelect.textContent = "groupe";
+                  subDiv.className = 'form-group';
+                  labelSelect.className = 'col-form-label pl-2';
+                  selectElement.className = 'period-select float-right mr-5 custom-select';
+                  selectElement.setAttribute("style", "width: 130px");
+                  subDiv.appendChild(labelSelect);
+                  subDiv.appendChild(selectElement);
+                  div.appendChild(subDiv);
+                  
+                  // for module part:------------------------------
+                  var subDivM = document.createElement('div');
+                  var labelSelectM = document.createElement('label');
+                  var selectElementM = document.createElement('select');
+
+                  subDivM.className = 'form-group';
+                  labelSelectM.className = 'col-form-label pl-2';
+                  labelSelectM.textContent = "Module";
+                  selectElementM.className = 'period-select float-right mr-5 custom-select';
+                  selectElementM.setAttribute("style", "width: 230px");
+                  
+                  selectElementM.innerHTML = `
+                      <option value="">--Please select--</option>
+                      {% for module in modules %}
+                        {% ifequal module.niveau|lower "licence2" %}
+                          <option value="{{ module.designation }}">{{ module.designation }}</option>
+                        {% endifequal %}
+                      {% endfor %}
+                  `;
+                  subDivM.appendChild(labelSelectM);
+                  subDivM.appendChild(selectElementM);
+                  div.appendChild(subDivM);
+                  
+                  // for teacher part:------------------------------
+                  var subDivT = document.createElement('div');
+                  var labelSelectT = document.createElement('label');
+                  var selectElementT = document.createElement('select');
+
+                  subDivT.className = 'form-group';
+                  labelSelectT.className = 'col-form-label pl-2';
+                  labelSelectT.textContent = "Enseignant";
+                  selectElementT.className = 'period-select float-right mr-5 custom-select';
+                  selectElementT.setAttribute("style", "width: 230px");
+                  selectElementT.innerHTML = `
+                      <option value="">--Please select--</option>
+                      {% for teacher in teachers %}
+                        <option value="{{ teacher.nom }}">{{ teacher.nom }}</option>
+                      {% endfor %}
+                  `;
+                  subDivT.appendChild(labelSelectT);
+                  subDivT.appendChild(selectElementT);
+                  div.appendChild(subDivT);
+                  
+                  
+                  // for classroom part:---------------------------
+                  var subDivC = document.createElement('div');
+                  var labelSelectC = document.createElement('label');
+                  var selectElementC = document.createElement('select');
+
+                  subDivC.className = 'form-group';
+                  labelSelectC.className = 'col-form-label pl-2';
+                  labelSelectC.textContent = "Salle";
+                  selectElementC.className = 'period-select float-right mr-5 custom-select';
+                  selectElementC.setAttribute("style", "width: 230px");
+                  
+                  selectElementC.innerHTML = `
+                      <option value="">--Please select--</option>
+                      {% for classroom in classrooms %}
+                        <option value="{{ classroom.design }}">{{ classroom.design }}</option>
+                      {% endfor %}
+                  `;
+                  subDivC.appendChild(labelSelectC);      
+                  subDivC.appendChild(selectElementC); 
+                  div.appendChild(subDivC);
+
+
+                  /*div.innerHTML =`
+                    <div class="form-group ">
+                      <label for="recipient-name" class="col-form-label pl-2">Num de groupe</label>
+                      <select name="periodes" class="period-select float-right mr-5 custom-select" style="width: 130px">
+                        <option value="">--select--</option>
+                        <option value="G1">G1</option>
+                        <option value="G2">G2</option>
+                        <option value="G3">G3</option>
+                        <option value="G4">G4</option>
+                        <option value="G5">G5</option>
+                        <option value="G6">G6</option>
+                        <option value="G7">G7</option>
+                        <option value="G8">G8</option>
+                        <option value="G9">G9</option>
+                        <option value="G10">G10</option>                        
+                      </select>
+                    </div>
+                    <div class="form-group">
+                      <label for="recipient-name" class="col-form-label pl-2">module</label>
+                      <select name="periodes" class="period-select float-right mr-5 custom-select" style="width: 230px">
+                        <option value="">--Please select--</option>
+                        {% for module in modules %}
+                          {% if module.niveau|lower == "licence1" %}
+                            <option value="{{ module.designation }}">{{ module.designation }}</option>
+                          {% endif %}
+                        {% endfor %}
+                      </select>
+                    </div>
+                    <div class="form-group ">
+                      <label for="recipient-name" class="col-form-label pl-2">enseignant</label>
+                      <select name="periodes" class="period-select float-right mr-5 custom-select" style="width: 230px">
+                        <option value="">--Please select--</option>
+                        {% for teacher in teachers %}
+                          <option value="{{ teacher.nom }}">{{ teacher.nom }}</option>
+                        {% endfor %}
+                      </select>
+                    </div>
+                    <div class="form-group ">
+                      <label for="recipient-name" class="col-form-label pl-2">salle</label>
+                      <select name="periodes" class="period-select float-right mr-5 custom-select" style="width: 230px">
+                        <option value="">--Please select--</option>
+                        {% for classroom in classrooms %}
+                          <option value="{{ classroom.design }}">{{ classroom.design }}</option>
+                        {% endfor %}
+                      </select>
+                    </div>
+                    `;*/
+                }else if(type==="cours"){
+
+
+                  // for module part:------------------------------
+                  var subDivM = document.createElement('div');
+                  var labelSelectM = document.createElement('label');
+                  var selectElementM = document.createElement('select');
+
+                  subDivM.className = 'form-group';
+                  labelSelectM.className = 'col-form-label pl-2';
+                  labelSelectM.textContent = "Module";
+                  selectElementM.className = 'period-select float-right mr-5 custom-select';
+                  selectElementM.setAttribute("style", "width: 230px");
+                  
+                  selectElementM.innerHTML = `
+                      <option value="">--Please select--</option>
+                      {% for module in modules %}
+                        {% ifequal module.niveau|lower "licence2" %}
+                          <option value="{{ module.designation }}">{{ module.designation }}</option>
+                        {% endifequal %}
+                      {% endfor %}
+                  `;
+                  subDivM.appendChild(labelSelectM);
+                  subDivM.appendChild(selectElementM);
+                  div.appendChild(subDivM);
+                  
+                  // for teacher part:------------------------------
+                  var subDivT = document.createElement('div');
+                  var labelSelectT = document.createElement('label');
+                  var selectElementT = document.createElement('select');
+
+                  subDivT.className = 'form-group';
+                  labelSelectT.className = 'col-form-label pl-2';
+                  labelSelectT.textContent = "Enseignant";
+                  selectElementT.className = 'period-select float-right mr-5 custom-select';
+                  selectElementT.setAttribute("style", "width: 230px");
+                  selectElementT.innerHTML = `
+                      <option value="">--Please select--</option>
+                      {% for teacher in teachers %}
+                        <option value="{{ teacher.nom }}">{{ teacher.nom }}</option>
+                      {% endfor %}
+                  `;
+                  subDivT.appendChild(labelSelectT);
+                  subDivT.appendChild(selectElementT);
+                  div.appendChild(subDivT);
+                  
+                  
+                  // for classroom part:---------------------------
+                  var subDivC = document.createElement('div');
+                  var labelSelectC = document.createElement('label');
+                  var selectElementC = document.createElement('select');
+
+                  subDivC.className = 'form-group';
+                  labelSelectC.className = 'col-form-label pl-2';
+                  labelSelectC.textContent = "Salle";
+                  selectElementC.className = 'period-select float-right mr-5 custom-select';
+                  selectElementC.setAttribute("style", "width: 230px");
+                  
+                  selectElementC.innerHTML = `
+                      <option value="">--Please select--</option>
+                      {% for classroom in classrooms %}
+                        <option value="{{ classroom.design }}">{{ classroom.design }}</option>
+                      {% endfor %}
+                  `;
+                  subDivC.appendChild(labelSelectC);      
+                  subDivC.appendChild(selectElementC); 
+                  div.appendChild(subDivC);
+                }
+                con_fields.insertBefore(div, con_fields.childNodes[0]);
+              }
+            }
+
+
+            
+            function initIndex(list, i, formchild){
+              var j;
+                j = i % 3;
+                list[j] = formchild;
+            }
+
+
+            // this function insert the values of fields into the period content:__________________________
+            function insertPeriodT(nbr_group, event, id, our_object){
+              var formChild = ""; 
+              var groupe, br, j;
+              var inputlist = [];
+              our_object[`${id}`] = {};
+              our_object[`${id}`]['type'] = "TD-TP";
+              for (var i = 0; i < nbr_group*4; i++){ 
+                j= i+1;
+                if (i%4 === 0){ 
+                  groupe = document.createElement('span');
+                  br = document.createElement('br');
+                  groupe.classList = 'existed style-block'; 
+                  //console.log("THE FIRST condition", inputlist, i%4); 
+                }                  
+                formChild = document.querySelectorAll('.period-select')[i].value;
+                groupe.textContent = groupe.textContent + " " + formChild;
+                inputlist[i%4] = formChild;
+                //console.log("before the second condition", inputlist, i);            
+                if (j%4 === 0){
+                  our_object[`${id}`][`${j%nbr_group}`] = {groupe: inputlist[0], module: inputlist[1], enseignant: inputlist[2], salle: inputlist[3]};
+                  //console.log("THE SECOND condition", inputlist, j);
+                  event.appendChild(groupe);
+                  event.appendChild(br);
+                  event.classList.add('existed');
+                  inputlist = [];
+                }
+              }
+              resetInputs();
+            }
+
+
+            // this function insert the values of fields into the 
+            //period content when the selected input is COURS:___________________________________
+            function insertPeriodC(nbr_group, event, id, our_object) {
+              var inputlist = [],
+                  col, formInputs;
+              for(var i=0; i<3; i++){
+                col = document.createElement('div');
+                formInputs = document.querySelectorAll('.period-select')[i].value;
+                inputlist[i] = formInputs;
+                col.appendChild(document.createTextNode(formInputs));
+                col.className = 'our_col existed';
+                event.appendChild(col);
+              }
+             
+              event.classList.add('existed');
+
+              our_object[`${id}`] = {type: "cours", module: inputlist[0], enseignant: inputlist[1], salle: inputlist[2]};
+              resetInputs();
+            }
+
+
+
+
+            // when the user click on any period from the table:=========================================
+            function appendDiv(event) { 
+              //console.log(dataObject);
+              resetInputs();          
+                e = event.target;
+                var current_id = e.id;
+                /*if(e.classList.contains('existed')) {
+                  
+                  $(e).hover(function(){
+                    $(this).css("background-color", "red");
+                  });
+                  return false;
+                }*/
+                
+                $('#exampleModall').modal('show');
+                e.innerHTML= "";
+                // When the user select 'cours' or 'TD/TP'________________________________________________
+                  $("#choise").on('click',function(ev){ 
+                    ev.preventDefault(); 
+                    var visible = document.getElementById("visible");
+                    var choise = document.getElementById("select-TD-cours");
+                      if (choise.value === 'TD-TP') {                     
+                        let nbr_group = document.getElementById("nbr-group").value;
+                        //console.log("le nombre de groupe est ", nbr_group);
+                        var wasSubmitted = false;
+                         create_TDs_cours(nbr_group, "td-tp");
+                         // when the user submit his informations ---------------------------------------------
+                          $('#create').on('click', function(even){  
+                            even.preventDefault();
+                            wasSubmitted =true;
+                           insertPeriodT(nbr_group, e, current_id, dataObject);             
+                            $('#exampleModall').modal('hide');                            
+                            $(this).off("click"); 
+                          });
+
+                        // COUR---------------------------------------COUR---------------------------------------COUR
+                     }else {
+                       var cleanForm = document.getElementById('creates');
+                       var remChi = document.querySelectorAll('.removable').length;
+  
+                        let nbr_group = 1;
+                        create_TDs_cours(nbr_group, "cours"); 
+                        var wasSubmitted = false;
+                        // when the user submit his inputs _____________________
+                        $('#create').on('click', function(evn){
+                          evn.preventDefault(); 
+                          
+                          if(wasSubmitted) return false;
+                          wasSubmitted =true;
+                          // storing the input values:
+                          insertPeriodC(nbr_group, e, current_id, dataObject);
+                          
+
+                          
+                          $('#exampleModall').modal('hide');
+                          $(this).off("click"); 
+                        });
+              
+              
+                      }
+                   $(this).off("click"); 
+                  });
+              
+              
+                      //document.getElementById("creates").reset();
+              
+                    $("#closes").click(function () {
+                      $('#exampleModall').modal('hide');
+                    });
+                    
+              }
+              $('#close').on('click', function(){
+               
+                $('#exampleModall').modal('hide');
+               });
+
+
+              
+              // Ajax for sendint the data to the server  _______________________-::-_______________________
+              function sendData(e){
+                var level = document.getElementById("level");
+                if (level.value === "") {
+                  level.style.border = "1px solid red";
+                  level.insertAdjacentHTML("afterend", " this field is required.");
+                  alert("you haven't selected which level the table is");
+                  e.stopPropagation();
+                }else {
+                  console.log("else condition")
+                }
+                console.log(document.getElementById("level").value);
+                $.ajax({
+                  method: "POST",
+                  url: "{% url 'save-data' %}",
+                  data: {
+                    "level" : document.getElementById("level").value,
+                    "semestre": document.getElementById("semestre").value,
+                    "our_data" : JSON.stringify(dataObject),
+                    csrfmiddlewaretoken: '{{ csrf_token }}',
+                  },
+                  //dataType: json,
+                  success: function(json){
+                    console.log(json.successMsg);
+                    console.log("the data receiced to the database");
+                    var inputs = document.querySelectorAll('.period-select').value;
+                    for(var i=0; i< 3; i++) {
+                      console.log(i);
+                      console.log(inputs);
+                    }
+                  },
+                  error: function(errmsg){
+                    console.log(errmsg);
+                    console.log("the data didn't received to the database");
+                  }
+                });
+              }
+              
+ 
+        </script>  -->
+</body>
+</html>
+
+
+
+

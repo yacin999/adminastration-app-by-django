@@ -1,0 +1,178 @@
+{% extends "dashboard/admin_panel.html" %}
+{% block content %}
+
+
+<div class="mb-5" id="append_div">
+  <label for="tableau">le niveau de cette tableau :</label>
+  <select id="level" class="custom-select ml-1 mr-5" style="width: 130px;">
+    <option value="" selected disabled>-select-</option>
+    {% for level in niveau %}
+      <option value="{{level}}">{{level}}</option>
+    {% endfor %}  
+  </select>
+
+  <label for="tableau" class="ml-5">le semestre de cette emploi :</label>
+  <select id="semestre" class="custom-select ml-1" style="width: 130px;" disabled>
+    <option value="" selected>-select-</option>
+  </select>
+</div>
+
+
+
+<div class="row mt-3 mb-5">
+  <span><label for="" class="pl-3 pr-3">entrer le nombre des groupes</label></span>
+  <span><input type="number" name="" value=""  id="nbr-group" style="width: 70px;" disabled></span>
+</div>
+
+<script>
+  var selection = document.getElementById("level");
+  selection.addEventListener('change', (event) => {
+    event.preventDefault();
+    var semestre_value = document.getElementById("semestre");
+    var num_groups = document.getElementById("nbr-group");
+    semestre_value.innerHTML = "";
+    semestre_value.disabled = false;
+    num_groups.disabled = false;
+    semestre_value.innerHTML = "<option value='' selected disabled>-select-</option>"
+    var option1 = document.createElement("option");
+    var option2 = document.createElement("option");
+    switch (selection.value) {
+      case "licence1":
+      option1.textContent = "S1";
+      option2.textContent = "S2";
+      semestre_value.appendChild(option1);
+      semestre_value.appendChild(option2);
+      break;
+      case "licence2":
+      option1.textContent = "S3";
+      option2.textContent = "S4";
+      semestre_value.appendChild(option1);
+      semestre_value.appendChild(option2);
+      break;
+      case "Licence3":
+      option1.textContent = "S5";
+      option2.textContent = "S6";
+      semestre_value.appendChild(option1);
+      semestre_value.appendChild(option2);
+      break;
+      case "Master1":
+      option1.textContent = "M1";
+      option2.textContent = "M2";
+      semestre_value.appendChild(option1);
+      semestre_value.appendChild(option2);
+      break;
+      case "Master2":
+      option1.textContent = "M3";
+      option2.textContent = "M4";
+      semestre_value.appendChild(option1);
+      semestre_value.appendChild(option2);
+      break;
+    }
+  });
+</script>  
+
+
+<div class="our_table" id="ourTable">
+    <div class="our_row">
+        <span class="our_cell times">jours</span>
+       <span class="our_cell times">8:30 - 10:00</span>
+       <span class="our_cell times">10:15 - 11:45</span>
+       <span class="our_cell times">11:45 - 13:30</span>
+       <span class="our_cell times">13:30 - 15:00</span>
+       <span class="our_cell times">15:00 - 16:30</span>
+     </div>
+   <div class="our_row">
+      <span class="our_cell">dimanche</span>
+      
+     <span class="our_cell our_target" id="1">Click here</span>
+     <span class="our_cell our_target" id="2">Click here</span>
+     <span class="our_cell" ></span>
+     <span class="our_cell our_target" id="3">Click here</span>
+     <span class="our_cell our_target" id="4">Click here</span>
+   </div>
+   <div class="our_row">
+      <span class="our_cell">lendi</span>
+     <span class="our_cell our_target" id="5">Click here</span>
+     <span class="our_cell our_target" id="6">Click here</span>
+     <span class="our_cell" ></span>
+     <span class="our_cell our_target" id="7">Click here</span>
+     <span class="our_cell our_target" id="8">Click here</span>
+   </div>
+   <div class="our_row">
+      <span class="our_cell">mardi</span>
+     <span class="our_cell our_target" id="9">Click here</span>
+     <span class="our_cell our_target" id="10">Click here</span>
+     <span class="our_cell" ></span>
+     <span class="our_cell our_target" id="11">Click here</span>
+     <span class="our_cell our_target" id="12">Click here</span>
+   </div>
+   <div class="our_row">
+      <span class="our_cell">mercredi</span>
+     <span class="our_cell our_target" id="13">Click here</span>
+     <span class="our_cell our_target" id="14">Click here</span>
+     <span class="our_cell" ></span>
+     <span class="our_cell our_target" id="15">Click here</span>
+     <span class="our_cell our_target" id="16">Click here</span>
+   </div>
+   <div class="our_row">
+      <span class="our_cell">juedi</span>
+     <span class="our_cell our_target" id="17">Click here</span>
+     <span class="our_cell our_target" id="18">Click here</span>
+     <span class="our_cell"></span>
+     <span class="our_cell our_target" id="19">Click here</span>
+     <span class="our_cell our_target" id="20">Click here</span>
+   </div>
+  </div>
+
+  <!--ajax button-->
+  <div>
+    <button class="btn btn-secondary float-right mt-5 mr-5" onclick="sendData()">
+      <!-- <a href="{% url 'all_emploitemps' %}">submit</a> --> Submit
+    </button>
+  </div>
+
+  
+
+  
+
+ <!-- Modal -->
+ <div class="modal fade" id="exampleModall" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+   <div class="modal-dialog modal-lg " role="document">
+     <div class="modal-content">
+       <div class="modal-header">
+         <h5 class="modal-title" id="exampleModalLabel">new period</h5>
+
+         <!-- <div class="alert alert-danger ml-4 text-center" role="alert">
+          canvas tells that this module<a href="#" class="alert-link">(${module_value})</a>has just ${canvas_data[i].tp} TP per timetable
+         </div> -->
+
+         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+           <span aria-hidden="true">&times;</span>
+         </button>
+       </div>
+       <div class="modal-body">
+         <div class="row pb">
+           <label for="" class="pl-3 pr-3">voulez-vous sélectionner  des cours ou des (TDs & TPs)</label>
+           <select name="emplois" class="selectpicker custom-select" style="width: 130px" data-style="btn-primary" id="select-TD-cours">
+             <option value="" selected disabled >-select-</option>
+             <option value="Cours">Cours</option>
+             <option value="TD-TP">TD-TP</option>
+           </select>
+           <a class="text-primary ml-2 h6" name="button" id="choise">create</a>
+         </div>
+            <div id="creates"></div>
+
+            <button type="button" class="btn btn-danger mt-4" id="close">Close</button>
+            <button type="button" name="myButton" class="btn btn-primary float-right mt-4" id="create">Submit</button>
+
+            
+       </div>
+
+     </div>
+   </div>
+ </div>
+
+ 
+
+
+ {% endblock %}

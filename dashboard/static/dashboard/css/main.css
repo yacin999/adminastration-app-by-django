@@ -1,0 +1,311 @@
+
+
+/* #0f526d */
+/* #ec1c23 */
+
+@import "https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700";
+
+body {
+    font-family: 'Poppins', 'sans-serif';
+    background:  rgb(244, 245, 248);
+}
+
+p {
+    font-family: 'Proppins', sans-serif;
+    font-size: 1.1em;
+    font-weight: 300;
+    line-height: 1.7em;
+    color: #999;
+}
+
+
+a, a:hover, a:focus {
+    color: inherit;
+    text-decoration: none;
+    transition: all 0.3s;
+}
+
+.wrapper {
+    display: flex;
+    width: 100%;
+    align-items: stretch;
+}
+
+#content nav.navbar {
+    padding: 15px;
+    background: #fff  !important;
+    border: none;
+    border-radius: 0;
+    margin-bottom: 40px;
+    box-shadow: 0 0 10px 0 rgb(218, 214, 214);
+}
+
+.navbar-btn {
+    box-shadow: none;
+    outline: none !important;
+    border: none;
+}
+
+.line {
+    width: 100%;
+    height: 1px;
+    border-bottom: 1px dashed #ddd;
+    margin: 40px 0;
+}
+
+
+
+/* ---------------------------------------------------
+    SIDEBAR STYLE
+----------------------------------------------------- */
+/* light color: f8f9fa */
+
+#sidebar {
+    min-width: 250px;
+    max-width: 250px;
+    background: #ffffff;
+    box-shadow: 0 0 10px 0 rgb(150, 146, 146);
+}
+
+
+#sidebar .sidebar-header{
+    padding: 20px;
+    background: rgb(249, 250, 251);
+}
+
+
+#sidebar ul.components {
+    padding: 20px 0;
+}
+
+#sidebar.active {
+    margin-left: -250px;
+}
+
+
+#sidebar ul p {
+    color: #fff;
+    padding: 10px;
+}
+
+#sidebar ul li a {
+    padding: 10px;
+    font-size: 1.1em;
+    display: block;
+}
+
+
+#sidebar ul li a:hover {
+    color: #ec1c23;
+    background: #FFF;
+}
+
+
+#sidebar ul li.active>a, a[aria-expanded="true"] {
+    color: #000;
+    /* background: #6D7FCC; */
+}
+
+a[data-toggle="collapse"] {
+    position: relative;
+}
+
+.dropdown-toggle::after {
+    display: block;
+    position: absolute;
+    top: 50%;
+    right: 20px;
+    transform: translateY(-50%);
+}
+
+ul ul a {
+    font-size: 0.9em !important;
+    padding-left: 30px !important;
+    background: #ffffff;
+}
+
+/* ---------------------------------------------------
+    CONTENT STYLE
+----------------------------------------------------- */
+
+#content {
+    width: 100%;
+    padding: 20px;
+    min-height: 100vh;
+    transition: all 0.3s;
+}
+
+
+/* table part ====================================================================================== */
+ div #table {
+    background: #fff;
+    box-shadow: 0 0 10px 0 rgb(150, 146, 146);
+}
+
+
+@media (max-width: 768px) {
+    #sidebar {
+        margin-left: -250px;
+    }
+    #sidebar.active {
+        margin-left: 0;
+    }
+
+    #sidebarCollapse span {
+        display: none;
+    }
+}
+
+.collapse ul li a.home {
+    color:#ec1c23 !important;
+}
+
+
+.collapse ul li a.logou {
+    color: #0f526d !important;
+
+}
+
+.collapse ul li a.logou:hover {
+    background: #0f526d;
+    color: #fff !important;
+    border-radius: 5%;
+}
+
+.td-btn {
+    width: 281.967px;
+}
+table td .btn:first-child {
+   margin-right:40px;
+}
+
+div.container-search {
+    position: relative;
+    margin-bottom: 100px;
+}
+
+form.search {
+    position: absolute;
+    left: 0;
+}
+
+button.adding {
+    position: absolute;
+    right: 0;
+}
+
+.ens {
+    text-align: center;
+    left: 100px;
+}
+
+.btns {
+    text-align: center;
+}
+
+
+
+/* LOGIN  and LOGOUT style  ========================================================================================*/
+
+.form-container {
+    position: absolute;
+    top: 15vh;
+    background: #fff;
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px 0 #000;
+}
+
+
+
+/* timetible part <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<*/
+
+div #table-container {
+    margin-top: 7%;
+    margin-left: 5%;
+}
+
+
+.our_table {
+	display: table;
+	box-shadow: 0 0 10px 0  rgb(73, 71, 71);
+    width: 95%;
+	height: 300px;
+	border: 1px solid #CCC;
+    text-align: center;
+    background: #fff;
+}
+
+.our_table .our_row {
+  display: table-row;
+}
+
+.our_table .our_row .our_cell {
+	display: table-cell;
+    border: 1px solid #CCC;
+	vertical-align: middle;
+	padding: 0;
+}
+
+/* div span .our_col{
+	display: block;
+    border: 1px solid #CCC; 
+	text-align: center;
+}  */
+
+.our_table .our_row .our_cell:first-child {
+	color: #000;
+	font-weight: bolder;
+}
+
+.our_table .our_row .times {
+	color: #000;
+	font-weight: bolder;
+	border-bottom: 1px solid rgb(177, 173, 173); 
+	background: rgb(236, 235, 235);
+}
+
+
+div span.our_target:hover {
+    cursor: pointer;
+    background-color: #ccc;
+}
+
+#timetable-name:hover {
+    color: #0f526d;
+    font-size: 1.1em;
+}
+
+#visible {
+	display: none;
+}
+
+/* styling bootstrap modal popup ==============================================================*/
+select#period-select {
+    -moz-appearance:none;
+    border: none;
+    border-bottom: 1px solid #0f526d;   
+}
+
+option:first {
+    color: #999;
+}
+
+
+a.text-primary:hover {
+    cursor: pointer;
+}
+
+
+input#nbr-group{   
+    -moz-appearance:textfield;
+    border: none;
+    border-bottom: 1px solid #0f526d;
+}
+
+/*----------------------------------------------------------------
+    styling  timetable of conditions  (canvas)
+----------------------------------------------------------------*/
+/* .canvas-element:hover {
+    font-size: 1.1em;
+} */
