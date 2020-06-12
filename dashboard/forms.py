@@ -21,13 +21,38 @@ class ModuleModelForm(forms.ModelForm):
         model = Module
         fields = fields = ['code', 'designation', 'unite', 'credit', 'coeff', 'niveau', 'semestre', 'prof']
 
+    def clean_designation(self, *args, **kwargs):
+        name = self.cleaned_data['designation']
+        all_modules = Module.objects.all()
+
+        for module in all_modules:
+            if name == module.designation:
+                raise forms.ValidationError("this module already exists !!")
+        return name
+
+
+
 
 class SalleModelForm(forms.ModelForm):
-    design = forms.CharField(label='nom de class' )
+    design = forms.CharField(label='nom de class', widget=forms.TextInput(attrs={
+        'style': 'width: 300px'
+    }))
     typeS = forms.ChoiceField(widget=forms.RadioSelect, choices=CHOICES)
     class Meta:
         model = Salle
         fields = ['bloc', 'design', 'typeS']
+
+    def clean_design(self, *args, **kwargs):
+        pre_names = Salle.objects.all()
+        name = self.cleaned_data.get('design')
+
+        for pre_name in pre_names:
+            if name == pre_name.design:
+                raise forms.ValidationError("this name already exists")
+        
+
+        return name
+
 
 
 # class CanvasTimetableForm(forms.ModelForm):

@@ -16,13 +16,18 @@ class EnseignantAdmin(admin.ModelAdmin):
 
 class SalleAdmin(admin.ModelAdmin):
     list_filter = ['design', 'bloc']
-    list_display = ['bloc', 'design', 'type']
-    search_fields = ['design', 'bloc', 'type']
+    list_display = ['bloc', 'design', 'type_of']
+    search_fields = ['design', 'bloc', 'type_of']
 
 class EmploiTempsAdmin(admin.ModelAdmin):
     list_filter = ['slug']
     list_display = ['slug']
     search_fields = ['slug']
+
+
+class PeriodeAdmin(admin.ModelAdmin):
+    list_display = ['module', 'enseignant', 'salle', 'groupe', 'groupe_type', 'peride_one', 'perides_two', 'perides_three', 'perides_twelve']
+    search_fields = ['id']
 
 class CanvasAdmin(admin.ModelAdmin):
     list_filter = ['niveau']
@@ -34,7 +39,7 @@ admin.site.register(Module, ModuleAdmin)
 admin.site.register(Niveau)
 admin.site.register(Enseignant, EnseignantAdmin)
 admin.site.register(Salle, SalleAdmin)
-admin.site.register(Periode)
+admin.site.register(Periode, PeriodeAdmin)
 admin.site.register(EmploiTemps, EmploiTempsAdmin)
 admin.site.register(CanvasTimeTable, CanvasAdmin)
 

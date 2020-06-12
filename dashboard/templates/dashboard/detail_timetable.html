@@ -20,281 +20,241 @@
        <div class="our_row">
           <span class="our_cell">sunday</span>
          <span class="our_cell our_target">
-                {% if emploitemps.first_first.all.count == 1 %}
-                   {% for emploitemp in emploitemps.first_first.all %}                    
-                    <div>{{ emploitemp.module }}</div>
-                    <div>{{ emploitemp.enseignant }}</div>
-                    <div>{{ emploitemp.salle }}</div>
-                   {% endfor %} 
-                {% else %}
-                    {% for emploitemp in emploitemps.first_first.all %}
-                        <span style="font-size: small; ">{{ emploitemp.groupe }} {{ emploitemp.module }} {{ emploitemp.enseignant }} {{ emploitemp.salle }}</span><br>
+                   {% for emploitemp in emploitemps.first_first.all %}   
+                      {% if emploitemp.groupe_type == 'Cours' %}
+                          <div>{{ emploitemp.module }}</div>
+                          <div>{{ emploitemp.enseignant }}</div>
+                          <div>{{ emploitemp.salle }}</div>
+                      {% elif emploitemp.groupe_type == 'TP' or emploitemp.groupe_type == 'TD' %} 
+                          <span style="font-size: small; ">{{ emploitemp.groupe }} {{ emploitemp.module }} {{ emploitemp.enseignant }} {{ emploitemp.salle }} {{ emploitemp.groupe_type }}</span><br>
+                      {% endif %} 
                    {% endfor %}
-                {% endif %}               
          </span>
          <span class="our_cell our_target">
-              {% if emploitemps.first_second.all.count == 1 %}
-                {% for emploitemp in emploitemps.first_second.all %}                  
-                  <div>{{ emploitemp.module }}</div>
-                  <div>{{ emploitemp.enseignant }}</div>
-                  <div>{{ emploitemp.salle }}</div>
-                {% endfor %}
-              {% else %}
-                {% for emploitemp in emploitemps.first_second.all %}
-                  <span style="font-size: small; ">{{ emploitemp.groupe }} {{ emploitemp.module }} {{ emploitemp.enseignant }} {{ emploitemp.salle }}</span><br>
-                {% endfor %}
-              {% endif %}  
+              {% for emploitemp in emploitemps.first_second.all %}   
+                      {% if emploitemp.groupe_type == 'Cours' %}
+                          <div>{{ emploitemp.module }}</div>
+                          <div>{{ emploitemp.enseignant }}</div>
+                          <div>{{ emploitemp.salle }}</div>
+                      {% elif emploitemp.groupe_type == 'TP' or emploitemp.groupe_type == 'TD' %} 
+                          <span style="font-size: small; ">{{ emploitemp.groupe }} {{ emploitemp.module }} {{ emploitemp.enseignant }} {{ emploitemp.salle }} {{ emploitemp.groupe_type }}</span><br>
+                      {% endif %} 
+                   {% endfor %}
          </span>
          <span class="our_cell" ></span>
          <span class="our_cell our_target">
-              {% if emploitemps.first_third.all.count == 1 %}
-                {% for emploitemp in emploitemps.first_third.all %}                  
-                  <div>{{ emploitemp.module }}</div>
-                  <div>{{ emploitemp.enseignant }}</div>
-                  <div>{{ emploitemp.salle }}</div>
-                {% endfor %}
-              {% else %}
-                {% for emploitemp in emploitemps.first_third.all %}
-                  <span style="font-size: small; ">{{ emploitemp.groupe }} {{ emploitemp.module }} {{ emploitemp.enseignant }} {{ emploitemp.salle }}</span><br>
-                {% endfor %}
-              {% endif %}  
+              {% for emploitemp in emploitemps.first_third.all %}   
+                {% if emploitemp.groupe_type == 'Cours' %}
+                    <div>{{ emploitemp.module }}</div>
+                    <div>{{ emploitemp.enseignant }}</div>
+                    <div>{{ emploitemp.salle }}</div>
+                {% elif emploitemp.groupe_type == 'TP' or emploitemp.groupe_type == 'TD' %} 
+                    <span style="font-size: small; ">{{ emploitemp.groupe }} {{ emploitemp.module }} {{ emploitemp.enseignant }} {{ emploitemp.salle }} {{ emploitemp.groupe_type }}</span><br>
+                {% endif %} 
+              {% endfor %}
          </span>
          <span class="our_cell our_target">
-              {% if emploitemps.first_forth.all.count == 1 %}
-                {% for emploitemp in emploitemps.first_forth.all %}                  
-                  <div>{{ emploitemp.module }}</div>
-                  <div>{{ emploitemp.enseignant }}</div>
-                  <div>{{ emploitemp.salle }}</div>
-                {% endfor %}
-              {% else %}
-                {% for emploitemp in emploitemps.first_forth.all %}
-                  <span style="font-size: small; ">{{ emploitemp.groupe }} {{ emploitemp.module }} {{ emploitemp.enseignant }} {{ emploitemp.salle }}</span><br>
-                {% endfor %}
-              {% endif %}  
+            {% for emploitemp in emploitemps.first_forth.all %}   
+            {% if emploitemp.groupe_type == 'Cours' %}
+                <div>{{ emploitemp.module }}</div>
+                <div>{{ emploitemp.enseignant }}</div>
+                <div>{{ emploitemp.salle }}</div>
+            {% elif emploitemp.groupe_type == 'TP' or emploitemp.groupe_type == 'TD' %} 
+                <span style="font-size: small; ">{{ emploitemp.groupe }} {{ emploitemp.module }} {{ emploitemp.enseignant }} {{ emploitemp.salle }} {{ emploitemp.groupe_type }}</span><br>
+            {% endif %} 
+            {% endfor %}
          </span>
        </div>
        <div class="our_row">
           <span class="our_cell">monday</span>
          <span class="our_cell our_target" >
-              {% if emploitemps.second_first.all.count == 1 %}
-                {% for emploitemp in emploitemps.second_first.all %}                  
-                  <div>{{ emploitemp.module }}</div>
-                  <div>{{ emploitemp.enseignant }}</div>
-                  <div>{{ emploitemp.salle }}</div>
-                {% endfor %}
-              {% else %}
-                {% for emploitemp in emploitemps.second_first.all %}
-                  <span style="font-size: small; ">{{ emploitemp.groupe }} {{ emploitemp.module }} {{ emploitemp.enseignant }} {{ emploitemp.salle }}</span><br>
-                {% endfor %}
-              {% endif %}  
+          {% for emploitemp in emploitemps.second_first.all %}   
+          {% if emploitemp.groupe_type == 'Cours' %}
+              <div>{{ emploitemp.module }}</div>
+              <div>{{ emploitemp.enseignant }}</div>
+              <div>{{ emploitemp.salle }}</div>
+          {% elif emploitemp.groupe_type == 'TP' or emploitemp.groupe_type == 'TD' %} 
+              <span style="font-size: small; ">{{ emploitemp.groupe }} {{ emploitemp.module }} {{ emploitemp.enseignant }} {{ emploitemp.salle }} {{ emploitemp.groupe_type }}</span><br>
+          {% endif %} 
+        {% endfor %}
          </span>
          <span class="our_cell our_target">
-              {% if emploitemps.second_second.all.count == 1 %}
-                {% for emploitemp in emploitemps.second_second.all %}                    
-                  <div>{{ emploitemp.module }}</div>
-                  <div>{{ emploitemp.enseignant }}</div>
-                  <div>{{ emploitemp.salle }}</div>
-                {% endfor %}
-              {% else %}
-                {% for emploitemp in emploitemps.second_second.all %}
-                  <span style="font-size: small; ">{{ emploitemp.groupe }} {{ emploitemp.module }} {{ emploitemp.enseignant }} {{ emploitemp.salle }}</span><br>
-                {% endfor %}
-              {% endif %}
+            {% for emploitemp in emploitemps.second_second.all %}   
+            {% if emploitemp.groupe_type == 'Cours' %}
+                <div>{{ emploitemp.module }}</div>
+                <div>{{ emploitemp.enseignant }}</div>
+                <div>{{ emploitemp.salle }}</div>
+            {% elif emploitemp.groupe_type == 'TP' or emploitemp.groupe_type == 'TD' %} 
+                <span style="font-size: small; ">{{ emploitemp.groupe }} {{ emploitemp.module }} {{ emploitemp.enseignant }} {{ emploitemp.salle }} {{ emploitemp.groupe_type }}</span><br>
+            {% endif %} 
+          {% endfor %}
          </span>   
          <span class="our_cell" ></span>
          <span class="our_cell our_target">
-              {% if emploitemps.second_third.all.count == 1 %}
-                {% for emploitemp in emploitemps.second_third.all %}                  
-                  <div>{{ emploitemp.module }}</div>
-                  <div>{{ emploitemp.enseignant }}</div>
-                  <div>{{ emploitemp.salle }}</div>
-                {% endfor %}
-              {% else %}
-                {% for emploitemp in emploitemps.second_third.all %}
-                  <span style="font-size: small; ">{{ emploitemp.groupe }} {{ emploitemp.module }} {{ emploitemp.enseignant }} {{ emploitemp.salle }}</span><br>
-                {% endfor %}
-              {% endif %}  
+          {% for emploitemp in emploitemps.second_third.all %}   
+          {% if emploitemp.groupe_type == 'Cours' %}
+              <div>{{ emploitemp.module }}</div>
+              <div>{{ emploitemp.enseignant }}</div>
+              <div>{{ emploitemp.salle }}</div>
+          {% elif emploitemp.groupe_type == 'TP' or emploitemp.groupe_type == 'TD' %} 
+              <span style="font-size: small; ">{{ emploitemp.groupe }} {{ emploitemp.module }} {{ emploitemp.enseignant }} {{ emploitemp.salle }} {{ emploitemp.groupe_type }}</span><br>
+          {% endif %} 
+        {% endfor %}
          </span>
          <span class="our_cell our_target">
-              {% if emploitemps.second_forth.all.count == 1 %}
-                {% for emploitemp in emploitemps.second_forth.all %}                  
-                  <div>{{ emploitemp.module }}</div>
-                  <div>{{ emploitemp.enseignant }}</div>
-                  <div>{{ emploitemp.salle }}</div>
-                {% endfor %}
-              {% else %}
-                {% for emploitemp in emploitemps.second_forth.all %}
-                  <span style="font-size: small; ">{{ emploitemp.groupe }} {{ emploitemp.module }} {{ emploitemp.enseignant }} {{ emploitemp.salle }}</span><br>
-                {% endfor %}
-              {% endif %}  
+          {% for emploitemp in emploitemps.second_forth.all %}   
+          {% if emploitemp.groupe_type == 'Cours' %}
+              <div>{{ emploitemp.module }}</div>
+              <div>{{ emploitemp.enseignant }}</div>
+              <div>{{ emploitemp.salle }}</div>
+          {% elif emploitemp.groupe_type == 'TP' or emploitemp.groupe_type == 'TD' %} 
+              <span style="font-size: small; ">{{ emploitemp.groupe }} {{ emploitemp.module }} {{ emploitemp.enseignant }} {{ emploitemp.salle }} {{ emploitemp.groupe_type }}</span><br>
+          {% endif %} 
+        {% endfor %}
          </span>
        </div>
        <div class="our_row">
          <span class="our_cell">tuesday</span>
          <span class="our_cell our_target">
-              {% if emploitemps.third_first.all.count == 1 %}
-                {% for emploitemp in emploitemps.third_first.all %}                  
-                  <div>{{ emploitemp.module }}</div>
-                  <div>{{ emploitemp.enseignant }}</div>
-                  <div>{{ emploitemp.salle }}</div>
-                {% endfor %}
-              {% else %}
-                {% for emploitemp in emploitemps.third_first.all %}
-                  <span style="font-size: small; ">{{ emploitemp.groupe }} {{ emploitemp.module }} {{ emploitemp.enseignant }} {{ emploitemp.salle }}</span><br>
-                {% endfor %}
-              {% endif %}  
+          {% for emploitemp in emploitemps.third_first.all %}   
+          {% if emploitemp.groupe_type == 'Cours' %}
+              <div>{{ emploitemp.module }}</div>
+              <div>{{ emploitemp.enseignant }}</div>
+              <div>{{ emploitemp.salle }}</div>
+          {% elif emploitemp.groupe_type == 'TP' or emploitemp.groupe_type == 'TD' %} 
+              <span style="font-size: small; ">{{ emploitemp.groupe }} {{ emploitemp.module }} {{ emploitemp.enseignant }} {{ emploitemp.salle }} {{ emploitemp.groupe_type }}</span><br>
+          {% endif %} 
+          {% endfor %}
          </span>
          <span class="our_cell our_target">
-              {% if emploitemps.third_second.all.count == 1 %}
-                {% for emploitemp in emploitemps.third_second.all %}                  
-                  <div>{{ emploitemp.module }}</div>
-                  <div>{{ emploitemp.enseignant }}</div>
-                  <div>{{ emploitemp.salle }}</div>
-                {% endfor %}
-              {% else %}
-                {% for emploitemp in emploitemps.third_second.all %}
-                  <span style="font-size: small; ">{{ emploitemp.groupe }} {{ emploitemp.module }} {{ emploitemp.enseignant }} {{ emploitemp.salle }}</span><br>
-                {% endfor %}
-              {% endif %}  
+          {% for emploitemp in emploitemps.third_second.all %}   
+          {% if emploitemp.groupe_type == 'Cours' %}
+              <div>{{ emploitemp.module }}</div>
+              <div>{{ emploitemp.enseignant }}</div>
+              <div>{{ emploitemp.salle }}</div>
+          {% elif emploitemp.groupe_type == 'TP' or emploitemp.groupe_type == 'TD' %} 
+              <span style="font-size: small; ">{{ emploitemp.groupe }} {{ emploitemp.module }} {{ emploitemp.enseignant }} {{ emploitemp.salle }} {{ emploitemp.groupe_type }}</span><br>
+          {% endif %} 
+          {% endfor %}
          </span>
          <span class="our_cell" ></span>
          <span class="our_cell our_target">
-              {% if emploitemps.third_third.all.count == 1 %}
-                {% for emploitemp in emploitemps.third_third.all %}                  
-                  <div>{{ emploitemp.module }}</div>
-                  <div>{{ emploitemp.enseignant }}</div>
-                  <div>{{ emploitemp.salle }}</div>
-                {% endfor %}
-              {% else %}
-                {% for emploitemp in emploitemps.third_third.all %}
-                  <span style="font-size: small; ">{{ emploitemp.groupe }} {{ emploitemp.module }} {{ emploitemp.enseignant }} {{ emploitemp.salle }}</span><br>
-                {% endfor %}
-              {% endif %}  
+          {% for emploitemp in emploitemps.third_third.all %}   
+          {% if emploitemp.groupe_type == 'Cours' %}
+              <div>{{ emploitemp.module }}</div>
+              <div>{{ emploitemp.enseignant }}</div>
+              <div>{{ emploitemp.salle }}</div>
+          {% elif emploitemp.groupe_type == 'TP' or emploitemp.groupe_type == 'TD' %} 
+              <span style="font-size: small; ">{{ emploitemp.groupe }} {{ emploitemp.module }} {{ emploitemp.enseignant }} {{ emploitemp.salle }} {{ emploitemp.groupe_type }}</span><br>
+          {% endif %} 
+          {% endfor %}
          </span>
          <span class="our_cell our_target">
-              {% if emploitemps.third_forth.all.count == 1 %}
-                {% for emploitemp in emploitemps.third_forth.all %}                  
-                  <div>{{ emploitemp.module }}</div>
-                  <div>{{ emploitemp.enseignant }}</div>
-                  <div>{{ emploitemp.salle }}</div>
-                {% endfor %}
-              {% else %}
-                {% for emploitemp in emploitemps.third_forth.all %}
-                  <span style="font-size: small; ">{{ emploitemp.groupe }} {{ emploitemp.module }} {{ emploitemp.enseignant }} {{ emploitemp.salle }}</span><br>
-                {% endfor %}
-              {% endif %}  
+          {% for emploitemp in emploitemps.third_forth.all %}   
+          {% if emploitemp.groupe_type == 'Cours' %}
+              <div>{{ emploitemp.module }}</div>
+              <div>{{ emploitemp.enseignant }}</div>
+              <div>{{ emploitemp.salle }}</div>
+          {% elif emploitemp.groupe_type == 'TP' or emploitemp.groupe_type == 'TD' %} 
+              <span style="font-size: small; ">{{ emploitemp.groupe }} {{ emploitemp.module }} {{ emploitemp.enseignant }} {{ emploitemp.salle }} {{ emploitemp.groupe_type }}</span><br>
+          {% endif %} 
+          {% endfor %}
          </span>
        </div>
        <div class="our_row">
           <span class="our_cell">wednesday</span>
          <span class="our_cell our_target">
-              {% if emploitemps.forth_first.all.count == 1 %}
-                {% for emploitemp in emploitemps.forth_first.all %}                  
-                  <div>{{ emploitemp.module }}</div>
-                  <div>{{ emploitemp.enseignant }}</div>
-                  <div>{{ emploitemp.salle }}</div>
-                {% endfor %}
-              {% else %}
-                {% for emploitemp in emploitemps.forth_first.all %}
-                  <span style="font-size: small; ">{{ emploitemp.groupe }} {{ emploitemp.module }} {{ emploitemp.enseignant }} {{ emploitemp.salle }}</span><br>
-                {% endfor %}
-              {% endif %}  
+          {% for emploitemp in emploitemps.forth_first.all %}   
+          {% if emploitemp.groupe_type == 'Cours' %}
+              <div>{{ emploitemp.module }}</div>
+              <div>{{ emploitemp.enseignant }}</div>
+              <div>{{ emploitemp.salle }}</div>
+          {% elif emploitemp.groupe_type == 'TP' or emploitemp.groupe_type == 'TD' %} 
+              <span style="font-size: small; ">{{ emploitemp.groupe }} {{ emploitemp.module }} {{ emploitemp.enseignant }} {{ emploitemp.salle }} {{ emploitemp.groupe_type }}</span><br>
+          {% endif %} 
+        {% endfor %}
          </span>
          <span class="our_cell our_target">
-              {% if emploitemps.forth_second.all.count == 1 %}
-                {% for emploitemp in emploitemps.forth_second.all %}                  
-                  <div>{{ emploitemp.module }}</div>
-                  <div>{{ emploitemp.enseignant }}</div>
-                  <div>{{ emploitemp.salle }}</div>
-                {% endfor %}
-              {% else %}
-                {% for emploitemp in emploitemps.forth_second.all %}
-                  <span style="font-size: small; ">{{ emploitemp.groupe }} {{ emploitemp.module }} {{ emploitemp.enseignant }} {{ emploitemp.salle }}</span><br>
-                {% endfor %}
-              {% endif %}  
+          {% for emploitemp in emploitemps.forth_second.all %}   
+            {% if emploitemp.groupe_type == 'Cours' %}
+                <div>{{ emploitemp.module }}</div>
+                <div>{{ emploitemp.enseignant }}</div>
+                <div>{{ emploitemp.salle }}</div>
+            {% elif emploitemp.groupe_type == 'TP' or emploitemp.groupe_type == 'TD' %} 
+                <span style="font-size: small; ">{{ emploitemp.groupe }} {{ emploitemp.module }} {{ emploitemp.enseignant }} {{ emploitemp.salle }} {{ emploitemp.groupe_type }}</span><br>
+            {% endif %} 
+          {% endfor %}
          </span>
          <span class="our_cell" ></span>
          <span class="our_cell our_target">
-              {% if emploitemps.forth_third.all.count == 1 %}
-                {% for emploitemp in emploitemps.forth_third.all %}                  
-                  <div>{{ emploitemp.module }}</div>
-                  <div>{{ emploitemp.enseignant }}</div>
-                  <div>{{ emploitemp.salle }}</div>
-                {% endfor %}
-              {% else %}
-                {% for emploitemp in emploitemps.forth_third.all %}
-                  <span style="font-size: small; ">{{ emploitemp.groupe }} {{ emploitemp.module }} {{ emploitemp.enseignant }} {{ emploitemp.salle }}</span><br>
-                {% endfor %}
-              {% endif %}  
+          {% for emploitemp in emploitemps.forth_third.all %}   
+          {% if emploitemp.groupe_type == 'Cours' %}
+              <div>{{ emploitemp.module }}</div>
+              <div>{{ emploitemp.enseignant }}</div>
+              <div>{{ emploitemp.salle }}</div>
+          {% elif emploitemp.groupe_type == 'TP' or emploitemp.groupe_type == 'TD' %} 
+              <span style="font-size: small; ">{{ emploitemp.groupe }} {{ emploitemp.module }} {{ emploitemp.enseignant }} {{ emploitemp.salle }} {{ emploitemp.groupe_type }}</span><br>
+          {% endif %} 
+        {% endfor %}
          </span>
          <span class="our_cell our_target">
-              {% if emploitemps.forth_forth.all.count == 1 %}
-                {% for emploitemp in emploitemps.forth_forth.all %}                  
-                  <div>{{ emploitemp.module }}</div>
-                  <div>{{ emploitemp.enseignant }}</div>
-                  <div>{{ emploitemp.salle }}</div>
-                {% endfor %}
-              {% else %}
-                {% for emploitemp in emploitemps.forth_forth.all %}
-                  <span style="font-size: small; ">{{ emploitemp.groupe }} {{ emploitemp.module }} {{ emploitemp.enseignant }} {{ emploitemp.salle }}</span><br>
-                {% endfor %}
-              {% endif %}  
+          {% for emploitemp in emploitemps.forth_forth.all %}   
+          {% if emploitemp.groupe_type == 'Cours' %}
+              <div>{{ emploitemp.module }}</div>
+              <div>{{ emploitemp.enseignant }}</div>
+              <div>{{ emploitemp.salle }}</div>
+          {% elif emploitemp.groupe_type == 'TP' or emploitemp.groupe_type == 'TD' %} 
+              <span style="font-size: small; ">{{ emploitemp.groupe }} {{ emploitemp.module }} {{ emploitemp.enseignant }} {{ emploitemp.salle }} {{ emploitemp.groupe_type }}</span><br>
+          {% endif %} 
+          {% endfor %}
          </span>
        </div>
        <div class="our_row">
           <span class="our_cell">thursday</span>
          <span class="our_cell our_target">
-              {% if emploitemps.fifth_first.all.count == 1 %}
-                {% for emploitemp in emploitemps.fifth_first.all %}                  
-                  <div>{{ emploitemp.module }}</div>
-                  <div>{{ emploitemp.enseignant }}</div>
-                  <div>{{ emploitemp.salle }}</div>
-                {% endfor %}
-              {% else %}
-                {% for emploitemp in emploitemps.fifth_first.all %}
-                  <span style="font-size: small; ">{{ emploitemp.groupe }} {{ emploitemp.module }} {{ emploitemp.enseignant }} {{ emploitemp.salle }}</span><br>
-                {% endfor %}
-              {% endif %}  
+          {% for emploitemp in emploitemps.fifth_first.all %}   
+          {% if emploitemp.groupe_type == 'Cours' %}
+              <div>{{ emploitemp.module }}</div>
+              <div>{{ emploitemp.enseignant }}</div>
+              <div>{{ emploitemp.salle }}</div>
+          {% elif emploitemp.groupe_type == 'TP' or emploitemp.groupe_type == 'TD' %} 
+              <span style="font-size: small; ">{{ emploitemp.groupe }} {{ emploitemp.module }} {{ emploitemp.enseignant }} {{ emploitemp.salle }} {{ emploitemp.groupe_type }}</span><br>
+          {% endif %} 
+          {% endfor %}
          </span>
          <span class="our_cell our_target">
-              {% if emploitemps.fifth_second.all.count == 1 %}
-                {% for emploitemp in emploitemps.fifth_second.all %}                  
-                  <div>{{ emploitemp.module }}</div>
-                  <div>{{ emploitemp.enseignant }}</div>
-                  <div>{{ emploitemp.salle }}</div>
-                {% endfor %}
-              {% else %}
-                {% for emploitemp in emploitemps.fifth_second.all %}
-                  <span style="font-size: small; ">{{ emploitemp.groupe }} {{ emploitemp.module }} {{ emploitemp.enseignant }} {{ emploitemp.salle }}</span><br>
-                {% endfor %}
-              {% endif %}  
+            {% for emploitemp in emploitemps.fifth_second.all %}   
+            {% if emploitemp.groupe_type == 'Cours' %}
+                <div>{{ emploitemp.module }}</div>
+                <div>{{ emploitemp.enseignant }}</div>
+                <div>{{ emploitemp.salle }}</div>
+            {% elif emploitemp.groupe_type == 'TP' or emploitemp.groupe_type == 'TD' %} 
+                <span style="font-size: small; ">{{ emploitemp.groupe }} {{ emploitemp.module }} {{ emploitemp.enseignant }} {{ emploitemp.salle }} {{ emploitemp.groupe_type }}</span><br>
+            {% endif %} 
+            {% endfor %}
          </span>
          <span class="our_cell"></span>
          <span class="our_cell our_target">
-              {% if emploitemps.fifth_third.all.count == 1 %}
-                {% for emploitemp in emploitemps.fifth_third.all %}                  
-                  <div>{{ emploitemp.module }}</div>
-                  <div>{{ emploitemp.enseignant }}</div>
-                  <div>{{ emploitemp.salle }}</div>
-                {% endfor %}
-              {% else %}
-                {% for emploitemp in emploitemps.fifth_third.all %}
-                   <span style="font-size: small; ">{{ emploitemp.groupe }} {{ emploitemp.module }} {{ emploitemp.enseignant }} {{ emploitemp.salle }}</span><br>
-                {% endfor %}
-              {% endif %}  
+          {% for emploitemp in emploitemps.fifth_third.all %}   
+          {% if emploitemp.groupe_type == 'Cours' %}
+              <div>{{ emploitemp.module }}</div>
+              <div>{{ emploitemp.enseignant }}</div>
+              <div>{{ emploitemp.salle }}</div>
+          {% elif emploitemp.groupe_type == 'TP' or emploitemp.groupe_type == 'TD' %} 
+              <span style="font-size: small; ">{{ emploitemp.groupe }} {{ emploitemp.module }} {{ emploitemp.enseignant }} {{ emploitemp.salle }} {{ emploitemp.groupe_type }}</span><br>
+          {% endif %} 
+          {% endfor %}
          </span>
          <span class="our_cell our_target">
-              {% if emploitemps.fifth_forth.all.count == 1 %}
-                {% for emploitemp in emploitemps.fifth_forth.all %}                  
-                  <div>{{ emploitemp.module }}</div>
-                  <div>{{ emploitemp.enseignant }}</div>
-                  <div>{{ emploitemp.salle }}</div>
-                {% endfor %}
-             {% else %}
-               {% for emploitemp in emploitemps.fifth_forth.all %}
-                   <span style="font-size: small; ">{{ emploitemp.groupe }} {{ emploitemp.module }} {{ emploitemp.enseignant }} {{ emploitemp.salle }}</span><br>
-                {% endfor %}
-              {% endif %}  
+            {% for emploitemp in emploitemps.fifth_forth.all %}   
+            {% if emploitemp.groupe_type == 'Cours' %}
+                <div>{{ emploitemp.module }}</div>
+                <div>{{ emploitemp.enseignant }}</div>
+                <div>{{ emploitemp.salle }}</div>
+            {% elif emploitemp.groupe_type == 'TP' or emploitemp.groupe_type == 'TD' %} 
+                <span style="font-size: small; ">{{ emploitemp.groupe }} {{ emploitemp.module }} {{ emploitemp.enseignant }} {{ emploitemp.salle }} {{ emploitemp.groupe_type }}</span><br>
+            {% endif %} 
+          {% endfor %}
          </span>
        </div>
       </div>

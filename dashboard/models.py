@@ -17,6 +17,9 @@ class Niveau(models.Model):
     def __str__(self):
         return self.Nv
 
+    class Meta:
+        db_table = "Niveau"
+
 
 
 
@@ -28,7 +31,7 @@ class Enseignant(models.Model):
     nom = models.CharField(max_length=30)
     prenom = models.CharField(max_length=30)
     grade = models.CharField(max_length=30)
-    tel = models.PositiveIntegerField()
+    tel = models.PositiveIntegerField(unique=True)
     password = models.CharField(max_length=100, blank=True)
     active = models.BooleanField(default=False)
 
@@ -38,6 +41,9 @@ class Enseignant(models.Model):
 
     def get_absolute_url(self):
         return redirect("all_teachers")
+
+    class Meta:
+        db_table = "Enseignant"
 
 
 def pre_save_enseignant_receiver(sender, instance, *args, **kwargs):
@@ -67,7 +73,7 @@ class Module(models.Model):
     
     class Meta:
         ordering = ['-niveau']
-        #db_table = "module"
+        db_table = "module"
     
 
 #create a complete slug for module
@@ -96,11 +102,14 @@ class Salle(models.Model):
     opr = models.ForeignKey(User, on_delete=models.CASCADE)
     bloc = models.CharField(max_length=30)
     design = models.CharField(max_length=20)
-    type = models.CharField(max_length=10)
+    type_of = models.CharField(max_length=10)
     active = models.BooleanField(default=False)
 
     def __str__(self):
         return self.design
+
+    class Meta:
+        db_table = "salle"
 
 
 # timetable classes <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
@@ -110,7 +119,7 @@ class Periode (models.Model):
     enseignant = models.ForeignKey(Enseignant, on_delete=models.CASCADE, related_name='enseignants')
     salle = models.ForeignKey(Salle, on_delete=models.CASCADE, related_name='salles')
     groupe = models.CharField(max_length=10, blank=True, null=True) 
-    groupe_type = models.CharField(max_length=10, blank=True)
+    groupe_type = models.CharField(max_length=10, blank=True, null=True)
     
 class EmploiTemps(models.Model):
 
@@ -144,6 +153,9 @@ class EmploiTemps(models.Model):
     
     def __str__(self):
         return self.slug
+
+    class Meta:
+        db_table = "emploiTemps"
         
 
 def create_slug_emp(instance):
@@ -171,6 +183,9 @@ class CanvasTimeTable (models.Model):
 
     def __str__(self):
         return self.slug
+    
+    class Meta:
+        db_table = "canvasTimeTable"
 
 
 def create_Canvas_slug(instance, new_slug=None):

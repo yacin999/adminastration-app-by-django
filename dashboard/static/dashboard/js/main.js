@@ -21,6 +21,14 @@ let counters_module = {};
 let targets = document.querySelectorAll(".our_target");
 targets.forEach(target => {target.addEventListener("click", create_new_period)});
 
+
+
+
+
+//===================//---------------------------------||===============================
+//======================//  functions declaration part    ||===============================
+//===================//---------------------------------||===============================
+
 // reset functions :
 function resetInputs() {
   document.getElementById('creates').innerHTML='';    
@@ -104,33 +112,46 @@ function create_TDs_cours(nbr_group, type){
   for (var i = 0; i < nbr_group; i++) {
     var div = document.createElement('div');
     div.className = 'removable border m-2 p-2'
-    if (type==="td-tp"){                  
+    if (type==="TD-TP"){                  
       // create Elements part:=============================
-        // for group part:
+        // type of group part:
+      var subDivY = document.createElement('div');
+      subDivY.className = 'form-group';
+      subDivY.innerHTML = `
+      <label class="col-form-label pl-2">type de groupe</label>
+      <select class="period-select float-right mr-5 custom-select" style="width: 130px">
+        <option disabled selected>--Select--</option>
+        <option>TP</option>
+        <option>TD</option>
+      </select>
+      `;
+      div.appendChild(subDivY);
+
+        // for group and type of group part:
       var subDiv = document.createElement('div');
-      var labelSelect = document.createElement('label');
-      var selectElement = document.createElement('select');
+      var labelSelectG = document.createElement('label');
+      var selectElementG = document.createElement('select');
       var first_option_elementG = document.createElement('option');
 
       first_option_elementG.textContent = "--Select--";
       first_option_elementG.selected = true;
       first_option_elementG.disabled = true;
-      selectElement.appendChild(first_option_elementG);
+      selectElementG.appendChild(first_option_elementG);
 
       for (var s=1; s<=nbr_group; s++) {
         var optionElement = document.createElement('option');
         optionElement.setAttribute(`value`, `G${s}`);        
         optionElement.textContent = `G${s}`;
-        selectElement.appendChild(optionElement);
+        selectElementG.appendChild(optionElement);
       }
-      labelSelect.textContent = "groupe";
+      labelSelectG.textContent = "groupe";
       
       subDiv.className = 'form-group';
-      labelSelect.className = 'col-form-label pl-2';
-      selectElement.className = 'period-select float-right mr-5 custom-select';
-      selectElement.setAttribute("style", "width: 130px");
-      subDiv.appendChild(labelSelect);
-      subDiv.appendChild(selectElement);
+      labelSelectG.className = 'col-form-label pl-2';
+      selectElementG.className = 'period-select float-right mr-5 custom-select';
+      selectElementG.setAttribute("style", "width: 130px");
+      subDiv.appendChild(labelSelectG);
+      subDiv.appendChild(selectElementG);
       div.appendChild(subDiv);
       
       // for module part:------------------------------
@@ -203,7 +224,7 @@ function create_TDs_cours(nbr_group, type){
       div.appendChild(subDivC);
 
     //IF the user choosed "COURS" instead of "TD-TP"  
-    }else if(type==="cours"){
+    }else if(type==="Cours"){
 
 
       // for module part:------------------------------
@@ -289,15 +310,12 @@ var verify_all_data = async (type_of_input, user_input) => {
 
         if (`${user_input.value}` in counters_module === false && user_input.getAttribute("data-previous-value") === "") {
           counters_module[`${user_input.value}`] = 1;
-          console.log(`codition1: ${counters_module}, and the previous is ${user_input.getAttribute("data-previous-value")}`, counters_module);
 
         }else if(`${user_input.value}` in counters_module === false && user_input.getAttribute("data-previous-value") !== "") {
           counters_module[`${user_input.value}`] = 1;
           counters_module[`${user_input.getAttribute("data-previous-value")}`] -= 1;
-          console.log(`codition2': ${counters_module}, and the previous is ${user_input.getAttribute("data-previous-value")}`, counters_module);
 
         }else if (counters_module[`${user_input.value}`] >= canvas_data[i].tp) {
-          console.log(`codition2: ${counters_module}, and the previous is ${user_input.getAttribute("data-previous-value")}`, counters_module);
           let modalHeader = document.querySelector(".modal-header");
           const div = document.createElement('div');
           const textNode = document.createTextNode(`canvas tells that this module (${user_input.value}) has just ${canvas_data[i].tp} TP per timetable`);
@@ -322,11 +340,9 @@ var verify_all_data = async (type_of_input, user_input) => {
           forceEnable = true;
         }else if (user_input.getAttribute("data-previous-value") === "") {
           counters_module[`${user_input.value}`] += 1;
-          console.log(`codition3, and the previous is ${user_input.getAttribute("data-previous-value")}`, counters_module);
         }else {
           counters_module[`${user_input.value}`] += 1;
           counters_module[`${user_input.getAttribute("data-previous-value")}`] -= 1;
-          console.log(`codition4, and the previous is ${user_input.getAttribute("data-previous-value")}`, counters_module);
           // console.log(`now ${user_input.value}`, counters_module[`${user_input.value}`]);
           // console.log(`previous ${user_input.getAttribute("data-previous-value")}`, counters_module[`${user_input.getAttribute("data-previous-value")}`]);
           
@@ -391,18 +407,20 @@ function check_inputs(callbackFunction) {
           // this condition is for the user if change his choise or not, if so, 
           // the next lines will change his choise to the new one
         if (user_inputs[e].getAttribute("data-previous-value") === "--Select--") {
-          for (let i = 0; i < user_inputs.length; i++) {
-            if(i%4 === 0) {
+          var g = 0;
+          for (let i = 1; i < user_inputs.length; i++) {
+            if(g%5 === 0) {
               childG = searchIn_select(user_inputs[i], user_inputs[e].value);
               childG.disabled = true;
               childG.style.backgroundColor = "#d9d3d3";
             }
+            g = g+1;
           }
          }else {
            //this loop takes the user's input value and disable the other
            //input options in the next inputs that equates that value
-          for (let i = 0; i < user_inputs.length; i++) {
-            if(i%4 === 0) {
+          for (let i = 1; i < user_inputs.length; i++) {
+            if(g%5 === 0) {
               childG = searchIn_select(user_inputs[i], user_inputs[e].value);
               childG.disabled = true;
               childG.style.backgroundColor = "#d9d3d3";
@@ -410,6 +428,7 @@ function check_inputs(callbackFunction) {
               changed_value.disabled = false;
               changed_value.style.backgroundColor = "";
             }
+            g = g+1;
           }
          }
          user_inputs[e].setAttribute("data-previous-value", `${user_inputs[e].value}`);
@@ -426,8 +445,8 @@ function check_inputs(callbackFunction) {
           if (user_inputs[e].getAttribute("data-previous-value") === "" && !forceEnable) {
             // console.log("condition A,", user_inputs[e].getAttribute("data-previous-value"));
             
-            for (let i = 1; i < user_inputs.length; i++) {
-              if(m%4 === 0) {
+            for (let i = 2; i < user_inputs.length; i++) {
+              if(m%5 === 0) {
                 let childM = searchIn_select(user_inputs[i], user_inputs[e].value);
                 childM.disabled = true;
                 childM.style.backgroundColor = "#d9d3d3";
@@ -437,8 +456,8 @@ function check_inputs(callbackFunction) {
             user_inputs[e].setAttribute("data-previous-value", `${user_inputs[e].value}`);
           }else if (!forceEnable) {
             // console.log("condition B,", user_inputs[e].getAttribute("data-previous-value"));
-            for (let i = 1; i < user_inputs.length; i++) {
-              if(m%4 === 0) {
+            for (let i = 2; i < user_inputs.length; i++) {
+              if(m%5 === 0) {
                 let childM = searchIn_select(user_inputs[i], user_inputs[e].value);
                 childM.disabled = true;
                 childM.style.backgroundColor = "#d9d3d3";
@@ -464,7 +483,7 @@ function check_inputs(callbackFunction) {
           //   console.log("dk");
           }else {
             // console.log("condition D,", user_inputs[e].getAttribute("data-previous-value"));
-            console.log(!(user_inputs[e].getAttribute("data-previous-value")));
+            // console.log(!(user_inputs[e].getAttribute("data-previous-value")));
             setTimeout(() => {
               let childM = searchIn_select(user_inputs[e], user_inputs[e].value);
               let def_option = searchIn_select(user_inputs[e], "--Please select--");
@@ -484,8 +503,8 @@ function check_inputs(callbackFunction) {
         let dataT_attr = user_inputs[e].getAttribute("data-previous-value");
 
         if (user_inputs[e].getAttribute("data-previous-value") === "") {
-          for (let i = 2; i < user_inputs.length; i++) {
-            if(t%4 === 0) {
+          for (let i = 3; i < user_inputs.length; i++) {
+            if(t%5 === 0) {
               childE = searchIn_select(user_inputs[i], user_inputs[e].value);
               childE.disabled = true;
               childE.style.backgroundColor = "#d9d3d3";
@@ -493,8 +512,8 @@ function check_inputs(callbackFunction) {
             t = t+1;
           }
         }else {
-          for (let i = 2; i < user_inputs.length; i++) {
-            if(t%4 === 0) {
+          for (let i = 3; i < user_inputs.length; i++) {
+            if(t%5 === 0) {
               childE = searchIn_select(user_inputs[i], user_inputs[e].value);
               childE.disabled = true;
               childE.style.backgroundColor = "#d9d3d3";
@@ -515,8 +534,8 @@ function check_inputs(callbackFunction) {
 
 
         if (user_inputs[e].getAttribute('data-previous-value') === "") {
-          for (let i = 3; i < user_inputs.length; i++) {
-            if(c%4 === 0) {
+          for (let i = 4; i < user_inputs.length; i++) {
+            if(c%5 === 0) {
               childC = searchIn_select(user_inputs[i], user_inputs[e].value);
               childC.disabled = true;
               childC.style.backgroundColor = "#d9d3d3";
@@ -524,8 +543,8 @@ function check_inputs(callbackFunction) {
             c = c+1;
           }
         } else {
-          for (let i = 3; i < user_inputs.length; i++) {
-            if(c%4 === 0) {
+          for (let i = 4; i < user_inputs.length; i++) {
+            if(c%5 === 0) {
               childC = searchIn_select(user_inputs[i], user_inputs[e].value);
               childC.disabled = true;
               childC.style.backgroundColor = "#d9d3d3";
@@ -548,46 +567,52 @@ function check_inputs(callbackFunction) {
 
 
 // This function insert the values of fields into the period content:__________________________
-function insertPeriodT(nbr_group, event, id, our_object){
+function insertPeriodT(nbr_group, event, id, our_object, type_of_period){
   var formChild = ""; 
   var groupe, br, j;
   var inputlist = [];
+  var singleInput = document.querySelectorAll('.period-select')
+
   our_object[`${id}`] = {};
-  our_object[`${id}`]['type'] = "TD-TP";
-  for (var i = 0; i < nbr_group*4; i++){ 
+  our_object[`${id}`]['type'] = type_of_period;
+  for (var i = 0; i < nbr_group*5; i++){ 
     j= i+1;
 
-    if (i%4 === 0){ 
+    if (i%5 === 0){ 
       groupe = document.createElement('span');
       br = document.createElement('br');
       groupe.classList = 'existed style-block'; 
     }       
-
-    if (document.querySelectorAll('.period-select')[i].value === "--Please select--") {
-      formChild = "";
-    }else {
-      formChild = document.querySelectorAll('.period-select')[i].value;
-    }
+    
+    console.log("values of our data object are: ", singleInput[i].value)
+    // if (document.querySelectorAll('.period-select')[i].value === "--Please select--" || document.querySelectorAll('.period-select')[i].value === "--Select--") {
+    //   formChild = "";
+    // }else {
+    //   formChild = document.querySelectorAll('.period-select')[i].value;
+    // }
+    formChild = document.querySelectorAll('.period-select')[i].value;
     groupe.textContent = groupe.textContent + " " + formChild;
-    inputlist[i%4] = formChild;
+    inputlist[i%5] = formChild;
 
-    if (j%4 === 0){
-      our_object[`${id}`][`${j%nbr_group}`] = {groupe: inputlist[0], module: inputlist[1], enseignant: inputlist[2], salle: inputlist[3]};
+    if (j%5 === 0){
+      our_object[`${id}`][`${j%nbr_group}`] = {type_of_group: inputlist[0], groupe: inputlist[1], module: inputlist[2], enseignant: inputlist[3], salle: inputlist[4]};
       event.appendChild(groupe);
       event.appendChild(br);
       event.classList.add('existed');
       inputlist = [];
     }
   }
+  console.log("the server data: ", our_object)
   resetInputs();
 }
 
 
-// This function insert the values of fields into the 
+// This function insert the values of fields into the...
 //period content when the selected input is COURS:___________________________________
-function insertPeriodC(nbr_group, event, id, our_object) {
+function insertPeriodC(nbr_group, event, id, our_object, type_of_period) {
   var inputlist = [],
       col, formInputs;
+
   for(var i=0; i<3; i++){
     col = document.createElement('div');
     formInputs = document.querySelectorAll('.period-select')[i].value;
@@ -599,7 +624,7 @@ function insertPeriodC(nbr_group, event, id, our_object) {
   
   event.classList.add('existed');
 
-  our_object[`${id}`] = {type: "cours", module: inputlist[0], enseignant: inputlist[1], salle: inputlist[2]};
+  our_object[`${id}`] = {module: inputlist[0], enseignant: inputlist[1], salle: inputlist[2], type: type_of_period};
   resetInputs();
 }
 
@@ -625,11 +650,12 @@ function create_new_period(event) {
         ev.preventDefault(); 
         var visible = document.getElementById("visible");
         var choise = document.getElementById("select-TD-cours");
+
           if (choise.value === 'TD-TP') {                     
             let nbr_group = document.getElementById("nbr-group").value;
             var wasSubmitted = false;
             //calling this function to create inputs for user to select from
-            create_TDs_cours(nbr_group, "td-tp");
+            create_TDs_cours(nbr_group, choise.value);
             //calling this function to check user inputs if they are frequent:  
             check_inputs(verify_all_data);
             //checking all the data of timetable and compare them with canvas:
@@ -637,7 +663,7 @@ function create_new_period(event) {
             $('#create').on('click', function(even){  
               even.preventDefault();
               wasSubmitted =true;
-              insertPeriodT(nbr_group, e, current_id, dataObject);             
+              insertPeriodT(nbr_group, e, current_id, dataObject, choise.value);             
               $('#exampleModall').modal('hide');                            
               $(this).off("click"); 
             });
@@ -648,7 +674,7 @@ function create_new_period(event) {
             var remChi = document.querySelectorAll('.removable').length;
 
             let nbr_group = 1;
-            create_TDs_cours(nbr_group, "cours"); 
+            create_TDs_cours(nbr_group, choise.value); 
             var wasSubmitted = false;
             // when the user submit his inputs _____________________
             $('#create').on('click', function(evn){
@@ -657,7 +683,7 @@ function create_new_period(event) {
               if(wasSubmitted) return false;
               wasSubmitted =true;
               // storing the input values:
-              insertPeriodC(nbr_group, e, current_id, dataObject);
+              insertPeriodC(nbr_group, e, current_id, dataObject, choise.value);
               
 
               
@@ -732,6 +758,8 @@ function sendData(e){
         console.log(i);
         console.log(inputs);
       }
+
+      window.location.href = 'http://127.0.0.1:8000/dashboard/all-timetables/'
     },
     error: function(errmsg){
       console.log(errmsg);

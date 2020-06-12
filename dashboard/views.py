@@ -200,6 +200,7 @@ def save_data(request):
         semestre = request.POST['semestre']
         timetables = EmploiTemps(level=level, semestree=semestre)
         timetables.save()
+        # print(json_dict['1']['type'])
         
         if('1' in json_dict and json_dict['1']['type'] == "TD-TP"):
             i = 0
@@ -208,14 +209,14 @@ def save_data(request):
                 modules = Module.objects.filter(designation=json_dict['1']["{}".format(i)]['module'])[0]
                 classroom = Salle.objects.filter(design=json_dict['1']["{}".format(i)]['salle'])[0]
                 group = json_dict['1']["{}".format(i)]['groupe']
-                period = Periode.objects.create(enseignant=teacher, module=modules, salle=classroom, groupe=group)
+                period = Periode.objects.create(enseignant=teacher, module=modules, salle=classroom, groupe=group, groupe_type=json_dict['1']["{}".format(i)]['type_of_group'])
                 timetables.first_first.add(period)
                 i = i+1
-        elif '1' in json_dict and json_dict['1']['type'] == "cours":
+        elif '1' in json_dict and json_dict['1']['type'] == "Cours":
             teacher = Enseignant.objects.filter(nom=json_dict['1']['enseignant'])[0]
             modules = Module.objects.filter(designation=json_dict['1']['module'])[0]
             classroom = Salle.objects.filter(design=json_dict['1']['salle'])[0]
-            period = Periode.objects.create(enseignant=teacher, module=modules, salle=classroom)
+            period = Periode.objects.create(enseignant=teacher, module=modules, salle=classroom, groupe_type=json_dict['1']['type'])
             timetables.first_first.add(period)
                                     
         if('2' in json_dict and json_dict['2']['type'] == "TD-TP"):
@@ -225,167 +226,167 @@ def save_data(request):
                 modules = Module.objects.filter(designation=json_dict['2']["{}".format(i)]['module'])[0]
                 classroom = Salle.objects.filter(design=json_dict['2']["{}".format(i)]['salle'])[0]
                 group = json_dict['2']["{}".format(i)]['groupe']
-                period = Periode.objects.create(enseignant=teacher, module=modules, salle=classroom, groupe=group)
+                period = Periode.objects.create(enseignant=teacher, module=modules, salle=classroom, groupe=group, groupe_type=json_dict['2']["{}".format(i)]['type_of_group'])
                 timetables.first_second.add(period)
                 i = i+1
-        elif '2' in json_dict and json_dict['2']['type'] == "cours":
+        elif '2' in json_dict and json_dict['2']['type'] == "Cours":
             teacher = Enseignant.objects.filter(nom=json_dict['2']['enseignant'])[0]
             modules = Module.objects.filter(designation=json_dict['2']['module'])[0]
             classroom = Salle.objects.filter(design=json_dict['2']['salle'])[0]
-            period = Periode.objects.create(enseignant=teacher, module=modules, salle=classroom)
+            period = Periode.objects.create(enseignant=teacher, module=modules, salle=classroom, groupe_type=json_dict['2']['type'])
             timetables.first_second.add(period)
         
-        if'3' in json_dict and (json_dict['3']['type'] == "TD-TP"):
+        if('3' in json_dict and  json_dict['3']['type'] == "TD-TP"):
             i = 0
             while i < len(json_dict['3'])-1:
                 teacher = Enseignant.objects.filter(nom=json_dict['3']["{}".format(i)]['enseignant'])[0]
                 modules = Module.objects.filter(designation=json_dict['3']["{}".format(i)]['module'])[0]
                 classroom = Salle.objects.filter(design=json_dict['3']["{}".format(i)]['salle'])[0]
                 group = json_dict['3']["{}".format(i)]['groupe']
-                period = Periode.objects.create(enseignant=teacher, module=modules, salle=classroom, groupe=group)            
+                period = Periode.objects.create(enseignant=teacher, module=modules, salle=classroom, groupe=group, groupe_type=json_dict['3']["{}".format(i)]['type_of_group'])            
                 timetables.first_third.add(period)
                 i = i+1
-        elif '3' in json_dict and json_dict['3']['type'] == "cours":
+        elif '3' in json_dict and json_dict['3']['type'] == "Cours":
             teacher = Enseignant.objects.filter(nom=json_dict['3']['enseignant'])[0]
             modules = Module.objects.filter(designation=json_dict['3']['module'])[0]
             classroom = Salle.objects.filter(design=json_dict['3']['salle'])[0]
-            period = Periode.objects.create(enseignant=teacher, module=modules, salle=classroom)
+            period = Periode.objects.create(enseignant=teacher, module=modules, salle=classroom, groupe_type=json_dict['3']['type'])
             timetables.first_third.add(period)
 
-        if'4' in json_dict and (json_dict['4']['type'] == "TD-TP"):
+        if('4' in json_dict and  json_dict['4']['type'] == "TD-TP"):
             i = 0
             while i < len(json_dict['4'])-1:
                 teacher = Enseignant.objects.filter(nom=json_dict['4']["{}".format(i)]['enseignant'])[0]
                 modules = Module.objects.filter(designation=json_dict['4']["{}".format(i)]['module'])[0]
                 classroom = Salle.objects.filter(design=json_dict['4']["{}".format(i)]['salle'])[0]
                 group = json_dict['4']["{}".format(i)]['groupe']
-                period = Periode.objects.create(enseignant=teacher, module=modules, salle=classroom, groupe=group)            
+                period = Periode.objects.create(enseignant=teacher, module=modules, salle=classroom, groupe=group, groupe_type=json_dict['4']["{}".format(i)]['type_of_group'])            
                 timetables.first_forth.add(period)
                 i = i+1
-        elif '4' in json_dict and json_dict['4']['type'] == "cours":
+        elif '4' in json_dict and json_dict['4']['type'] == "Cours":
             teacher = Enseignant.objects.filter(nom=json_dict['4']['enseignant'])[0]
             modules = Module.objects.filter(designation=json_dict['4']['module'])[0]
             classroom = Salle.objects.filter(design=json_dict['4']['salle'])[0]
-            period = Periode.objects.create(enseignant=teacher, module=modules, salle=classroom)
+            period = Periode.objects.create(enseignant=teacher, module=modules, salle=classroom, groupe_type=json_dict['4']['type'])
             timetables.first_forth.add(period)
 
-        if'5' in json_dict and (json_dict['5']['type'] == "TD-TP"):
+        if('5' in json_dict and  json_dict['5']['type'] == "TD-TP"):
             i = 0
             while i < len(json_dict['5'])-1:
                 teacher = Enseignant.objects.filter(nom=json_dict['5']["{}".format(i)]['enseignant'])[0]
                 modules = Module.objects.filter(designation=json_dict['5']["{}".format(i)]['module'])[0]
                 classroom = Salle.objects.filter(design=json_dict['5']["{}".format(i)]['salle'])[0]
                 group = json_dict['5']["{}".format(i)]['groupe']
-                period = Periode.objects.create(enseignant=teacher, module=modules, salle=classroom, groupe=group)            
+                period = Periode.objects.create(enseignant=teacher, module=modules, salle=classroom, groupe=group, groupe_type=json_dict['5']["{}".format(i)]['type_of_group'])            
                 timetables.second_first.add(period)
                 i = i+1
-        elif '5' in json_dict and json_dict['5']['type'] == "cours":
+        elif '5' in json_dict and json_dict['5']['type'] == "Cours":
             teacher = Enseignant.objects.filter(nom=json_dict['5']['enseignant'])[0]
             modules = Module.objects.filter(designation=json_dict['5']['module'])[0]
             classroom = Salle.objects.filter(design=json_dict['5']['salle'])[0]
-            period = Periode.objects.create(enseignant=teacher, module=modules, salle=classroom)
+            period = Periode.objects.create(enseignant=teacher, module=modules, salle=classroom, groupe_type=json_dict['5']['type'])
             timetables.second_first.add(period)
 
-        if'6' in json_dict and (json_dict['6']['type'] == "TD-TP"):
+        if('6' in json_dict and  json_dict['6']['type'] == "TD-TP"):
             i = 0
             while i < len(json_dict['6'])-1:
                 teacher = Enseignant.objects.filter(nom=json_dict['6']["{}".format(i)]['enseignant'])[0]
                 modules = Module.objects.filter(designation=json_dict['6']["{}".format(i)]['module'])[0]
                 classroom = Salle.objects.filter(design=json_dict['6']["{}".format(i)]['salle'])[0]
                 group = json_dict['6']["{}".format(i)]['groupe']
-                period = Periode.objects.create(enseignant=teacher, module=modules, salle=classroom, groupe=group)            
+                period = Periode.objects.create(enseignant=teacher, module=modules, salle=classroom, groupe=group, groupe_type=json_dict['6']["{}".format(i)]['type_of_group'])            
                 timetables.second_second.add(period)
                 i = i+1
-        elif '6' in json_dict and json_dict['6']['type'] == "cours":
+        elif '6' in json_dict and json_dict['6']['type'] == "Cours":
             teacher = Enseignant.objects.filter(nom=json_dict['6']['enseignant'])[0]
             modules = Module.objects.filter(designation=json_dict['6']['module'])[0]
             classroom = Salle.objects.filter(design=json_dict['6']['salle'])[0]
-            period = Periode.objects.create(enseignant=teacher, module=modules, salle=classroom)
+            period = Periode.objects.create(enseignant=teacher, module=modules, salle=classroom, groupe_type=json_dict['6']['type'])
             timetables.second_second.add(period)
      
-        if'7' in json_dict and (json_dict['7']['type'] == "TD-TP"):
+        if('7' in json_dict and json_dict['7']['type'] == "TD-TP"):
             i = 0
             while i < len(json_dict['7'])-1:
                 teacher = Enseignant.objects.filter(nom=json_dict['7']["{}".format(i)]['enseignant'])[0]
                 modules = Module.objects.filter(designation=json_dict['7']["{}".format(i)]['module'])[0]
                 classroom = Salle.objects.filter(design=json_dict['7']["{}".format(i)]['salle'])[0]
                 group = json_dict['7']["{}".format(i)]['groupe']
-                period = Periode.objects.create(enseignant=teacher, module=modules, salle=classroom, groupe=group)            
+                period = Periode.objects.create(enseignant=teacher, module=modules, salle=classroom, groupe=group, groupe_type=json_dict['7']["{}".format(i)]['type_of_group'])            
                 timetables.second_third.add(period)
                 i = i+1
-        elif '7' in json_dict and json_dict['7']['type'] == "cours":
+        elif '7' in json_dict and json_dict['7']['type'] == "Cours":
             teacher = Enseignant.objects.filter(nom=json_dict['7']['enseignant'])[0]
             modules = Module.objects.filter(designation=json_dict['7']['module'])[0]
             classroom = Salle.objects.filter(design=json_dict['7']['salle'])[0]
-            period = Periode.objects.create(enseignant=teacher, module=modules, salle=classroom)
+            period = Periode.objects.create(enseignant=teacher, module=modules, salle=classroom, groupe_type=json_dict['7']['type'])
             timetables.second_third.add(period)
 
-        if'8' in json_dict and (json_dict['8']['type'] == "TD-TP"):
+        if('8' in json_dict and  json_dict['8']['type'] == "TD-TP"):
             i = 0
             while i < len(json_dict['8'])-1:
                 teacher = Enseignant.objects.filter(nom=json_dict['8']["{}".format(i)]['enseignant'])[0]
                 modules = Module.objects.filter(designation=json_dict['8']["{}".format(i)]['module'])[0]
                 classroom = Salle.objects.filter(design=json_dict['8']["{}".format(i)]['salle'])[0]
                 group = json_dict['8']["{}".format(i)]['groupe']
-                period = Periode.objects.create(enseignant=teacher, module=modules, salle=classroom, groupe=group)            
+                period = Periode.objects.create(enseignant=teacher, module=modules, salle=classroom, groupe=group, groupe_type=json_dict['8']["{}".format(i)]['type_of_group'])            
                 timetables.second_forth.add(period)
                 i = i+1
-        elif '8' in json_dict and json_dict['8']['type'] == "cours":
+        elif '8' in json_dict and json_dict['8']['type'] == "Cours":
             teacher = Enseignant.objects.filter(nom=json_dict['8']['enseignant'])[0]
             modules = Module.objects.filter(designation=json_dict['8']['module'])[0]
             classroom = Salle.objects.filter(design=json_dict['8']['salle'])[0]
-            period = Periode.objects.create(enseignant=teacher, module=modules, salle=classroom)
+            period = Periode.objects.create(enseignant=teacher, module=modules, salle=classroom, groupe_type=json_dict['8']['type'])
             timetables.second_forth.add(period)
 
-        if'9' in json_dict and (json_dict['9']['type'] == "TD-TP"):
+        if('9' in json_dict and  json_dict['9']['type'] == "TD-TP"):
             i = 0
             while i < len(json_dict['9'])-1:
                 teacher = Enseignant.objects.filter(nom=json_dict['9']["{}".format(i)]['enseignant'])[0]
                 modules = Module.objects.filter(designation=json_dict['9']["{}".format(i)]['module'])[0]
                 classroom = Salle.objects.filter(design=json_dict['9']["{}".format(i)]['salle'])[0]
                 group = json_dict['9']["{}".format(i)]['groupe']
-                period = Periode.objects.create(enseignant=teacher, module=modules, salle=classroom, groupe=group)            
+                period = Periode.objects.create(enseignant=teacher, module=modules, salle=classroom, groupe=group, groupe_type=json_dict['9']["{}".format(i)]['type_of_group'])            
                 timetables.third_first.add(period)
                 i = i+1
-        elif '9' in json_dict and json_dict['9']['type'] == "cours":
+        elif '9' in json_dict and json_dict['9']['type'] == "Cours":
             teacher = Enseignant.objects.filter(nom=json_dict['9']['enseignant'])[0]
             modules = Module.objects.filter(designation=json_dict['9']['module'])[0]
             classroom = Salle.objects.filter(design=json_dict['9']['salle'])[0]
-            period = Periode.objects.create(enseignant=teacher, module=modules, salle=classroom)
+            period = Periode.objects.create(enseignant=teacher, module=modules, salle=classroom, groupe_type=json_dict['9']['type'])
             timetables.third_first.add(period)
 
-        if('10' in json_dict and json_dict['10']['type'] == "TD-TP"):
+        if('10' in json_dict and  json_dict['10']['type'] == "TD-TP"):
             i = 0
             while i < len(json_dict['10'])-1:
                 teacher = Enseignant.objects.filter(nom=json_dict['10']["{}".format(i)]['enseignant'])[0]
                 modules = Module.objects.filter(designation=json_dict['10']["{}".format(i)]['module'])[0]
                 classroom = Salle.objects.filter(design=json_dict['10']["{}".format(i)]['salle'])[0]
                 group = json_dict['10']["{}".format(i)]['groupe']
-                period = Periode.objects.create(enseignant=teacher, module=modules, salle=classroom, groupe=group)            
+                period = Periode.objects.create(enseignant=teacher, module=modules, salle=classroom, groupe=group, groupe_type=json_dict['10']["{}".format(i)]['type_of_group'])            
                 timetables.third_second.add(period)
                 i = i+1
-        elif '10' in json_dict and json_dict['10']['type'] == "cours":
+        elif '10' in json_dict and json_dict['10']['type'] == "Cours":
             teacher = Enseignant.objects.filter(nom=json_dict['10']['enseignant'])[0]
             modules = Module.objects.filter(designation=json_dict['10']['module'])[0]
             classroom = Salle.objects.filter(design=json_dict['10']['salle'])[0]
-            period = Periode.objects.create(enseignant=teacher, module=modules, salle=classroom)
+            period = Periode.objects.create(enseignant=teacher, module=modules, salle=classroom, groupe_type=json_dict['10']['type'])
             timetables.third_second.add(period)
 
-        if('11' in json_dict and json_dict['11']['type'] == "TD-TP"):
+        if('11' in json_dict and  json_dict['11']['type'] == "TD-TP"):
             i = 0
             while i < len(json_dict['11'])-1:
                 teacher = Enseignant.objects.filter(nom=json_dict['11']["{}".format(i)]['enseignant'])[0]
                 modules = Module.objects.filter(designation=json_dict['11']["{}".format(i)]['module'])[0]
                 classroom = Salle.objects.filter(design=json_dict['11']["{}".format(i)]['salle'])[0]
                 group = json_dict['11']["{}".format(i)]['groupe']
-                period = Periode.objects.create(enseignant=teacher, module=modules, salle=classroom, groupe=group)            
+                period = Periode.objects.create(enseignant=teacher, module=modules, salle=classroom, groupe=group, groupe_type=json_dict['11']["{}".format(i)]['type_of_group'])            
                 timetables.third_third.add(period)
                 i = i+1
-        elif '11' in json_dict and json_dict['11']['type'] == "cours":
+        elif '11' in json_dict and json_dict['11']['type'] == "Cours":
             teacher = Enseignant.objects.filter(nom=json_dict['11']['enseignant'])[0]
             modules = Module.objects.filter(designation=json_dict['11']['module'])[0]
             classroom = Salle.objects.filter(design=json_dict['11']['salle'])[0]
-            period = Periode.objects.create(enseignant=teacher, module=modules, salle=classroom)
+            period = Periode.objects.create(enseignant=teacher, module=modules, salle=classroom, groupe_type=json_dict['11']['type'])
             timetables.third_third.add(period)
 
         if('12' in json_dict and json_dict['12']['type'] == "TD-TP"):
@@ -395,14 +396,14 @@ def save_data(request):
                 modules = Module.objects.filter(designation=json_dict['12']["{}".format(i)]['module'])[0]
                 classroom = Salle.objects.filter(design=json_dict['12']["{}".format(i)]['salle'])[0]
                 group = json_dict['12']["{}".format(i)]['groupe']
-                period = Periode.objects.create(enseignant=teacher, module=modules, salle=classroom, groupe=group)            
+                period = Periode.objects.create(enseignant=teacher, module=modules, salle=classroom, groupe=group, groupe_type=json_dict['12']["{}".format(i)]['type_of_group'])            
                 timetables.third_forth.add(period)
                 i = i+1
-        elif '12' in json_dict and json_dict['12']['type'] == "cours":
+        elif '12' in json_dict and json_dict['12']['type'] == "Cours":
             teacher = Enseignant.objects.filter(nom=json_dict['12']['enseignant'])[0]
             modules = Module.objects.filter(designation=json_dict['12']['module'])[0]
             classroom = Salle.objects.filter(design=json_dict['12']['salle'])[0]
-            period = Periode.objects.create(enseignant=teacher, module=modules, salle=classroom)
+            period = Periode.objects.create(enseignant=teacher, module=modules, salle=classroom, groupe_type=json_dict['12']['type'])
             timetables.third_forth.add(period)
 
 
@@ -413,14 +414,14 @@ def save_data(request):
                 modules = Module.objects.filter(designation=json_dict['13']["{}".format(i)]['module'])[0]
                 classroom = Salle.objects.filter(design=json_dict['13']["{}".format(i)]['salle'])[0]
                 group = json_dict['13']["{}".format(i)]['groupe']
-                period = Periode.objects.create(enseignant=teacher, module=modules, salle=classroom, groupe=group)            
+                period = Periode.objects.create(enseignant=teacher, module=modules, salle=classroom, groupe=group, groupe_type=json_dict['13']["{}".format(i)]['type_of_group'])            
                 timetables.forth_first.add(period)
                 i = i+1
-        elif '13' in json_dict and json_dict['13']['type'] == "cours":
+        elif '13' in json_dict and json_dict['13']['type'] == "Cours":
             teacher = Enseignant.objects.filter(nom=json_dict['13']['enseignant'])[0]
             modules = Module.objects.filter(designation=json_dict['13']['module'])[0]
             classroom = Salle.objects.filter(design=json_dict['13']['salle'])[0]
-            period = Periode.objects.create(enseignant=teacher, module=modules, salle=classroom)
+            period = Periode.objects.create(enseignant=teacher, module=modules, salle=classroom, groupe_type=json_dict['13']['type'])
             timetables.forth_first.add(period)
 
         
@@ -431,14 +432,14 @@ def save_data(request):
                 modules = Module.objects.filter(designation=json_dict['14']["{}".format(i)]['module'])[0]
                 classroom = Salle.objects.filter(design=json_dict['14']["{}".format(i)]['salle'])[0]
                 group = json_dict['14']["{}".format(i)]['groupe']
-                period = Periode.objects.create(enseignant=teacher, module=modules, salle=classroom, groupe=group)            
+                period = Periode.objects.create(enseignant=teacher, module=modules, salle=classroom, groupe=group, groupe_type=json_dict['14']["{}".format(i)]['type_of_group'])            
                 timetables.forth_second.add(period)
                 i = i+1
-        elif '14' in json_dict and json_dict['14']['type'] == "cours":
+        elif '14' in json_dict and json_dict['14']['type'] == "Cours":
             teacher = Enseignant.objects.filter(nom=json_dict['14']['enseignant'])[0]
             modules = Module.objects.filter(designation=json_dict['14']['module'])[0]
             classroom = Salle.objects.filter(design=json_dict['14']['salle'])[0]
-            period = Periode.objects.create(enseignant=teacher, module=modules, salle=classroom)
+            period = Periode.objects.create(enseignant=teacher, module=modules, salle=classroom, groupe_type=json_dict['14']['type'])
             timetables.forth_second.add(period)
 
         if('15' in json_dict and json_dict['15']['type'] == "TD-TP"):
@@ -448,14 +449,14 @@ def save_data(request):
                 modules = Module.objects.filter(designation=json_dict['15']["{}".format(i)]['module'])[0]
                 classroom = Salle.objects.filter(design=json_dict['15']["{}".format(i)]['salle'])[0]
                 group = json_dict['15']["{}".format(i)]['groupe']
-                period = Periode.objects.create(enseignant=teacher, module=modules, salle=classroom, groupe=group)            
+                period = Periode.objects.create(enseignant=teacher, module=modules, salle=classroom, groupe=group, groupe_type=json_dict['15']["{}".format(i)]['type_of_group'])            
                 timetables.forth_third.add(period)
                 i = i+1
-        elif '15' in json_dict and json_dict['15']['type'] == "cours":
+        elif '15' in json_dict and json_dict['15']['type'] == "Cours":
             teacher = Enseignant.objects.filter(nom=json_dict['15']['enseignant'])[0]
             modules = Module.objects.filter(designation=json_dict['15']['module'])[0]
             classroom = Salle.objects.filter(design=json_dict['15']['salle'])[0]
-            period = Periode.objects.create(enseignant=teacher, module=modules, salle=classroom)
+            period = Periode.objects.create(enseignant=teacher, module=modules, salle=classroom, groupe_type=json_dict['15']['type'])
             timetables.forth_third.add(period)
 
         if('16' in json_dict and json_dict['16']['type'] == "TD-TP"):
@@ -465,14 +466,14 @@ def save_data(request):
                 modules = Module.objects.filter(designation=json_dict['16']["{}".format(i)]['module'])[0]
                 classroom = Salle.objects.filter(design=json_dict['16']["{}".format(i)]['salle'])[0]
                 group = json_dict['16']["{}".format(i)]['groupe']
-                period = Periode.objects.create(enseignant=teacher, module=modules, salle=classroom, groupe=group)            
+                period = Periode.objects.create(enseignant=teacher, module=modules, salle=classroom, groupe=group, groupe_type=json_dict['16']["{}".format(i)]['type_of_group'])            
                 timetables.forth_forth.add(period)
                 i = i+1
-        elif '16' in json_dict and json_dict['16']['type'] == "cours":
+        elif '16' in json_dict and json_dict['16']['type'] == "Cours":
             teacher = Enseignant.objects.filter(nom=json_dict['16']['enseignant'])[0]
             modules = Module.objects.filter(designation=json_dict['16']['module'])[0]
             classroom = Salle.objects.filter(design=json_dict['16']['salle'])[0]
-            period = Periode.objects.create(enseignant=teacher, module=modules, salle=classroom)
+            period = Periode.objects.create(enseignant=teacher, module=modules, salle=classroom, groupe_type=json_dict['16']['type'])
             timetables.forth_forth.add(period)
 
         if('17' in json_dict and json_dict['17']['type'] == "TD-TP"):
@@ -482,14 +483,14 @@ def save_data(request):
                 modules = Module.objects.filter(designation=json_dict['17']["{}".format(i)]['module'])[0]
                 classroom = Salle.objects.filter(design=json_dict['17']["{}".format(i)]['salle'])[0]
                 group = json_dict['17']["{}".format(i)]['groupe']
-                period = Periode.objects.create(enseignant=teacher, module=modules, salle=classroom, groupe=group)            
+                period = Periode.objects.create(enseignant=teacher, module=modules, salle=classroom, groupe=group, groupe_type=json_dict['17']["{}".format(i)]['type_of_group'])            
                 timetables.fifth_first.add(period)
                 i = i+1
-        elif '17' in json_dict and json_dict['17']['type'] == "cours":
+        elif '17' in json_dict and json_dict['17']['type'] == "Cours":
             teacher = Enseignant.objects.filter(nom=json_dict['17']['enseignant'])[0]
             modules = Module.objects.filter(designation=json_dict['17']['module'])[0]
             classroom = Salle.objects.filter(design=json_dict['17']['salle'])[0]
-            period = Periode.objects.create(enseignant=teacher, module=modules, salle=classroom)
+            period = Periode.objects.create(enseignant=teacher, module=modules, salle=classroom, groupe_type=json_dict['17']['type'])
             timetables.fifth_first.add(period)
         
         if('18' in json_dict and json_dict['18']['type'] == "TD-TP"):
@@ -499,14 +500,14 @@ def save_data(request):
                 modules = Module.objects.filter(designation=json_dict['18']["{}".format(i)]['module'])[0]
                 classroom = Salle.objects.filter(design=json_dict['18']["{}".format(i)]['salle'])[0]
                 group = json_dict['18']["{}".format(i)]['groupe']
-                period = Periode.objects.create(enseignant=teacher, module=modules, salle=classroom, groupe=group)            
+                period = Periode.objects.create(enseignant=teacher, module=modules, salle=classroom, groupe=group, groupe_type=json_dict['18']["{}".format(i)]['type_of_group'])            
                 timetables.fifth_second.add(period)
                 i = i+1
-        elif '18' in json_dict and json_dict['18']['type'] == "cours":
+        elif '18' in json_dict and json_dict['18']['type'] == "Cours":
             teacher = Enseignant.objects.filter(nom=json_dict['18']['enseignant'])[0]
             modules = Module.objects.filter(designation=json_dict['18']['module'])[0]
             classroom = Salle.objects.filter(design=json_dict['18']['salle'])[0]
-            period = Periode.objects.create(enseignant=teacher, module=modules, salle=classroom)
+            period = Periode.objects.create(enseignant=teacher, module=modules, salle=classroom, groupe_type=json_dict['18']['type'])
             timetables.fifth_second.add(period)
               
 
@@ -517,14 +518,14 @@ def save_data(request):
                 modules = Module.objects.filter(designation=json_dict['19']["{}".format(i)]['module'])[0]
                 classroom = Salle.objects.filter(design=json_dict['19']["{}".format(i)]['salle'])[0]
                 group = json_dict['19']["{}".format(i)]['groupe']
-                period = Periode.objects.create(enseignant=teacher, module=modules, salle=classroom, groupe=group)            
+                period = Periode.objects.create(enseignant=teacher, module=modules, salle=classroom, groupe=group, groupe_type=json_dict['19']["{}".format(i)]['type_of_group'])            
                 timetables.fifth_third.add(period)
                 i = i+1
-        elif '19' in json_dict and json_dict['19']['type'] == "cours":
+        elif '19' in json_dict and json_dict['19']['type'] == "Cours":
             teacher = Enseignant.objects.filter(nom=json_dict['19']['enseignant'])[0]
             modules = Module.objects.filter(designation=json_dict['19']['module'])[0]
             classroom = Salle.objects.filter(design=json_dict['19']['salle'])[0]
-            period = Periode.objects.create(enseignant=teacher, module=modules, salle=classroom)
+            period = Periode.objects.create(enseignant=teacher, module=modules, salle=classroom, groupe_type=json_dict['19']['type'])
             timetables.fifth_third.add(period)
 
 
@@ -535,16 +536,17 @@ def save_data(request):
                 modules = Module.objects.filter(designation=json_dict['20']["{}".format(i)]['module'])[0]
                 classroom = Salle.objects.filter(design=json_dict['20']["{}".format(i)]['salle'])[0]
                 group = json_dict['20']["{}".format(i)]['groupe']
-                period = Periode.objects.create(enseignant=teacher, module=modules, salle=classroom, groupe=group)            
+                period = Periode.objects.create(enseignant=teacher, module=modules, salle=classroom, groupe=group, groupe_type=json_dict['20']["{}".format(i)]['type_of_group'])            
                 timetables.fifth_forth.add(period)
                 i = i+1
-        elif '20' in json_dict and json_dict['20']['type'] == "cours":
+        elif '20' in json_dict and json_dict['20']['type'] == "Cours":
             teacher = Enseignant.objects.filter(nom=json_dict['20']['enseignant'])[0]
             modules = Module.objects.filter(designation=json_dict['20']['module'])[0]
             classroom = Salle.objects.filter(design=json_dict['20']['salle'])[0]
-            period = Periode.objects.create(enseignant=teacher, module=modules, salle=classroom)
+            period = Periode.objects.create(enseignant=teacher, module=modules, salle=classroom, groupe_type=json_dict['20']['type'])
             timetables.fifth_forth.add(period)
 
+        # timetables.save()
      
         ajax_data['successMsg'] = "success message"
     else:

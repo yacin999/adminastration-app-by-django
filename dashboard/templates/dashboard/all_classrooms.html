@@ -27,7 +27,7 @@
       <tr>
         <th scope="row">{{ forloop.counter|add:0 }}</th>
         <td>{{ salle.design}}</td>
-        <td>{{ salle.type}}</td>
+        <td>{{ salle.type_of}}</td>
         <td>{{ salle.bloc}}</td>
         <td class="td-btn">
           <a href="{% url 'update-classroom' salle.id %}" class="btn btn-outline-primary "><i class="far fa-edit"></i> update</a>
