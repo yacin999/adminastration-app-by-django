@@ -652,18 +652,7 @@ function create_new_period(event) {
     e.innerHTML= "";
     // When the user select 'cours' or 'TD/TP'________________________________________________
       document.getElementById("choise").addEventListener("click", (ev) =>{
-        // click_counter += 1
-
-        // console.log("the button was clicked : ", click_counter)
-        // if(window.performance) {
-        //   //console.info("window.performance works fine on this browser")
-        // }
-
-        // if (performance.navigation.type == performance.navigation.TYPE_RELOAD) {
-        //   console.log("this page is reloaded")
-        // }else {
-        //   //console.log("this page is not reloaded")
-        // }
+        alert("after changing the branch")
         
         //ev.preventDefault(); 
         console.log("WHEN choosing either tptd or cours", ev)
