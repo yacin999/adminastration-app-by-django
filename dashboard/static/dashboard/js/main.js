@@ -3,10 +3,10 @@
 //---------------------------------||
 
 var sidebarColl = document.querySelector('#sidebarCollapse');
-                var sidebar = document.querySelector('#sidebar');
-                sidebarColl.addEventListener('click', () =>{
-                    sidebar.classList.toggle('active');
-                });
+var sidebar = document.querySelector('#sidebar');
+sidebarColl.addEventListener('click', () =>{
+    sidebar.classList.toggle('active');
+});
 
 
 
@@ -17,9 +17,19 @@ var sidebarColl = document.querySelector('#sidebarCollapse');
 // This object stores all the data that come from user inputs 
 let dataObject = {};
 let counters_module = {};
+let event_period = {};
+let id_event = "";
 // this variable is for listening to users clicks on the timetable
-let targets = document.querySelectorAll(".our_target");
+const targets = document.querySelectorAll(".our_target");
+const td_cours_btn = document.getElementById("choise");
+const nmb_g_buttn = document.getElementById("R-numb");
+const sub_table_btn = document.getElementById("create");
+
 targets.forEach(target => {target.addEventListener("click", create_new_period)});
+td_cours_btn.addEventListener("click", select_TD_cours);
+nmb_g_buttn.addEventListener("click", generete_inputs);
+sub_table_btn.addEventListener("click", submitTo_table);
+
 
 
 
@@ -54,12 +64,11 @@ function module_api(our_element, first_child) {
   .then( (module_data) => {
     our_element.appendChild(first_child);
      for (let i = 0; i < module_data.length; i++) {
-      var other_option = document.createElement('option');
-      
+      var another_option = document.createElement('option');
       if (module_data[i].niveau.Nv === levelValue) {
-        other_option.textContent = `${module_data[i].designation}`;
-        other_option.setAttribute(`value`, `${module_data[i].designation}`);
-        our_element.appendChild(other_option);
+        another_option.textContent = `${module_data[i].designation}`;
+        another_option.setAttribute(`value`, `${module_data[i].designation}`);
+        our_element.appendChild(another_option);
       }
     }
     })
@@ -72,6 +81,7 @@ function teacher_api(our_element, first_child) {
   fetch('http://127.0.0.1:8000/api/teacher-list')
   .then(res =>  res.json())
   .then( (teacher_data) => {
+    //console.log("teacher data" ,teacher_data)
     our_element.appendChild(first_child);
      for (let i = 0; i < teacher_data.length; i++) {
       var other_option = document.createElement('option');    
@@ -107,6 +117,7 @@ function classroom_api(our_element, first_child) {
 
 // To create the fields of periods, so the user can fill them :______________________
 function create_TDs_cours(nbr_group, type){
+  console.log("from 'create_TDs_cours' function")
   var con_fields = document.getElementById('creates');
   var niv = document.getElementById("level").value;
   //console.log("from create fields function")
@@ -129,7 +140,7 @@ function create_TDs_cours(nbr_group, type){
       `;
       div.appendChild(subDivY);
 
-        // for group and type of group part:
+        // for group part:
       var subDiv = document.createElement('div');
       var labelSelectG = document.createElement('label');
       var selectElementG = document.createElement('select');
@@ -637,8 +648,9 @@ function create_new_period(event) {
   //resetInputs();    
     event.preventDefault()  
     event.stopPropagation()  
-    e = event.target;
-    var current_id = e.id;
+    event_period = event.target;
+    id_event = event.target.id;
+    
     var level_table = document.getElementById("level")
     var nbr_group = document.getElementById("nbr-group")
     var semester = document.getElementById("semestre")
@@ -649,78 +661,8 @@ function create_new_period(event) {
     }
     
     $('#exampleModall').modal('show');
-    e.innerHTML= "";
-    // When the user select 'cours' or 'TD/TP'________________________________________________
-      document.getElementById("choise").addEventListener("click", (ev) =>{
-        alert("after changing the branch")
-        
-        //ev.preventDefault(); 
-        console.log("WHEN choosing either tptd or cours", ev)
-        //var visible = document.getElementById("visible");
-        var choise = document.getElementById("select-TD-cours");
-        var nmb_g_buttn = document.getElementById("R-numb");
-        var nmb_group = document.querySelector("#group-numb-input")
-
-          if (choise.value === 'TD-TP') {        
-            
-            let nbr_group = document.getElementById("nbr-group").value;
-            var wasSubmitted = false;
-            // initializing...
-            nmb_group.textContent = parseInt(document.getElementById("nbr-group").value);
-            document.querySelector(".hidden-part").hidden = false
-            document.querySelector(".row.pb").hidden = true
-            //console.log("outside clicking button")
-
-            nmb_g_buttn.addEventListener("click", (e)=>{
-              //e.stopPropagation()
-              // e.preventDefault()
-              //console.log("before create inputs function")
-              //calling this function to create inputs for the user to select from
-              create_TDs_cours(parseInt(nmb_group.textContent), choise.value);
-
-              //calling this function to check user inputs if they are frequent:  
-              check_inputs(verify_all_data);
-            })
-
-            
-            //checking all the data of timetable and compare them with canvas:
-            // when the user submit his informations ---------------------------------------------
-            document.getElementById("create").addEventListener("click", (even)=>{
-              //console.log("from the third function")
-              // even.preventDefault();
-              wasSubmitted =true;
-              insertPeriodT(parseInt(nmb_group.textContent), e, current_id, dataObject, choise.value);   
-              document.querySelector(".hidden-part").hidden = true
-              document.querySelector(".row.pb").hidden = false          
-              $('#exampleModall').modal('hide');                            
-            });
-
-            // COUR---------------------------------------COUR---------------------------------------COUR
-          }else {
-            var cleanForm = document.getElementById('creates');
-            var remChi = document.querySelectorAll('.removable').length;
-
-            let nbr_group = 1;
-            create_TDs_cours(nbr_group, choise.value); 
-            var wasSubmitted = false;
-            // when the user submit his inputs _____________________
-            document.getElementById("create").addEventListener("click", (evn)=>{
-              evn.preventDefault(); 
-              
-              if(wasSubmitted) return false;
-              wasSubmitted =true;
-              // storing the input values:
-              insertPeriodC(nbr_group, e, current_id, dataObject, choise.value);
-              
-
-              
-              $('#exampleModall').modal('hide');
-
-            });
-  
-          }
-          ev.preventDefault(); 
-      });
+    event.target.innerHTML= "";
+    
   
   
           //document.getElementById("creates").reset();
@@ -729,7 +671,92 @@ function create_new_period(event) {
           $('#exampleModall').modal('hide');
         });
         
-  }
+}
+
+// when the user choose either TP/TD or Cours:
+function select_TD_cours(ev) {
+  // When the user select 'cours' or 'TD/TP'________________________________________________    
+   
+  //ev.preventDefault(); 
+    //console.log("WHEN choosing either tptd or cours", ev)
+    //var visible = document.getElementById("visible");
+    const choise = document.getElementById("select-TD-cours");
+    const nmb_group = document.querySelector("#group-numb-input");
+
+      if (choise.value === 'TD-TP') {        
+        
+        let nbr_group = document.getElementById("nbr-group").value;
+        var wasSubmitted = false;
+        // initializing...
+        nmb_group.textContent = parseInt(document.getElementById("nbr-group").value);
+        document.querySelector(".hidden-part").hidden = false
+        document.querySelector(".row.pb").hidden = true
+        //console.log("outside clicking button")
+        
+        // COUR---------------------------------------COUR---------------------------------------COUR
+      }else {
+        var cleanForm = document.getElementById('creates');
+        var remChi = document.querySelectorAll('.removable').length;
+
+        let nbr_group = 1;
+        create_TDs_cours(nbr_group, choise.value); 
+        var wasSubmitted = false;
+        // when the user submit his inputs _____________________
+        document.getElementById("create").addEventListener("click", (evn)=>{
+          evn.preventDefault(); 
+          
+          if(wasSubmitted) return false;
+          wasSubmitted =true;
+          // storing the input values:
+          insertPeriodC(nbr_group, e, current_id, dataObject, choise.value);
+          
+
+          
+          $('#exampleModall').modal('hide');
+
+        });
+
+      }
+      ev.preventDefault(); 
+  
+}
+
+// generating inputs for the user so he can fill them
+function generete_inputs() {
+  const choise = document.getElementById("select-TD-cours");
+  const nmb_group = document.querySelector("#group-numb-input")
+  //e.stopPropagation()
+  // e.preventDefault()
+  //console.log("before create inputs function")
+  //calling this function to create inputs for the user to select from
+  create_TDs_cours(parseInt(nmb_group.textContent), choise.value);
+
+  //calling this function to check user inputs if they are frequent:  
+  check_inputs(verify_all_data);
+}
+
+
+//checking all the data of timetable and compare them with canvas:
+// when the user submit his informations ---------------------------------------------
+function submitTo_table() {
+  const choise = document.getElementById("select-TD-cours");
+  const nmb_group = document.querySelector("#group-numb-input");
+  //console.log("from the third function")
+  // even.preventDefault();
+  wasSubmitted =true;
+  insertPeriodT(parseInt(nmb_group.textContent), event_period, id_event, dataObject, choise.value);   
+  document.querySelector(".hidden-part").hidden = true
+  document.querySelector(".row.pb").hidden = false          
+  $('#exampleModall').modal('hide');    
+}
+
+
+
+
+
+
+
+
 
 $('#close').on('click', function(){
   
