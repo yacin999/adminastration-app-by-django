@@ -2,8 +2,8 @@ from .models import Enseignant, Module, Salle, CanvasTimeTable, Niveau, EmploiTe
 from django import forms
 from django.core.validators import MinValueValidator
 
-CHOICES =  [('1', 'TP'), ('2', 'TD'), ('3', 'amphi')]
-SEMESTRES = [('1', 'S1'), ('2', 'S2'), ('3', 'S3'), ('4', 'M1'), ('5', 'M2')]
+CHOICES =  [('1', 'TP'), ('2', 'TD'), ('3', 'Amphi')]
+SEMESTRES = [('1', 'S1'), ('2', 'S2'), ('3', 'S3'),('4', 'S4'), ('4', 'M1'), ('5', 'M2')]
 
 
 
@@ -12,14 +12,31 @@ class EnseignantModelForm(forms.ModelForm):
     class Meta:
         model = Enseignant
         fields = ['email', 'nom', 'prenom', 'grade', 'tel']
+        widgets = {
+            'email' : forms.EmailInput(attrs={'class': 'module-input', 'placeholder': 'email'}),
+            'nom' : forms.TextInput(attrs={'class': 'module-input', 'placeholder': 'nom'}),
+            'prenom' : forms.TextInput(attrs={'class': 'module-input', 'placeholder': 'prenom'}),
+            'grade' : forms.TextInput(attrs={'class': 'module-input', 'placeholder': 'grade'}),
+            'tel' : forms.NumberInput(attrs={'class': 'module-input', 'placeholder': 'numero de telephone'}),
+        }
 
 
 class ModuleModelForm(forms.ModelForm):
-    designation = forms.CharField(label='nom de module')
-    semestre = forms.ChoiceField(widget=forms.Select, choices=SEMESTRES)
+    designation = forms.CharField(label='nom de module',  widget=forms.TextInput(attrs={"class": "module-input", "placeholder": "designation"}))
+    semestre = forms.ChoiceField(label="semestre", widget=forms.Select(attrs={"class": "module-select-input", "placeholder": "semestre"}), choices=SEMESTRES)
+    prof = forms.ModelChoiceField(queryset=Enseignant.objects.all(), empty_label=None, label="prof", widget=forms.Select(attrs={"class": "module-select-input", "placeholder": "prof"}), to_field_name="nom")
+    niveau = forms.ModelChoiceField(queryset=Niveau.objects.all(), empty_label=None, label="niveau", widget=forms.Select(attrs={"class": "module-select-input", "placeholder": "niveau"}))
     class Meta:
         model = Module
         fields = fields = ['code', 'designation', 'unite', 'credit', 'coeff', 'niveau', 'semestre', 'prof']
+        widgets = {
+            "code": forms.TextInput(attrs={"class": "module-input", "placeholder": "code"}),
+            "unite": forms.TextInput(attrs={"class": "module-input", "placeholder": "unite"}),
+            "coeff": forms.NumberInput(attrs={"class": "module-input", "placeholder": "coeff"}),
+            "niveau": forms.Select(attrs={"class": "module-select-input", "placeholder": "niveau"}),
+            "credit": forms.NumberInput(attrs={"class": "module-input", "placeholder": "credit"}),
+            "prof": forms.Select(attrs={"class": "module-select-input", "placeholder": "prof"}),
+        }
 
     def clean_designation(self, *args, **kwargs):
         name = self.cleaned_data['designation']
@@ -35,9 +52,16 @@ class ModuleModelForm(forms.ModelForm):
 
 class SalleModelForm(forms.ModelForm):
     design = forms.CharField(label='nom de class', widget=forms.TextInput(attrs={
-        'style': 'width: 300px'
+        'placeholder':'nom de class',
+        'class': 'module-input', 
     }))
-    typeS = forms.ChoiceField(widget=forms.RadioSelect, choices=CHOICES)
+    typeS = forms.ChoiceField(label= "select type of classroom", choices=CHOICES, widget=forms.RadioSelect(attrs={
+        "class": "bullets-style",
+        }))
+    bloc = forms.CharField(widget=forms.TextInput(attrs={
+        "class": "module-input", 
+        "placeholder": "bloc"
+        }))
     class Meta:
         model = Salle
         fields = ['bloc', 'design', 'typeS']

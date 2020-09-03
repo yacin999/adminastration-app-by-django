@@ -1,17 +1,24 @@
 {% extends 'dashboard/admin_panel.html' %}
-{% load crispy_forms_tags %}
-{% load bootstrap4 %}
+<!-- {% load crispy_forms_tags %}
+{% load bootstrap4 %} -->
 
 
 
 {% block content %}
-  <form method="post"> {% csrf_token %}
-
-    {% bootstrap_form form %}
-    {% buttons %}
-      <input type="submit" value="save" class="btn btn-primary">
-    {% endbuttons %}  
-  </form>
+  <div class="create-module-container">
+    <form method="post"> {% csrf_token %}
+    
+      <div class="row">
+        {% for input in form %}
+          <div class="col-6">
+            {{input}}
+          </div>
+        {% endfor %}
+      </div>
+        <input type="submit" value="save" class="btn btn-primary">
+    </form>
+  </div>
+  
   
 
 {% endblock %}

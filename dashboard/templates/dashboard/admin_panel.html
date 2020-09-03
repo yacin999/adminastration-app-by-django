@@ -18,9 +18,9 @@
 <body>
 
 
-        <div class="wrapper">
+        <div id="wrapper" class="wrapper">
                 <!-- Sidebar  -->
-                <nav id="sidebar">
+                  <nav id="sidebar" class="">
                     <div class="sidebar-header">
                         <h4><i class="fas fa-tachometer-alt icon"></i> Admin Panel</h4>
                     </div>
@@ -46,32 +46,35 @@
                         </li>
                     </ul>
         
-                </nav>
+                  </nav>
+                
                 <!-- Page Content  -->
                 <div id="content">        
-                    <nav class="navbar navbar-expand-lg navbar-light bg-light">
-                        <div class="container-fluid">
-        
+                        <div class="navBar" >
                             <button type="button" id="sidebarCollapse" class="btn btn-info">
                                 <i class="fas fa-align-left"></i>
-                            </button>
-                            <button class="btn btn-dark d-inline-block d-lg-none ml-auto" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-                                <i class="fas fa-align-justify"></i>
-                            </button>
-        
-                            <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                                <ul class="nav navbar-nav ml-auto">
-
-                                    <li class="nav-item active">
-                                            <a class="nav-link home" href="#">Dashboard</a>
-                                    </li>
-                                    <li class="nav-item logout">
-                                        <a class="nav-link logou" href="{% url 'logout' %}"><i class="fas fa-sign-out-alt"></i> Logout</a>
-                                    </li>
+                            </button>                       
+                                <ul class="float-right">
+                                  <li class="main-list">
+                                    <a class=" home" href="#">Dashboard</a>
+                                  </li>
+                                  <li class="main-list">
+                                    <a class=" home" href="#">Another</a>
+                                  </li>
+                                  <li class="main-list">
+                                    <img id="profile-img" src="{% static 'dashboard/imgs/admin.jpg' %}" alt="admin-phpto">
+                                    <div  class="dropdown-list show">
+                                      <ul class="">
+                                        <li>my Account</li>
+                                        <li>Setting</li>
+                                        <li>
+                                          <a style="padding-left: 0; font-size:14px" href="{% url 'logout' %}">Logout</a>
+                                        </li>
+                                      </ul>
+                                    </div>
+                                </li>
                                 </ul>
-                            </div>
                         </div>
-                    </nav>
 
                     {% block content %}
 
@@ -86,6 +89,34 @@
         <script src="{% static 'dashboard/js/bootstrap.min.js' %}"></script>
         <script src="{% static 'dashboard/js/fontawesome-all.min.js' %}"></script>
         <script src="{% static 'dashboard/js/main.js' %}" defer></script>
+        
+        <!-- this script is for styling the Sidebar -->
+        <script>
+          var sideBarButton = document.getElementById("sidebarCollapse");
+          var wrapper = document.getElementById("wrapper");
+
+          sideBarButton.addEventListener('click', function () {
+            //alert("window is sxrolling !!!")
+            console.log("done!") 
+            wrapper.classList.toggle("wrapper");            
+          });
+
+
+          var admin_icon = document.getElementById("profile-img");
+          var dropdown_list = document.querySelector(".dropdown-list")
+          admin_icon.addEventListener("click", ()=> {
+            dropdown_list.classList.toggle("show")
+          })
+
+          //canceling dropdown if the user clicked anywhere 
+          window.addEventListener('click', (e)=>{
+            if(e.target.id !== "profile-img"){
+              if(!dropdown_list.classList.contains("show")){
+                dropdown_list.classList.add("show")
+              }
+            }
+          })
+        </script>
         
 
         <!-- <script>

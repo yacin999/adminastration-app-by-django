@@ -6,31 +6,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-
-    <!--static files links-->
-    <link rel="stylesheet" href="{% static 'user/images/bg-01.jpg' %}">
-    <!--===============================================================================================-->
-    <link rel="icon" type="image/png" href="{% static 'user/images/icons/favicon.ico' %}"/>
-    <!--===============================================================================================-->
     <link rel="stylesheet" href="{% static 'user/css/bootstrap.min.css' %}">
-    <!--===============================================================================================-->
-    <link rel="stylesheet" href="{% static 'user/css/fontawesome.min.css' %}">
-    <!--===============================================================================================-->
-    <link rel="stylesheet"  href="{% static 'user/css/animate.css' %}">
-<!--===============================================================================================-->	
-	<link rel="stylesheet"  href="{% static 'user/css/hamburgers.min.css' %}">
-<!--===============================================================================================-->
-	<link rel="stylesheet"  href="{% static ' user/css/animsition.min.css' %}">
-<!--===============================================================================================-->
-	<link rel="stylesheet"  href="{% static 'user/css/select2.min.css' %}">
-<!--===============================================================================================-->	
-	<link rel="stylesheet"  href="{% static 'user/css/daterangepicker.css' %}">
-<!--===============================================================================================-->
-	<link rel="stylesheet"  href="{% static 'css/util.css' %}">
-	<link rel="stylesheet"  href="{% static 'css/main.css' %}">
-<!--===============================================================================================-->
-<link rel="stylesheet" href="{% static 'user/css/main.css' %}">
-<!--===============================================================================================-->
+    <link rel="stylesheet" href="{% static 'user/css/font-awesome.min.css' %}">
+    <link rel="stylesheet" href="{% static 'user/css/main.css' %}">
+
     
 {% if title %}
       <title> {{title}} </title>
@@ -39,121 +18,48 @@
 {% endif %}
 
 
-    <style>
-        .session {
-            margin-bottom:0px;
-            margin-top:20px;
-            margin-left:-38px;
-            width:330px;
-            list-style-type: none;
-            text-align: center;
-        }          
-    </style>  
 </head>
-<body>
+    <body>
 
-                    
-                   <!--
-                       section class1: "container-fluid bg"
-                       section class2: "row justify-content-center"
-                   
-                   -->
+        <div class="mesaage-system">
+            {% if messages %}
+                <ul class="messages">
+                {% for message in messages %}
+                    <li style="list-style-type: none;" {% if message.tags %} class="{{ message.tags }} alert alert-danger session"{% endif %}>{{ message }} <i class="ml-2 fa fa-times" aria-hidden="true"></i></li>
+                {% endfor %}
+                </ul>
+            {% endif %}
+        </div>
 
-                    <section class="">
-                        <section class="">
-                            <section class="">
-                                <div class=" ">
-                                    {% if messages %}
-                                        <ul class="messages">
-                                        {% for message in messages %}
-                                            <li {% if message.tags %} class="{{ message.tags }} alert alert-danger session"{% endif %}>{{ message }}</li>
-                                        {% endfor %}
-                                        </ul>
-                                    {% endif %}
-                                </div>
-                    
-                                <!-- <form method="POST" class="form-container">{% csrf_token %}
-                                    <div class="form-group">
-                                        <label for="exampleInputUsername"> username</label>
-                                        <input type="text" class="form-control" id="exampleInputUsername" placeholder="enter username" name="username">
-                                        <small id="usernameHelp" class="form-text text-muted">we'll never share your email with anyone else</small>
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="exampleInputPassword1">Password</label>
-                                        <input type="password" class="form-control" id="exampleInputPassword1" placeholder="password" name="password">
-                                    </div>
-                                    <input type="submit" class="btn btn-primary btn-block" value="submit">
-                                </form> -->
+        <div class="form-container" id="login">
+            <form method="POST" class="">
+                {% csrf_token %}
+                <a href="{% url 'home' %}" ><i class="fa fa-arrow-left" style="font-size: 20px;" aria-hidden="true"></i></a>
+                <div class="form-group">
+                    <label for="exampleInputUsername" style="color: #fff;"> username</label>
+                    <input type="text" class="form-control" id="exampleInputUsername" placeholder="enter username" name="username">
+                </div>
+                <div class="form-group">
+                    <label for="exampleInputPassword1" style="color: #fff;">Password</label>
+                    <input type="password" class="form-control" id="exampleInputPassword1" placeholder="password" name="password">
+                </div>
+                <input type="submit" class="btn btn-block mt-3 text-light" value="submit" style="background-color: red; font-size: 18px">
+                <div class="pt-3">
+                    <small style="color: #fff;">if you haven't an account yet, you can <a href="" id="register-link">REGISTER</a> </small>
+                </div>
+            </form>
+        </div>
 
 
-
-                                <div class="limiter">
-                                    <div class="container-login100">
-                                        <div class="wrap-login100">
-                                            <div class="login100-form-title" style="background-image: url('{{ STATIC_URL }}images/bg-01.jpg')">
-                                                <span class="login100-form-title-1">
-                                                    Sign In
-                                                </span>
-                                            </div>
-                            
-                                            <form class="login100-form validate-form" method="POST">{% csrf_token %}
-                                                <div class="wrap-input100 validate-input m-b-26" data-validate="Username is required">
-                                                    <span class="label-input100">Username</span>
-                                                    <input class="input100" type="text" name="username" placeholder="Enter username">
-                                                    <span class="focus-input100"></span>
-                                                </div>
-                            
-                                                <div class="wrap-input100 validate-input m-b-18" data-validate = "Password is required">
-                                                    <span class="label-input100">Password</span>
-                                                    <input class="input100" type="password" name="password" placeholder="Enter password">
-                                                    <span class="focus-input100"></span>
-                                                </div>
-                            
-                                                <div class="flex-sb-m w-full p-b-30">
-                                                    <!-- <div class="contact100-form-checkbox">
-                                                        <input class="input-checkbox100" id="ckb1" type="checkbox" name="remember-me">
-                                                        <label class="label-checkbox100" for="ckb1">
-                                                            Remember me
-                                                        </label>
-                                                    </div> -->
-                            
-                                                    <div>
-                                                        <a href="#" class="txt1">
-                                                            Forgot Password?
-                                                        </a>
-                                                    </div>
-                                                </div>
-                            
-                                                <div class="container-login100-form-btn">
-                                                    <input type="submit" class="login100-form-btn" value="login">
-                                                </div>
-                                            </form>
-                                        </div>
-                                    </div>
-                                </div>
-                            </section>
-                        </section>
-                    </section>
+                
 
 
-
-                    <script src="{% static 'user/js/jquery-3.3.1.slim.min.js' %}"></script>
-                    <!--===============================================================================================-->
-                    <script src="{% static 'user/js/animsition.min.js' %}"></script>
-                    <!--===============================================================================================-->
-                    <script src="{% static 'user/js/popper.min.js' %}"></script>
-                    <script src="{% static 'user/js/fontawesome-all.min.js' %}"></script>
-                    <script src="{% static 'user/js/bootstrap.min.js' %}"></script>
-                    <!--===============================================================================================-->
-                    <script src="{% static 'user/js/select2.min.js' %}"></script>
-                    <!--===============================================================================================-->
-                    <script src="{% static 'user/js/moment.min.js' %}"></script>
-                    <script src="{% static 'user/js/daterangepicker.js' %}"></script>
-                    <!--===============================================================================================-->
-                    <script src="{% static 'user/js/countdowntime.js' %}"></script>
-                    <!--===============================================================================================-->
-                    <script src="{% static 'user/js/main.js' %}"></script>
-</body>
+        <script src="{% static 'user/js/jquery-3.3.1.slim.min.js' %}"></script>
+        <script src="{% static 'user/js/popper.min.js' %}"></script>
+        <script src="{% static 'user/js/fontawesome-all.min.js' %}"></script>
+        <script src="{% static 'user/js/bootstrap.min.js' %}"></script>    
+        <script src="{% static 'user/js/main.js' %}"></script>
+    </body>
 </html>
             
 

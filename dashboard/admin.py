@@ -6,7 +6,7 @@ from .models import Niveau, Module, Enseignant, Salle, Periode, EmploiTemps, Can
 
 class ModuleAdmin(admin.ModelAdmin):
     list_filter = ['designation']
-    list_display = ['pk' ,'designation', 'code', 'coeff', 'credit']
+    list_display = ['pk' ,'designation', 'code', 'coeff', 'credit', 'semestre']
     search_fields = ['designation', 'code']
 
 class EnseignantAdmin(admin.ModelAdmin):

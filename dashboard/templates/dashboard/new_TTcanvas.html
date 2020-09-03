@@ -13,48 +13,52 @@
         {{field}}
       {% endfor %}
     </div> -->
+    <div class="create-module-container">
+      <h6 class="pt-2 ml-3 mb-3">all fields are required *</h6>
+      <form method="POST">
+        {% csrf_token %}
 
-    <form method="POST">
-      {% csrf_token %}
-      <div class="form-row">
-        <div class="col mb-5">
-          <label for="">Niveau</label>
-          <select id="inputNiveau" class="form-control" name="niveau">
-            <option selected >Choose...</option>
-            {% for niveau in niveax %}
-              <option value="{{niveau.Nv}}">{{niveau.Nv}}</option>
-            {% endfor %}
-          </select>
+        <div class="form-row mb-5">
+          <div class="col-3 mb-5">
+            <!-- <label for="">Cours</label> -->
+            <input type="number" class="module-input" name="cours" placeholder="Cours">
+          </div>
+          <div class="col-3 mb-5">
+            <!-- <label for="">TP</label> -->
+            <input type="number" class="module-input" name="tp" placeholder="TP">
+          </div>
+          <div class="col-3 mb-5">
+            <!-- <label for="">TD</label> -->
+            <input type="number" class="module-input" name="td" placeholder="TD">
+          </div>
+        
+          <div class="col-3 mb-5">
+            <label for="">Niveau</label>
+            <select id="inputNiveau" class=" module-select-input" name="niveau">
+              <option selected >Choose...</option>
+              {% for niveau in niveax %}
+                <option value="{{niveau.Nv}}">{{niveau.Nv}}</option>
+              {% endfor %}
+            </select>
+          </div>
+          <div class="col-3 mb-5">
+            <label for="">Semestre</label>
+            <select id="inputSemestre" class=" module-select-input" name="semestre" disabled>
+              <option selected>Choose...</option>
+            </select>
+          </div>
+          <div class="col-3 mb-5">
+            <label for="">Module</label>
+            <select id="inputModule" class=" module-select-input" name="module" disabled>
+              <option selected>Choose...</option>
+            </select>
+          </div>
         </div>
-        <div class="col mb-5">
-          <label for="">Semestre</label>
-          <select id="inputSemestre" class="custom-select" name="semestre" disabled>
-            <option selected>Choose...</option>
-          </select>
-        </div>
-        <div class="col mb-5">
-          <label for="">Module</label>
-          <select id="inputModule" class="custom-select" name="module" disabled>
-            <option selected>Choose...</option>
-          </select>
-        </div>
-      </div>
-      <div class="form-row">
-        <div class="col-md-6 mb-5">
-          <label for="">Cours</label>
-          <input type="number" class="form-control" name="cours" placeholder="Cours">
-        </div>
-        <div class="col-md-3 mb-5">
-          <label for="">TP</label>
-          <input type="number" class="form-control" name="tp" placeholder="TP">
-        </div>
-        <div class="col-md-3 mb-5">
-          <label for="">TD</label>
-          <input type="number" class="form-control" name="td" placeholder="TD">
-        </div>
-      </div>
-      <button type="submit" class="btn btn-success">Submit</button>
-    </form>
+        
+        <button type="submit" class="btn btn-success">Submit</button>
+      </form>
+    </div>
+    
 
     <script>
       var selection = document.getElementById("inputNiveau");

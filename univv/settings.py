@@ -55,8 +55,8 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    #'user.middlewares.OneSessionPerUser',
-    'user.middleware.SessionTimeoutMiddleware',
+    'user.middlewares.OneSessionPerUser',
+    'user.middleware.ExpireAfterPeriodInactivity',
     
     
 ] 
@@ -139,9 +139,9 @@ CRISPY_TEMPLATE_PACK = 'bootstrap4'
 
 LOGIN_REDIRECT_URL = 'home'
 
-# SESSION_IDLE_TIMEOUT = 60
-SESSION_EXPIRE_AFTER_LAST_ACTIVITY = True
-SESSION_EXPIRE_SECONDS = 3000 
+SESSION_IDLE_TIMEOUT = 600
+# SESSION_EXPIRE_AFTER_LAST_ACTIVITY = True
+# SESSION_EXPIRE_SECONDS = 3000 
 
 # MACADDRESS_DEFAULT_DIALECT = 'module.dialect_class'
 STATICFILES_DIRS = [

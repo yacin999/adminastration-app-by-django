@@ -24,53 +24,6 @@
   <span><input type="number" name="" value=""  id="nbr-group" style="width: 70px;" disabled></span>
 </div>
 
-<script>
-  var selection = document.getElementById("level");
-  selection.addEventListener('change', (event) => {
-    event.preventDefault();
-    var semestre_value = document.getElementById("semestre");
-    var num_groups = document.getElementById("nbr-group");
-    semestre_value.innerHTML = "";
-    semestre_value.disabled = false;
-    num_groups.disabled = false;
-    semestre_value.innerHTML = "<option value='' selected disabled>-select-</option>"
-    var option1 = document.createElement("option");
-    var option2 = document.createElement("option");
-    switch (selection.value) {
-      case "licence1":
-      option1.textContent = "S1";
-      option2.textContent = "S2";
-      semestre_value.appendChild(option1);
-      semestre_value.appendChild(option2);
-      break;
-      case "licence2":
-      option1.textContent = "S3";
-      option2.textContent = "S4";
-      semestre_value.appendChild(option1);
-      semestre_value.appendChild(option2);
-      break;
-      case "Licence3":
-      option1.textContent = "S5";
-      option2.textContent = "S6";
-      semestre_value.appendChild(option1);
-      semestre_value.appendChild(option2);
-      break;
-      case "Master1":
-      option1.textContent = "M1";
-      option2.textContent = "M2";
-      semestre_value.appendChild(option1);
-      semestre_value.appendChild(option2);
-      break;
-      case "Master2":
-      option1.textContent = "M3";
-      option2.textContent = "M4";
-      semestre_value.appendChild(option1);
-      semestre_value.appendChild(option2);
-      break;
-    }
-  });
-</script>  
-
 
 <div class="our_table" id="ourTable">
     <div class="our_row">
@@ -153,17 +106,35 @@
        <div class="modal-body">
          <div class="row pb">
            <label for="" class="pl-3 pr-3">voulez-vous sélectionner  des cours ou des (TDs & TPs)</label>
-           <select name="emplois" class="selectpicker custom-select" style="width: 130px" data-style="btn-primary" id="select-TD-cours">
+           <select name="emplois" class="selectpicker custom-select" style="width: 130px; position: relative;
+           top: -6px;" data-style="btn-primary" id="select-TD-cours">
              <option value="" selected disabled >-select-</option>
              <option value="Cours">Cours</option>
              <option value="TD-TP">TD-TP</option>
            </select>
-           <a class="text-primary ml-2 h6" name="button" id="choise">create</a>
+           <a class="text-primary ml-3 h6" name="button" id="choise">Next</a>
          </div>
-            <div id="creates"></div>
+         <div class="hidden-part" hidden>
+          <label for="" class="pl-3 pr-3">combien de groupes étudieront cette période?</label>
+          <!-- <input type="number" value="" placeholder="Number" class="group-numb-input"> -->
+          <span id="group-numb-input"></span>
+          <div style="display: inline;">
+            <div id="arrow-up" style="display: inline; cursor:pointer;">
+              <i class="fa fa-caret-up" aria-hidden="true"></i>
+            </div>
+            <div id="arrow-down" style="display: inline; cursor:pointer;">
+              <i class="fa fa-caret-down" aria-hidden="true"></i>
+            </div>
+          </div>
+          <a class="text-primary ml-2 h6" name="button" id="R-numb">Submit</a>
+         </div>
 
-            <button type="button" class="btn btn-danger mt-4" id="close">Close</button>
-            <button type="button" name="myButton" class="btn btn-primary float-right mt-4" id="create">Submit</button>
+          <div id="creates">
+            <!-- here we will create our table -->
+          </div>
+
+          <button type="button" class="btn btn-danger mt-4" id="close">Close</button>
+          <button type="button" name="myButton" class="btn btn-primary float-right mt-4" id="create">Create</button>
        </div>
 
      </div>
@@ -171,6 +142,80 @@
  </div>
 
  
+
+<!-- this script is to put the semester choises depending on the level input of the user -->
+ <script>
+  var selection = document.getElementById("level");
+  selection.addEventListener('change', (event) => {
+    event.preventDefault();
+    var semestre_value = document.getElementById("semestre");
+    var num_groups = document.getElementById("nbr-group");
+    semestre_value.innerHTML = "";
+    semestre_value.disabled = false;
+    num_groups.disabled = false;
+    semestre_value.innerHTML = "<option value='' selected disabled>-select-</option>"
+    var option1 = document.createElement("option");
+    var option2 = document.createElement("option");
+    switch (selection.value) {
+      case "licence1":
+      option1.textContent = "S1";
+      option2.textContent = "S2";
+      semestre_value.appendChild(option1);
+      semestre_value.appendChild(option2);
+      break;
+      case "licence2":
+      option1.textContent = "S3";
+      option2.textContent = "S4";
+      semestre_value.appendChild(option1);
+      semestre_value.appendChild(option2);
+      break;
+      case "Licence3":
+      option1.textContent = "S5";
+      option2.textContent = "S6";
+      semestre_value.appendChild(option1);
+      semestre_value.appendChild(option2);
+      break;
+      case "Master1":
+      option1.textContent = "M1";
+      option2.textContent = "M2";
+      semestre_value.appendChild(option1);
+      semestre_value.appendChild(option2);
+      break;
+      case "Master2":
+      option1.textContent = "M3";
+      option2.textContent = "M4";
+      semestre_value.appendChild(option1);
+      semestre_value.appendChild(option2);
+      break;
+    }
+  });
+  
+  
+  
+  
+  var arrowUp = document.getElementById("arrow-up")
+  var arrowDown = document.getElementById("arrow-down")
+  
+  arrowUp.addEventListener("click", ()=>{
+    var value_group = document.getElementById("group-numb-input")
+    var group_parser = parseInt(value_group.textContent)
+    var nbr_group_semester = document.getElementById("nbr-group")
+    
+    if(group_parser < nbr_group_semester.value) {
+      group_parser += 1
+      value_group.textContent = group_parser
+    }
+  })
+
+  arrowDown.addEventListener("click", ()=>{
+    var value_group = document.getElementById("group-numb-input")
+    var group_parser = parseInt(value_group.textContent)
+    if (group_parser > 1) {
+      group_parser -= 1
+      value_group.textContent = group_parser
+    }
+  })
+</script>  
 
 
  {% endblock %}

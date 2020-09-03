@@ -29,8 +29,9 @@ targets.forEach(target => {target.addEventListener("click", create_new_period)})
 //======================//  functions declaration part    ||===============================
 //===================//---------------------------------||===============================
 
-// reset functions :
+// reset function:
 function resetInputs() {
+  console.log("from reset FUNCTION //")
   document.getElementById('creates').innerHTML='';    
   $('#select-TD-cours').val('');                            
 }
@@ -108,6 +109,7 @@ function classroom_api(our_element, first_child) {
 function create_TDs_cours(nbr_group, type){
   var con_fields = document.getElementById('creates');
   var niv = document.getElementById("level").value;
+  //console.log("from create fields function")
   //resetInputs();
   for (var i = 0; i < nbr_group; i++) {
     var div = document.createElement('div');
@@ -584,7 +586,7 @@ function insertPeriodT(nbr_group, event, id, our_object, type_of_period){
       groupe.classList = 'existed style-block'; 
     }       
     
-    console.log("values of our data object are: ", singleInput[i].value)
+    //console.log("values of our data object are: ", singleInput[i].value)
     // if (document.querySelectorAll('.period-select')[i].value === "--Please select--" || document.querySelectorAll('.period-select')[i].value === "--Select--") {
     //   formChild = "";
     // }else {
@@ -602,7 +604,7 @@ function insertPeriodT(nbr_group, event, id, our_object, type_of_period){
       inputlist = [];
     }
   }
-  console.log("the server data: ", our_object)
+  //console.log("the server data: ", our_object)
   resetInputs();
 }
 
@@ -632,40 +634,76 @@ function insertPeriodC(nbr_group, event, id, our_object, type_of_period) {
 
 // when the user click on any period from the table:=========================================
 function create_new_period(event) { 
-  resetInputs();          
+  //resetInputs();    
+    event.preventDefault()  
+    event.stopPropagation()  
     e = event.target;
     var current_id = e.id;
-    /*if(e.classList.contains('existed')) {
-      
-      $(e).hover(function(){
-        $(this).css("background-color", "red");
-      });
-      return false;
-    }*/
+    var level_table = document.getElementById("level")
+    var nbr_group = document.getElementById("nbr-group")
+    var semester = document.getElementById("semestre")
+    var click_counter = 0
+    if (level_table.value === "" || nbr_group.value === "" || semester.value === "") {
+      alert("you need to select the level of the table and the number of groups and the semester before filling the table !!")
+      return 
+    }
     
     $('#exampleModall').modal('show');
     e.innerHTML= "";
     // When the user select 'cours' or 'TD/TP'________________________________________________
-      $("#choise").on('click',function(ev){ 
-        ev.preventDefault(); 
-        var visible = document.getElementById("visible");
-        var choise = document.getElementById("select-TD-cours");
+      document.getElementById("choise").addEventListener("click", (ev) =>{
+        // click_counter += 1
 
-          if (choise.value === 'TD-TP') {                     
+        // console.log("the button was clicked : ", click_counter)
+        // if(window.performance) {
+        //   //console.info("window.performance works fine on this browser")
+        // }
+
+        // if (performance.navigation.type == performance.navigation.TYPE_RELOAD) {
+        //   console.log("this page is reloaded")
+        // }else {
+        //   //console.log("this page is not reloaded")
+        // }
+        
+        //ev.preventDefault(); 
+        console.log("WHEN choosing either tptd or cours", ev)
+        //var visible = document.getElementById("visible");
+        var choise = document.getElementById("select-TD-cours");
+        var nmb_g_buttn = document.getElementById("R-numb");
+        var nmb_group = document.querySelector("#group-numb-input")
+
+          if (choise.value === 'TD-TP') {        
+            
             let nbr_group = document.getElementById("nbr-group").value;
             var wasSubmitted = false;
-            //calling this function to create inputs for user to select from
-            create_TDs_cours(nbr_group, choise.value);
-            //calling this function to check user inputs if they are frequent:  
-            check_inputs(verify_all_data);
+            // initializing...
+            nmb_group.textContent = parseInt(document.getElementById("nbr-group").value);
+            document.querySelector(".hidden-part").hidden = false
+            document.querySelector(".row.pb").hidden = true
+            //console.log("outside clicking button")
+
+            nmb_g_buttn.addEventListener("click", (e)=>{
+              //e.stopPropagation()
+              // e.preventDefault()
+              //console.log("before create inputs function")
+              //calling this function to create inputs for the user to select from
+              create_TDs_cours(parseInt(nmb_group.textContent), choise.value);
+
+              //calling this function to check user inputs if they are frequent:  
+              check_inputs(verify_all_data);
+            })
+
+            
             //checking all the data of timetable and compare them with canvas:
             // when the user submit his informations ---------------------------------------------
-            $('#create').on('click', function(even){  
-              even.preventDefault();
+            document.getElementById("create").addEventListener("click", (even)=>{
+              //console.log("from the third function")
+              // even.preventDefault();
               wasSubmitted =true;
-              insertPeriodT(nbr_group, e, current_id, dataObject, choise.value);             
+              insertPeriodT(parseInt(nmb_group.textContent), e, current_id, dataObject, choise.value);   
+              document.querySelector(".hidden-part").hidden = true
+              document.querySelector(".row.pb").hidden = false          
               $('#exampleModall').modal('hide');                            
-              $(this).off("click"); 
             });
 
             // COUR---------------------------------------COUR---------------------------------------COUR
@@ -677,7 +715,7 @@ function create_new_period(event) {
             create_TDs_cours(nbr_group, choise.value); 
             var wasSubmitted = false;
             // when the user submit his inputs _____________________
-            $('#create').on('click', function(evn){
+            document.getElementById("create").addEventListener("click", (evn)=>{
               evn.preventDefault(); 
               
               if(wasSubmitted) return false;
@@ -688,12 +726,11 @@ function create_new_period(event) {
 
               
               $('#exampleModall').modal('hide');
-              $(this).off("click"); 
+
             });
   
-  
           }
-        $(this).off("click"); 
+          ev.preventDefault(); 
       });
   
   
@@ -714,17 +751,25 @@ $('#close').on('click', function(){
               
 // Ajax function for sending the data to the server  _______________________-::-_______________________
 function sendData(e){
+
+  console.log(dataObject)
+
+
+  if (JSON.stringify(dataObject) == "{}") {
+    alert("you have to fill the table with 3 periods at least !!")
+    return
+  }else{
+    var count = 0
+    for(var key in dataObject){
+      if(dataObject.hasOwnKey(key)) {
+        count++
+      }
+    }
+    console.log("number of periods are : ", count)
+    return 
+  }
+ 
   
-  var level = document.getElementById("level");
-  // if (level.value === "") {
-  //   level.style.border = "1px solid red";
-  //   level.insertAdjacentHTML("afterend", " this field is required.");
-  //   alert("you haven't selected which level the table is");
-  //   e.stopPropagation();
-  // }else {
-  //   console.log("else condition")
-  // }
-  //console.log(document.getElementById("level").value);
   function getCookie(name) {
     var cookieValue = null;
     if (document.cookie && document.cookie !== '') {

@@ -26,12 +26,22 @@ a, a:hover, a:focus {
 }
 
 .wrapper {
-    display: flex;
+    /* display: flex;
     width: 100%;
-    align-items: stretch;
+    align-items: stretch; */
+    width: 100%;
+    height: 100%;
+    padding-left: 250px;
+
 }
 
-#content nav.navbar {
+#content {
+    /* float: right; */
+    width: 50%;
+    transition: all 0.3s ease 0s;
+}
+
+#content div.navBar {
     padding: 15px;
     background: #fff  !important;
     border: none;
@@ -46,11 +56,57 @@ a, a:hover, a:focus {
     border: none;
 }
 
-.line {
-    width: 100%;
-    height: 1px;
-    border-bottom: 1px dashed #ddd;
-    margin: 40px 0;
+.navBar ul.float-right {
+    margin-bottom: 0;
+    margin-right: 15px;
+}
+
+.navBar li {
+    list-style-type: none;
+}
+
+.navBar li.main-list {
+    display: inline;
+}
+
+.navBar .float-right img {
+    width: 40px; 
+    border-radius: 50%;
+}
+
+.navBar .float-right img:hover {
+    cursor: pointer;
+}
+
+
+.navBar div.dropdown-list {
+    position: absolute;
+    border: 1px solid #e6d9d9;
+    background-color: #fff;
+    top: 80px;
+    right: 47px;
+    padding: 15px 45px 7px 15px;
+    z-index: 98;
+}
+
+.navBar div.show {
+    display: none;
+}
+
+.navBar div.dropdown-list ul {
+    padding-left: 0;
+    /* color: #000; */
+}
+
+.navBar div.dropdown-list ul li {
+    margin-bottom: 10px;
+    font-size: 13px;
+    /* background-color: #ec1c23; */
+}
+
+.navBar div.dropdown-list ul li:hover {
+    color: #362ae0;
+    cursor: pointer;
 }
 
 
@@ -61,16 +117,22 @@ a, a:hover, a:focus {
 /* light color: f8f9fa */
 
 #sidebar {
-    min-width: 250px;
-    max-width: 250px;
-    background: #ffffff;
+    position: fixed;
+    left: 0;
+    top: 0;
+    z-index: 99;
+    height: 100vh;
+    width: 250px;
+    background-image: linear-gradient(#0f526d, #ec1c23);
     box-shadow: 0 0 10px 0 rgb(150, 146, 146);
+    color: #fff;
+    transition: all 0.3s ease 0s;
 }
+
 
 
 #sidebar .sidebar-header{
     padding: 20px;
-    background: rgb(249, 250, 251);
 }
 
 
@@ -95,11 +157,6 @@ a, a:hover, a:focus {
 }
 
 
-#sidebar ul li a:hover {
-    color: #ec1c23;
-    background: #FFF;
-}
-
 
 #sidebar ul li.active>a, a[aria-expanded="true"] {
     color: #000;
@@ -118,11 +175,6 @@ a[data-toggle="collapse"] {
     transform: translateY(-50%);
 }
 
-ul ul a {
-    font-size: 0.9em !important;
-    padding-left: 30px !important;
-    background: #ffffff;
-}
 
 /* ---------------------------------------------------
     CONTENT STYLE
@@ -205,16 +257,6 @@ button.adding {
 
 
 
-/* LOGIN  and LOGOUT style  ========================================================================================*/
-
-.form-container {
-    position: absolute;
-    top: 15vh;
-    background: #fff;
-    padding: 30px;
-    border-radius: 10px;
-    box-shadow: 0 0 10px 0 #000;
-}
 
 
 
@@ -303,9 +345,95 @@ input#nbr-group{
     border-bottom: 1px solid #0f526d;
 }
 
+.modal .group-numb-input {
+    border: none;
+    border-bottom: 1px solid #d6d7de;
+}
+/* .modal .group-numb-input:focus {
+    border-bottom: 1px solid #007bff;
+}
+
+.modal .group-numb-input:focus::placeholder{
+    color: #007bff;
+    transform: translateY(-10px);
+    font-size: 0.525em;
+    cursor:default;
+} */
+
+input {
+    outline: none;
+}
+
+input[type=select] {
+    outline: none;
+}
+
+input[type=number]::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    display: none;
+}
+
+
+
+.hidden-part {
+    display: inline;
+}
 /*----------------------------------------------------------------
-    styling  timetable of conditions  (canvas)
+    styling  creation of modules  
 ----------------------------------------------------------------*/
-/* .canvas-element:hover {
-    font-size: 1.1em;
+div.create-module-container {
+    /* border: 1px solid black; */
+    background-color: #fff;
+    width: 90%;
+    position: relative;
+    left: 5%;
+    box-shadow: 0px 0px 17px -3px grey;
+    padding: 40px;
+    height: 80vh;
+}
+
+.create-module-container .module-input {
+    border: none;
+    border-bottom: 1px solid #999;
+    padding: 10px 0 0 0;
+}
+
+.create-module-container .module-input:focus {
+    border-bottom: 2px solid #4caf50;
+    transition: border-bottom .8s ease-out;
+    will-change: border-bottom;
+}
+
+
+.create-module-container .module-input:focus::placeholder {
+    
+    color: #4caf50;
+    cursor:default;
+    font-size: 0.950em;
+    transform: translateY(-15px);
+    transition: transform .2s ease-out;
+}
+
+.col-3 {
+    float: center;
+    width: 33%; 
+    margin: 40px 4%; 
+}
+
+.create-module-container .module-select-input {
+    width: 80%;
+    border: none;
+    border-bottom: 1px solid #999;
+    padding: 10px 0 0 0;
+}
+
+.bullets-style{
+    list-style: none;
+}
+
+/* @media(max-width: 1200px) {
+    div.create-module-container {
+        position: relative;
+        left: 50px;
+    }
 } */

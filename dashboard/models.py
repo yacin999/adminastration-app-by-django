@@ -96,13 +96,13 @@ def pre_save_module_receiver(sender, instance, *args, **kwargs):
 pre_save.connect(pre_save_module_receiver, sender=Module)      
 
 # class Salle <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
-
+CHOICES =  [('1', 'TP'), ('2', 'TD'), ('3', 'Amphi')]
 class Salle(models.Model):
     enseignants = models.ManyToManyField(Enseignant)
     opr = models.ForeignKey(User, on_delete=models.CASCADE)
     bloc = models.CharField(max_length=30)
     design = models.CharField(max_length=20)
-    type_of = models.CharField(max_length=10)
+    type_of = models.CharField(max_length=10, choices=CHOICES)
     active = models.BooleanField(default=False)
 
     def __str__(self):
