@@ -3,7 +3,7 @@ from django import forms
 from django.core.validators import MinValueValidator
 
 CHOICES =  [('1', 'TP'), ('2', 'TD'), ('3', 'Amphi')]
-SEMESTRES = [('1', 'S1'), ('2', 'S2'), ('3', 'S3'),('4', 'S4'), ('4', 'M1'), ('5', 'M2')]
+SEMESTRES = [('1', 'S1'), ('2', 'S2'), ('3', 'S3'),('4', 'S4'), ('5', 'S5'), ('6', 'S6'), ('7', 'M1'), ('8', 'M2')]
 
 
 

@@ -622,7 +622,7 @@ function insertPeriodT(nbr_group, event, id, our_object, type_of_period){
 
 // This function insert the values of fields into the...
 //period content when the selected input is COURS:___________________________________
-function insertPeriodC(nbr_group, event, id, our_object, type_of_period) {
+function insertPeriodC(event, id, our_object, type_of_period) {
   var inputlist = [],
       col, formInputs;
 
@@ -663,13 +663,10 @@ function create_new_period(event) {
     $('#exampleModall').modal('show');
     event.target.innerHTML= "";
     
-  
-  
-          //document.getElementById("creates").reset();
-  
-        $("#closes").click(function () {
-          $('#exampleModall').modal('hide');
-        });
+    
+    $("#closes").click(function () {
+      $('#exampleModall').modal('hide');
+    });
         
 }
 
@@ -685,8 +682,8 @@ function select_TD_cours(ev) {
 
       if (choise.value === 'TD-TP') {        
         
-        let nbr_group = document.getElementById("nbr-group").value;
-        var wasSubmitted = false;
+        //let nbr_group = document.getElementById("nbr-group").value;
+        //var wasSubmitted = false;
         // initializing...
         nmb_group.textContent = parseInt(document.getElementById("nbr-group").value);
         document.querySelector(".hidden-part").hidden = false
@@ -695,8 +692,8 @@ function select_TD_cours(ev) {
         
         // COUR---------------------------------------COUR---------------------------------------COUR
       }else {
-        var cleanForm = document.getElementById('creates');
-        var remChi = document.querySelectorAll('.removable').length;
+        // var cleanForm = document.getElementById('creates');
+        // var remChi = document.querySelectorAll('.removable').length;
 
         let nbr_group = 1;
         create_TDs_cours(nbr_group, choise.value); 
@@ -708,7 +705,7 @@ function select_TD_cours(ev) {
           if(wasSubmitted) return false;
           wasSubmitted =true;
           // storing the input values:
-          insertPeriodC(nbr_group, e, current_id, dataObject, choise.value);
+          insertPeriodC(event_period, id_event, dataObject, choise.value);
           
 
           
