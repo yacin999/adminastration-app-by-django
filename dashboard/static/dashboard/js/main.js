@@ -22,13 +22,40 @@ let id_event = "";
 // this variable is for listening to users clicks on the timetable
 const targets = document.querySelectorAll(".our_target");
 const td_cours_btn = document.getElementById("choise");
-const nmb_g_buttn = document.getElementById("R-numb");
+const nmb_g_buttn = document.getElementById("R-numb-btn");
 const sub_table_btn = document.getElementById("create");
 
-targets.forEach(target => {target.addEventListener("click", create_new_period)});
-td_cours_btn.addEventListener("click", select_TD_cours);
-nmb_g_buttn.addEventListener("click", generete_inputs);
-sub_table_btn.addEventListener("click", submitTo_table);
+let l = [targets, td_cours_btn, nmb_g_buttn, sub_table_btn]
+console.log('the first variables ', l)
+
+// this try catch block is to avoid an error caused by unloaded template
+try {
+  targets.forEach(target => {target.addEventListener("click", create_new_period)});
+  td_cours_btn.addEventListener("click", select_TD_cours);
+  nmb_g_buttn.addEventListener("click", generete_inputs);
+  sub_table_btn.addEventListener("click", ()=>{
+    const td_cours_choise = document.getElementById("select-TD-cours")
+  
+    if(td_cours_choise.value === "TD-TP") {
+      console.log("the user choosed TD OR TP")
+      submitTo_table()
+  
+    }else if(td_cours_choise.value === "Cours"){
+      // console.log('the user choosed Cours')
+      insertPeriodC(event_period, id_event, dataObject, choise.value);
+  
+      // hiding popup window after submiting the data
+      $('#exampleModall').modal('hide');
+    }
+  });
+} catch (error) {
+  // alert('the button was clicked by mistake')
+  console.log("the specified template didn't load yet !!: ", error)
+}
+
+
+
+
 
 
 
@@ -699,19 +726,20 @@ function select_TD_cours(ev) {
         create_TDs_cours(nbr_group, choise.value); 
         var wasSubmitted = false;
         // when the user submit his inputs _____________________
-        document.getElementById("create").addEventListener("click", (evn)=>{
-          evn.preventDefault(); 
+        // document.getElementById("create").addEventListener("click", (evn)=>{
+        //   //console.log("THIS is from the remained listener")
+        //   evn.preventDefault(); 
           
-          if(wasSubmitted) return false;
-          wasSubmitted =true;
-          // storing the input values:
-          insertPeriodC(event_period, id_event, dataObject, choise.value);
+        //   // if(wasSubmitted) return false;
+        //   // wasSubmitted =true;
+        //   // storing the input values:
+        //   insertPeriodC(event_period, id_event, dataObject, choise.value);
           
 
           
-          $('#exampleModall').modal('hide');
+        //   $('#exampleModall').modal('hide');
 
-        });
+        // });
 
       }
       ev.preventDefault(); 
@@ -740,12 +768,14 @@ function submitTo_table() {
   const nmb_group = document.querySelector("#group-numb-input");
   //console.log("from the third function")
   // even.preventDefault();
-  wasSubmitted =true;
+  // wasSubmitted =true;
   insertPeriodT(parseInt(nmb_group.textContent), event_period, id_event, dataObject, choise.value);   
   document.querySelector(".hidden-part").hidden = true
   document.querySelector(".row.pb").hidden = false          
   $('#exampleModall').modal('hide');    
 }
+
+// when the user 
 
 
 
