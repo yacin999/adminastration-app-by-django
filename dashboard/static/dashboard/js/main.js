@@ -14,7 +14,7 @@ sidebarColl.addEventListener('click', () =>{
 //............................
 //. GLOGAL VARIABLES         .
 //............................                
-// This object stores all the data that come from user inputs 
+
 let dataObject = {};
 let counters_module = {};
 let event_period = {};
@@ -25,29 +25,63 @@ const td_cours_btn = document.getElementById("choise");
 const nmb_g_buttn = document.getElementById("R-numb-btn");
 const sub_table_btn = document.getElementById("create");
 
-let l = [targets, td_cours_btn, nmb_g_buttn, sub_table_btn]
-console.log('the first variables ', l)
+
+// function return_user_inputs() {
+//   const user_inputs = document.querySelectorAll(".period-select");
+//   return user_inputs
+// }
+
+
+// async function wrapper() {
+//   const userinput = await return_user_inputs()
+    
+//     console.log("all inputs : ", user_inputs)
+//   }
+// }
+
+
+
+
 
 // this try catch block is to avoid an error caused by unloaded template
 try {
-  targets.forEach(target => {target.addEventListener("click", create_new_period)});
-  td_cours_btn.addEventListener("click", select_TD_cours);
-  nmb_g_buttn.addEventListener("click", generete_inputs);
+  targets.forEach(target => {target.addEventListener("click", period_tb_click)});
+
+  td_cours_btn.addEventListener("click", td_cr_click);
+
+  nmb_g_buttn.addEventListener("click", nbr_group_click);
+ 
   sub_table_btn.addEventListener("click", ()=>{
     const td_cours_choise = document.getElementById("select-TD-cours")
+    const nmb_group = document.querySelector("#group-numb-input");
+    const cansel = check_empty_input()
+
+    // IF there any empty user's input then cancel submitting data to table
+    if (cansel) {return}
   
     if(td_cours_choise.value === "TD-TP") {
-      console.log("the user choosed TD OR TP")
-      submitTo_table()
+
+      //inserting data to table period and saving them in our global object
+      insertPeriodT(parseInt(nmb_group.textContent), event_period, id_event, dataObject, td_cours_choise.value); 
+      
+      // hiding number of groups part and show td/cours selection
+      document.querySelector(".hidden-part").hidden = true
+      document.querySelector(".row.pb").hidden = false  
+      
+      
+      // hiding popup window after submiting the data
+      $('#exampleModall').modal('hide');    
   
     }else if(td_cours_choise.value === "Cours"){
-      // console.log('the user choosed Cours')
-      insertPeriodC(event_period, id_event, dataObject, choise.value);
+
+      //inserting data to table period and saving them in our global object
+      insertPeriodC(event_period, id_event, dataObject, td_cours_choise.value);
   
       // hiding popup window after submiting the data
       $('#exampleModall').modal('hide');
     }
   });
+  
 } catch (error) {
   // alert('the button was clicked by mistake')
   console.log("the specified template didn't load yet !!: ", error)
@@ -143,12 +177,12 @@ function classroom_api(our_element, first_child) {
 
 
 // To create the fields of periods, so the user can fill them :______________________
-function create_TDs_cours(nbr_group, type){
-  console.log("from 'create_TDs_cours' function")
+function generate_inputs(nbr_group, type){
+  
   var con_fields = document.getElementById('creates');
   var niv = document.getElementById("level").value;
   //console.log("from create fields function")
-  //resetInputs();
+
   for (var i = 0; i < nbr_group; i++) {
     var div = document.createElement('div');
     div.className = 'removable border m-2 p-2'
@@ -388,54 +422,60 @@ var verify_all_data = async (type_of_input, user_input) => {
           
         }
 
-
-        // if (`${user_input.value}` in counters_module) {
-        //   if(canvas_data[i].tp < counters_module[`${user_input.value}`] && user_input.getAttribute("data-previous-value") === "") {
-        //     let modalHeader = document.querySelector(".modal-header");
-        //     const div = document.createElement('div');
-        //     const textNode = document.createTextNode(`canvas tells that this module (${user_input.value}) has just ${canvas_data[i].tp} TP per timetable`);
-        //     div.className = "alert alert-danger ml-4 mr-4 ";
-        //     div.appendChild(textNode);
-        //     modalHeader.insertBefore(div, modalHeader.childNodes[2]);
-            
-        //      // after 2s the alert message will be deleted
-        //      setTimeout(()=>{
-        //       let ambiguity = 1;
-        //       let setintervalID = setInterval(fadeIn, 50);
-        //       function fadeIn () {
-        //         if (ambiguity > 0){
-        //           ambiguity = ambiguity - 0.1;
-        //           div.style.opacity = ambiguity;
-        //         } else {
-        //           clearInterval(setintervalID);
-        //           modalHeader.removeChild(modalHeader.childNodes[2]);
-        //         }
-        //       }
-        //     }, 3000);
-        //     forceEnable = true;
-        //     counters_module[`${user_input.value}`] += 1;
-
-        //   } else if (canvas_data[i].tp > counters_module[`${user_input.value}`]){
-        //     console.log("second condition !!!");
-        //     counters_module[`${user_input.value}`] += 1;
-        //     // forceEnable = true;
-        //   }else {
-        //     console.log("third condition !!! and previous value is", user_input.getAttribute("data-previous-value"));
-        //   }
-        // }else{
-        //   counters_module[`${user_input.value}`] = 1;
-        //   console.log(`phase number two  ${counters_module}`);
-        //   console.log("previous value is: ", user_input.getAttribute("data-previous-value"));
-        // }
       }
     }
   }).catch(err => console.log("from catch promise", err))
   return forceEnable;
 }
 
+function check_empty_input() {
+  console.log("check empty inputs function")
+  let user_inputs = document.querySelectorAll(".period-select")
+  let empty_input = false
 
-// This function checks the inputs of user:___________________________
-function check_inputs(callbackFunction) {
+  user_inputs.forEach((input)=> {
+    if (input.value === "--Select--" || input.value === "--Please select--") {
+      input.style.border = "1px solid red";
+      empty_input = true
+    } 
+  })
+
+  if(empty_input){
+    let modalHeader = document.querySelector(".modal-header");
+    const div = document.createElement('div');
+    const textNode = document.createTextNode("all fields are required !!!");
+    div.className = "alert alert-danger ml-4 mr-4 ";
+    div.appendChild(textNode);
+    modalHeader.insertBefore(div, modalHeader.childNodes[2]);
+    
+      // after 2s the alert message will be deleted (fade in animation)
+      setTimeout(()=>{
+      let ambiguity = 1;
+      let setintervalID = setInterval(fadeIn, 50);
+      function fadeIn () {
+        if (ambiguity > 0){
+          ambiguity = ambiguity - 0.1;
+          div.style.opacity = ambiguity;
+        } else {
+          clearInterval(setintervalID);
+          modalHeader.removeChild(modalHeader.childNodes[2]);
+        }
+      }
+    }, 3000);
+  } 
+  return empty_input
+}
+
+function examine_cours_inputs() {
+  console.log("examine cours")
+  
+
+
+}
+
+
+// This function checks the inputs of user IF he selected a given input before or not :___________________________
+function check_TdTp_inputs(callbackFunction) {
   var user_inputs = document.querySelectorAll(".period-select")
   for (let e = 0; e < user_inputs.length; e++) {
     user_inputs[e].setAttribute("data-previous-value", `${user_inputs[e].value}`);
@@ -519,11 +559,8 @@ function check_inputs(callbackFunction) {
               user_inputs[e].setAttribute("data-previous-value", `${user_inputs[e].value}`);
             }, 3000);
 
-          // } else if( m=== 535) {
-          //   console.log("dk");
           }else {
-            // console.log("condition D,", user_inputs[e].getAttribute("data-previous-value"));
-            // console.log(!(user_inputs[e].getAttribute("data-previous-value")));
+            
             setTimeout(() => {
               let childM = searchIn_select(user_inputs[e], user_inputs[e].value);
               let def_option = searchIn_select(user_inputs[e], "--Please select--");
@@ -624,12 +661,6 @@ function insertPeriodT(nbr_group, event, id, our_object, type_of_period){
       groupe.classList = 'existed style-block'; 
     }       
     
-    //console.log("values of our data object are: ", singleInput[i].value)
-    // if (document.querySelectorAll('.period-select')[i].value === "--Please select--" || document.querySelectorAll('.period-select')[i].value === "--Select--") {
-    //   formChild = "";
-    // }else {
-    //   formChild = document.querySelectorAll('.period-select')[i].value;
-    // }
     formChild = document.querySelectorAll('.period-select')[i].value;
     groupe.textContent = groupe.textContent + " " + formChild;
     inputlist[i%5] = formChild;
@@ -642,7 +673,6 @@ function insertPeriodT(nbr_group, event, id, our_object, type_of_period){
       inputlist = [];
     }
   }
-  //console.log("the server data: ", our_object)
   resetInputs();
 }
 
@@ -671,10 +701,10 @@ function insertPeriodC(event, id, our_object, type_of_period) {
 
 
 // when the user click on any period from the table:=========================================
-function create_new_period(event) { 
-  //resetInputs();    
+function period_tb_click(event) {   
     event.preventDefault()  
     event.stopPropagation()  
+    user_input_values = [];
     event_period = event.target;
     id_event = event.target.id;
     
@@ -698,92 +728,74 @@ function create_new_period(event) {
 }
 
 // when the user choose either TP/TD or Cours:
-function select_TD_cours(ev) {
+function td_cr_click(ev) {
   // When the user select 'cours' or 'TD/TP'________________________________________________    
    
-  //ev.preventDefault(); 
-    //console.log("WHEN choosing either tptd or cours", ev)
-    //var visible = document.getElementById("visible");
+  
     const choise = document.getElementById("select-TD-cours");
     const nmb_group = document.querySelector("#group-numb-input");
 
       if (choise.value === 'TD-TP') {        
         
-        //let nbr_group = document.getElementById("nbr-group").value;
-        //var wasSubmitted = false;
         // initializing...
         nmb_group.textContent = parseInt(document.getElementById("nbr-group").value);
         document.querySelector(".hidden-part").hidden = false
         document.querySelector(".row.pb").hidden = true
-        //console.log("outside clicking button")
         
         // COUR---------------------------------------COUR---------------------------------------COUR
       }else {
-        // var cleanForm = document.getElementById('creates');
-        // var remChi = document.querySelectorAll('.removable').length;
 
         let nbr_group = 1;
-        create_TDs_cours(nbr_group, choise.value); 
-        var wasSubmitted = false;
-        // when the user submit his inputs _____________________
-        // document.getElementById("create").addEventListener("click", (evn)=>{
-        //   //console.log("THIS is from the remained listener")
-        //   evn.preventDefault(); 
-          
-        //   // if(wasSubmitted) return false;
-        //   // wasSubmitted =true;
-        //   // storing the input values:
-        //   insertPeriodC(event_period, id_event, dataObject, choise.value);
-          
+        generate_inputs(nbr_group, choise.value); 
 
-          
-        //   $('#exampleModall').modal('hide');
+        const user_input_values = document.querySelectorAll(".period-select");
 
-        // });
+        // checking the user's input if any was empty
+        user_input_values.forEach(input=>{
+          input.addEventListener("change", ()=>{
 
+            if(input.value !== "--Select--" && input.value !== "--Please select--" && input.style.border === "1px solid red"){
+              input.style.border = "";
+            }
+              
+          })
+        })
+
+        // checking the user's inputs _____________________
+        check_cours_inputs(verify_all_data);
+        // var wasSubmitted = false;
+        
       }
       ev.preventDefault(); 
   
 }
 
 // generating inputs for the user so he can fill them
-function generete_inputs() {
+function nbr_group_click() {
   const choise = document.getElementById("select-TD-cours");
   const nmb_group = document.querySelector("#group-numb-input")
-  //e.stopPropagation()
-  // e.preventDefault()
-  //console.log("before create inputs function")
-  //calling this function to create inputs for the user to select from
-  create_TDs_cours(parseInt(nmb_group.textContent), choise.value);
+  
+  generate_inputs(parseInt(nmb_group.textContent), choise.value);
+
+  const user_input_values = document.querySelectorAll(".period-select");
+
+  // checking the user's input if any was empty
+  user_input_values.forEach(input=>{
+    input.addEventListener("change", ()=>{
+      
+      if(input.value !== "--Select--" && input.value !== "--Please select--" && input.style.border === "1px solid red"){
+        input.style.border = "";
+      }
+        
+    })
+  })
+
+  user_input_values = document.querySelectorAll(".period-select");
+  console.log("user inputs : ", user_input_values)
 
   //calling this function to check user inputs if they are frequent:  
-  check_inputs(verify_all_data);
+  check_TdTp_inputs(verify_all_data);
 }
-
-
-//checking all the data of timetable and compare them with canvas:
-// when the user submit his informations ---------------------------------------------
-function submitTo_table() {
-  const choise = document.getElementById("select-TD-cours");
-  const nmb_group = document.querySelector("#group-numb-input");
-  //console.log("from the third function")
-  // even.preventDefault();
-  // wasSubmitted =true;
-  insertPeriodT(parseInt(nmb_group.textContent), event_period, id_event, dataObject, choise.value);   
-  document.querySelector(".hidden-part").hidden = true
-  document.querySelector(".row.pb").hidden = false          
-  $('#exampleModall').modal('hide');    
-}
-
-// when the user 
-
-
-
-
-
-
-
-
 
 $('#close').on('click', function(){
   
@@ -793,41 +805,78 @@ $('#close').on('click', function(){
 
               
 // Ajax function for sending the data to the server  _______________________-::-_______________________
+
+function getCookie(name) {
+  var cookieValue = null;
+  if (document.cookie && document.cookie !== '') {
+      var cookies = document.cookie.split(';');
+      for (var i = 0; i < cookies.length; i++) {
+          var cookie = cookies[i].trim();
+          // Does this cookie string begin with the name we want?
+          if (cookie.substring(0, name.length + 1) === (name + '=')) {
+              cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+              break;
+          }
+      }
+  }
+  return cookieValue;
+}
+
+
+
+
+
+
+
 function sendData(e){
 
   console.log(dataObject)
 
+  let count = 0
 
-  if (JSON.stringify(dataObject) == "{}") {
-    alert("you have to fill the table with 3 periods at least !!")
-    return
-  }else{
-    var count = 0
     for(var key in dataObject){
-      if(dataObject.hasOwnKey(key)) {
+      if(key in dataObject) {
         count++
       }
     }
     console.log("number of periods are : ", count)
-    return 
+
+
+  if (JSON.stringify(dataObject) == "{}" || count < 3) {
+    alert("you have to fill the table with 3 periods at least !!")
+    return
   }
+
+
+
+  // fetch("saveData/", {
+  //   methed: "POST",
+  //   headers: {
+  //     "Content-Type": "application/json",
+  //     "X-CSRFToken": getCookie("csrftoken")
+  //   },
+  //   body: JSON.stringify({
+  //     "level" : document.getElementById("level").value,
+  //     "semestre": document.getElementById("semestre").value,
+  //     "our_data" : JSON.stringify(dataObject)
+  //   }),
+  // })
+  // .then(res => {
+  //   if(res.ok){
+  //     console.log("the data was received seccessfuly to the server side")
+  //     window.location.href = 'http://127.0.0.1:8000/dashboard/all-timetables/'
+  //   }else {
+  //     console.log("the data didn't received to the server side !!!", res)
+  //   }
+  //   // this return another promise that it will be resolved in the next then()
+  //   return res.json()
+  // })
+  // .then(data => console.log("the returned data : ", data))
+
  
-  
-  function getCookie(name) {
-    var cookieValue = null;
-    if (document.cookie && document.cookie !== '') {
-        var cookies = document.cookie.split(';');
-        for (var i = 0; i < cookies.length; i++) {
-            var cookie = cookies[i].trim();
-            // Does this cookie string begin with the name we want?
-            if (cookie.substring(0, name.length + 1) === (name + '=')) {
-                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
-                break;
-            }
-        }
-    }
-    return cookieValue;
-}
+ 
+ 
+ 
   $.ajax({
     method: "POST",
     url: "saveData/",
@@ -854,7 +903,15 @@ function sendData(e){
       console.log("the data didn't received to the database");
     }
   });
-}
+}  
+
+
+
+
+  
+ 
+
+
               
  
 
