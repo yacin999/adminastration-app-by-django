@@ -1,4 +1,5 @@
 from .models import Enseignant, Module, Salle, CanvasTimeTable, Niveau, EmploiTemps
+from user.models import Staff, StaffPermission
 from django import forms
 from django.core.validators import MinValueValidator
 
@@ -64,7 +65,7 @@ class SalleModelForm(forms.ModelForm):
         }))
     class Meta:
         model = Salle
-        fields = ['bloc', 'design', 'typeS']
+        fields = ['bloc', 'design', 'typeS', 'enseignants']
 
     def clean_design(self, *args, **kwargs):
         pre_names = Salle.objects.all()
@@ -76,6 +77,26 @@ class SalleModelForm(forms.ModelForm):
         
 
         return name
+
+
+class StaffForm(forms.Form):
+    class Meta:
+        models = Staff
+        fields = ["permissions"]
+
+        
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

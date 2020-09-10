@@ -24,27 +24,42 @@
                     <div class="sidebar-header">
                         <h4><i class="fas fa-tachometer-alt icon"></i> Admin Panel</h4>
                     </div>
-        
+                    {% if  user.is_staff %}
                     <ul class="list-unstyled components">
-                        <li>
-                            <a href="#"><i class="fas fa-user"></i> users</a>
-                        </li>
-                        <li>
-                            <a href="{% url 'all_teachers' %}" class="pr-3"><i class="fas fa-angle-right"></i> Enseignants</a>
-                        </li>
-                        <li>
-                            <a href="{% url 'all_modules' %}"><i class="fas fa-angle-right"></i> Modules</a>
-                        </li>
-                        <li>
-                            <a href="{% url 'all_classrooms' %}"><i class="fas fa-angle-right"></i> Salles</a>
-                        </li>
-                        <li>
-                          <a href="{% url 'all_TT_conditions' %}"><i class="fas fa-angle-right"></i> verification de l'emploi ...</a>
-                        </li>
-                        <li>
-                            <a href="{% url 'all_emploitemps' %}"><i class="fas fa-angle-right"></i> Emploi de temps</a>
-                        </li>
+                      <li>
+                          <a href="{% url 'new-staff' %}"><i class="fas fa-user"></i> users</a>
+                      </li>
+                      <li>
+                          <a href="{% url 'all_teachers' %}" class="pr-3"><i class="fas fa-angle-right"></i> Enseignants</a>
+                      </li>
+                      <li>
+                          <a href="{% url 'all_modules' %}"><i class="fas fa-angle-right"></i> Modules</a>
+                      </li>
+                      <li>
+                          <a href="{% url 'all_classrooms' %}"><i class="fas fa-angle-right"></i> Salles</a>
+                      </li>
+                      <li>
+                        <a href="{% url 'all_TT_conditions' %}"><i class="fas fa-angle-right"></i> verification de l'emploi ...</a>
+                      </li>
+                      <li>
+                          <a href="{% url 'all_emploitemps' %}"><i class="fas fa-angle-right"></i> Emploi de temps</a>
+                      </li>
                     </ul>
+                    {% else %}
+                      {% for permission in user.staff.permissions.all %}
+                        <ul>
+                            {% if permission.name  == "can_create_timetable" %}
+                        
+                                  <li>{{ permission.name }}</li>
+                                  <li>create new timetable</li>
+                              
+                              {% endif %}
+                          </ul>
+                      {% endfor %}
+                        
+    
+                    {% endif %}
+                    
         
                   </nav>
                 

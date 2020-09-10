@@ -389,13 +389,15 @@ div.create-module-container {
     left: 5%;
     box-shadow: 0px 0px 17px -3px grey;
     padding: 40px;
-    height: 80vh;
+    /* height: 80vh; */
 }
 
 .create-module-container .module-input {
     border: none;
     border-bottom: 1px solid #999;
     padding: 10px 0 0 0;
+    margin-top: 60px;
+    margin-left: 20px;
 }
 
 .create-module-container .module-input:focus {
@@ -437,3 +439,58 @@ div.create-module-container {
         left: 50px;
     }
 } */
+
+
+/*----------------------------------------------------------------
+    user styling
+----------------------------------------------------------------*/
+
+
+div.section-bar {
+    padding: 5px; 
+    width: 100%; 
+    background-color: #12516c;
+    color: #fff;
+    margin-top: -10px;
+}
+
+#id_permissions{
+    list-style-type: none;
+}
+
+.permission-wrapper {
+    display: flex;
+    flex-wrap: nowrap;
+    flex-direction: row;
+    /* justify-content: space-between; */
+    padding: 20px 17px;
+}
+
+
+label[for="id_permissions"]{
+    display: inline-block;
+    margin-bottom: .5rem;
+    margin-right: 20px;
+}
+
+.module-input-unique {
+    /* padding-right: 400px;
+    margin-right: 44px;
+    width: 600px; */
+
+    background:none;
+    width:auto;
+    height:200px;
+    padding:0;
+    margin:0;
+    border-width: 2px;
+    border-style: inset;
+    -moz-appearance: menulist;
+    -webkit-appearance: menulist;
+    appearance: menulist;
+}
+.user-sub-btn {
+    float: right;
+    position: relative;
+    bottom: 20px;
+}

@@ -1,5 +1,6 @@
 from django import forms
 from django.contrib.auth.models import User
+from .models import Staff
 
 class RegisterForm(forms.ModelForm):
     username = forms.CharField(max_length=30)
@@ -28,3 +29,55 @@ class RegisterForm(forms.ModelForm):
     #     if User.objects.filter(username=cd).exists():
     #         raise forms.ValidationError('this username is already exists')
     #     return cd['username']
+
+
+
+class UserForm(forms.ModelForm):
+    password1 = forms.CharField(min_length=8, label="", widget=forms.PasswordInput(attrs={
+        "class": "module-input", "placeholder": "password"
+        }))
+    password2 = forms.CharField(min_length=8, label="", widget=forms.PasswordInput(attrs={
+        "class": "module-input", "placeholder": "confirm pass..."
+        }))
+    class Meta:
+        model = User
+        fields = ["username", "email", "first_name", "last_name", "password1", "password2"]
+        widgets = {
+            "username": forms.TextInput(attrs={"class": "module-input", "placeholder": "username"}), 
+            "email": forms.EmailInput(attrs={"class": "module-input", "placeholder": "email"}),
+            "first_name": forms.TextInput(attrs={"class": "module-input", "placeholder": "first name"}),
+            "last_name": forms.TextInput(attrs={"class": "module-input", "placeholder": "last name"}),
+            "password1": forms.PasswordInput(attrs={"class": "module-input", "placeholder": "password"}),
+            "password2": forms.PasswordInput(attrs={"class": "module-input", "placeholder": "confirm pass.."}),
+        }
+
+
+        def clean_password2(self):
+            pass1 = self.cleaned_data["password1"]
+            pass2 = self.cleaned_data["password2"]
+
+            if (pass1 != pass2):
+                raise forms.ValidationError("passwords are not matched, make sure to confirm your password")
+            return pass2
+
+        def clean_username(self):
+            cd = self.cleaned_data
+
+            exists = Staff.objects.filter(username=cd["username"]).exists()
+            if(exists):
+                forms.ValidationError("this username exists, try another one")
+            
+            return cd["username"]
+
+
+
+
+
+class StaffForm(forms.ModelForm):
+    class Meta:
+        model = Staff
+        fields = ["permissions"]
+        widgets = {
+            "permissions": forms.SelectMultiple(attrs={"class": "module-input-unique", "placeholder": "first_name"}),
+        }
+

@@ -5,7 +5,8 @@
 {% block content %}
   
   <div class="create-module-container">
-    <h6 class="pt-2 ml-3">all fields are required *</h6>
+    <div class="section-bar">Informations d'ensegnient</div>
+    <h6 class="pt-2 ml-3 text-danger">all fields are required *</h6>
     <form method="post"> {% csrf_token %}
       <div class="row">
         {% for input in form %}

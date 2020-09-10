@@ -31,7 +31,10 @@ def login_user(request):
         user = authenticate(request, username=username, password=password)
         if user is not None:
             login(request, user)
-            return redirect('all_teachers')
+            if user.is_staff:
+                return redirect('all_teachers')
+            else:
+                return redirect('admin_panel')
         else:
             messages.warning(request, 'there is an error in the username or the password ')
         

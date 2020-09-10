@@ -15,6 +15,7 @@ urlpatterns = [
     path('new-module/', views.new_module, name='new-module'),
     path('new-classroom/', views.new_classroom, name='new-classroom'),
     path('new-timetable/', views.new_timetable, name='new-timetable'),
+    path('new-staff/', views.new_staff, name='new-staff'),
     path('new-canvas/', views.createTimetableCanvas, name='new-canvas'),
     path('new-timetable/saveData/', views.save_data, name='save-data'),
     path('timetable-detail/<int:id>', views.timetable_detail, name='timetable-detail'),

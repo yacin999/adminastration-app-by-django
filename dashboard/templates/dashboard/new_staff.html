@@ -1,0 +1,32 @@
+{% extends "dashboard/admin_panel.html" %}
+
+
+{% block content %}
+  <div class="create-module-container">
+    <div class="section-bar">user information</div>
+    <form method="post"> {% csrf_token %}
+        <div class="row mb-5">
+            
+            {% for u in user %}
+                <div class="col-md-4 mb-5">
+                    {{u}}
+                </div>
+            {% endfor %}
+        </div>
+
+        <div class="section-bar">permissions</div>
+
+        <div class="permission-wrapper">
+            <label for="{{staff.id_for_label}}">{{staff.label}}</label>
+            {{staff}}
+        </div>
+
+        <input class="btn btn-success user-sub-btn" type="submit" value="submit">
+
+        
+    </form>
+  </div>
+  
+  
+
+{% endblock %}

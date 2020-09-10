@@ -200,5 +200,9 @@ def pre_save_canvas_receiver(sender, instance, *args, **kwargs):
 pre_save.connect(pre_save_canvas_receiver, sender=CanvasTimeTable)    
 
 
+# Material class <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
+# class Material(models.Model):
+#     name = models.CharField(max_length=10, blank=True, null=True)
+#     image = models.ImageField(upload_to="")
 

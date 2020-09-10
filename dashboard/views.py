@@ -1,7 +1,10 @@
 from django.shortcuts import get_object_or_404, redirect, render
 from .models import Enseignant, Module, Salle, EmploiTemps, Periode, Niveau, CanvasTimeTable
+from user.models import Staff, StaffPermission
 from django.views.generic import CreateView
 from .forms import EnseignantModelForm, ModuleModelForm, SalleModelForm
+from user.forms import UserForm , StaffForm
+from django.contrib.auth.models import User
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse
@@ -169,6 +172,26 @@ def canvas_detail(request, id):
 
 @login_required(login_url='login')
 def new_timetable(request):
+    permissions = request.user.staff.permissions.all()
+    # users = User.objects.all()
+    # staffs = Staff.objects.all()
+    
+    # for staff in staffs:
+    #     print("all users {}".format(staff.user.username), staff.permissions.all())
+    # #print("our permissions", permissions)
+    is_staf = False
+
+    for permission in permissions:
+        print("all users", permission.name)
+        print("our permissions", permissions)
+        if (permission.name == "can_create_timetable"):
+            is_staf = True
+
+    if not is_staf:
+        return redirect("admin_panel")
+        
+
+
     niveau = Niveau.objects.all()
     teachers = Enseignant.objects.all().values("nom").distinct().filter(active=False)
     name_of_modules = Module.objects.all().filter(active=False)
@@ -184,6 +207,47 @@ def new_timetable(request):
         'canvas': canvas,
     }
     return render(request, 'dashboard/new_timetable.html', context)
+
+
+@login_required(login_url='login')
+def new_staff(request):
+    if (request.method == 'POST'):
+        userform = UserForm(request.POST)
+        staffForm = StaffForm(request.POST)
+
+        if userform.is_valid() and staffForm.is_valid():
+            user = userform.save(commit=False)
+            user.set_password(userform.cleaned_data["password1"])
+            user.save()
+
+            staff = staffForm.save(commit=False)
+            permissions = staffForm.cleaned_data["permissions"]
+            u = User.objects.get(id=user.id)
+            staff = Staff(user=u)
+            staff.save()
+            for perms in permissions:
+                permission = StaffPermission.objects.get(id=perms.id)
+                staff.permissions.add(permission)
+            return redirect("all_teachers")
+        
+        user = UserForm()
+        staff = StaffForm()
+            
+    else:
+        user = UserForm()
+        staff = StaffForm()
+
+    context = {
+        'user': user,
+        'staff': staff
+    }
+    
+    return render(request, "dashboard/new_staff.html", context)
+
+
+
+
+
 
 # to save data in the database via the ajax object ---------------$$
 import json
