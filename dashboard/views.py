@@ -31,6 +31,29 @@ import json
 
 
 
+# if the user doesn's have this permission then
+    #  this function will prevent him to access this page
+def give_permission(request, user_permission):
+
+    permissions = request.user.staff.permissions.all()
+    
+    if(not request.user.is_superuser):
+        is_staf = False
+        for perm in permissions:
+            if (perm.name == user_permission):
+                is_staf = True
+    else:
+        is_staf = True
+
+    return is_staf
+    
+
+
+
+
+
+
+
 @login_required(login_url='login')
 def panel(reqeust):
     return render(reqeust, 'dashboard/admin_panel.html',{})
@@ -39,6 +62,11 @@ def panel(reqeust):
 # get all teachers and modules and classrooms ========================================================================
 @login_required(login_url='login')
 def all_ens(request):
+
+    is_staf = give_permission(request, "can_list_all_teachers")
+    if not is_staf:
+        return redirect("admin_panel")
+
     teacher = Enseignant.objects.filter(active=False)
     context = {
         'title': 'les enseignants',
@@ -49,6 +77,11 @@ def all_ens(request):
 
 @login_required(login_url='login')
 def all_modules(request):
+
+    is_staf = give_permission(request, "can_list_all_modules")
+    if not is_staf:
+        return redirect("admin_panel")
+
     module = Module.objects.filter(active=False)
     context = {
         'title': 'les modules',
@@ -59,6 +92,12 @@ def all_modules(request):
 
 @login_required(login_url='login')
 def all_classrooms(request):
+
+    is_staf = give_permission(request, "can_list_all_classrooms")
+    if not is_staf:
+        return redirect("admin_panel")
+
+
     model = Salle.objects.filter(active=False)
     template_name = 'dashboard/all_classrooms.html'
     context = {
@@ -70,6 +109,12 @@ def all_classrooms(request):
 
 @login_required(login_url='login')
 def all_timetables(request):
+
+    is_staf = give_permission(request, "can_list_all_timetables")
+    if not is_staf:
+        return redirect("admin_panel")
+
+
     model = EmploiTemps.objects.all()
     context = {
         'title': 'all timetibles',
@@ -80,6 +125,11 @@ def all_timetables(request):
 
 @login_required(login_url='login')
 def all_TT_canvas(request):
+
+    is_staf = give_permission(request, "can_list_all_TT_conditions")
+    if not is_staf:
+        return redirect("admin_panel")
+
     all_conditions = CanvasTimeTable.objects.all().order_by('slug')
     context = {
         'all_conditions': all_conditions,
@@ -94,6 +144,12 @@ def all_TT_canvas(request):
 #create all teachers and modules and classrooms and tabletimes ______________________________________________________________________________
 @login_required(login_url='login')
 def new_teacher(request):
+
+    is_staf = give_permission(request, "can_create_teacher")
+    if not is_staf:
+        return redirect("admin_panel")
+
+
     if request.method == 'POST':
         form = EnseignantModelForm(request.POST)
         if form.is_valid():
@@ -109,6 +165,12 @@ def new_teacher(request):
 
 @login_required(login_url='login')
 def new_module(request):
+
+    is_staf = give_permission(request, "can_create_module")
+    if not is_staf:
+        return redirect("admin_panel")
+
+
     if request.method == 'POST':
         form = ModuleModelForm(request.POST)
         if form.is_valid():
@@ -126,6 +188,12 @@ def new_module(request):
 
 @login_required(login_url='login')
 def new_classroom(request):
+
+    is_staf = give_permission(request, "can_create_classroom")
+    if not is_staf:
+        return redirect("admin_panel")
+
+
     if request.method == 'POST':
         form = SalleModelForm(request.POST)
         if form.is_valid():
@@ -172,21 +240,8 @@ def canvas_detail(request, id):
 
 @login_required(login_url='login')
 def new_timetable(request):
-    permissions = request.user.staff.permissions.all()
-    # users = User.objects.all()
-    # staffs = Staff.objects.all()
     
-    # for staff in staffs:
-    #     print("all users {}".format(staff.user.username), staff.permissions.all())
-    # #print("our permissions", permissions)
-    is_staf = False
-
-    for permission in permissions:
-        print("all users", permission.name)
-        print("our permissions", permissions)
-        if (permission.name == "can_create_timetable"):
-            is_staf = True
-
+    is_staf = give_permission(request, "can_create_timetable")
     if not is_staf:
         return redirect("admin_panel")
         
@@ -211,6 +266,13 @@ def new_timetable(request):
 
 @login_required(login_url='login')
 def new_staff(request):
+
+    is_staf = give_permission(request, "can_create_staff")
+    if not is_staf:
+        return redirect("admin_panel")
+
+    print("is this user staff !!! ", request.user.is_staff)
+
     if (request.method == 'POST'):
         userform = UserForm(request.POST)
         staffForm = StaffForm(request.POST)
@@ -220,7 +282,6 @@ def new_staff(request):
             user.set_password(userform.cleaned_data["password1"])
             user.save()
 
-            staff = staffForm.save(commit=False)
             permissions = staffForm.cleaned_data["permissions"]
             u = User.objects.get(id=user.id)
             staff = Staff(user=u)
@@ -228,18 +289,15 @@ def new_staff(request):
             for perms in permissions:
                 permission = StaffPermission.objects.get(id=perms.id)
                 staff.permissions.add(permission)
-            return redirect("all_teachers")
-        
-        user = UserForm()
-        staff = StaffForm()
-            
+            return redirect("all_teachers")            
     else:
-        user = UserForm()
-        staff = StaffForm()
+        userform = UserForm()
+        staffForm = StaffForm()
 
     context = {
-        'user': user,
-        'staff': staff
+        'title': 'new staff',
+        'user': userform,
+        'staff': staffForm
     }
     
     return render(request, "dashboard/new_staff.html", context)
@@ -634,6 +692,12 @@ def generatePDF(request, id):
 
 
 def createTimetableCanvas(request):
+
+    is_staf = give_permission(request, "can_create_TT_canvas")
+    if not is_staf:
+        return redirect("admin_panel")
+    
+
     niveax = Niveau.objects.all()
     modules = Module.objects.all()
 
@@ -662,6 +726,11 @@ def createTimetableCanvas(request):
 # update all teachers and modules and classrooms____________________________________________________________________________
 @login_required(login_url='login')
 def update_teacher(request, slug): 
+
+    is_staf = give_permission(request, "can_update_teacher")
+    if not is_staf:
+        return redirect("admin_panel")
+
     model = get_object_or_404(Enseignant, slug=slug)
     if request.method == 'POST':
         form = EnseignantModelForm(request.POST, instance=model)
@@ -678,6 +747,12 @@ def update_teacher(request, slug):
 
 @login_required(login_url='login')
 def update_module(request, slug): 
+
+    is_staf = give_permission(request, "can_update_module")
+    if not is_staf:
+        return redirect("admin_panel")
+
+
     model = get_object_or_404(Module, slug=slug)
     if request.method == 'POST':
         form = ModuleModelForm(request.POST, instance=model)
@@ -696,6 +771,12 @@ def update_module(request, slug):
 
 @login_required(login_url='login')
 def update_salle(request, id): 
+
+    is_staf = give_permission(request, "can_update_classroom")
+    if not is_staf:
+        return redirect("admin_panel")
+
+
     model = get_object_or_404(Salle, id=id)
     if request.method == 'POST':
         form = SalleModelForm(request.POST, instance=model)
@@ -716,6 +797,12 @@ def update_salle(request, id):
 # delete all teachers and modules and classrooms----------------------------------------------------------
 @login_required(login_url='login')
 def delete_teacher(request, slug):
+
+    is_staf = give_permission(request, "can_delete_teacher")
+    if not is_staf:
+        return redirect("admin_panel")
+
+
     model = get_object_or_404(Enseignant, slug=slug)
     try:
         if request.method == 'POST':
@@ -736,6 +823,10 @@ def delete_teacher(request, slug):
 @login_required(login_url='login')
 def delete_module(request, slug):
 
+    is_staf = give_permission(request, "can_delete_module")
+    if not is_staf:
+        return redirect("admin_panel")
+
     model = get_object_or_404(Module, slug=slug)
     try:
 
@@ -755,6 +846,10 @@ def delete_module(request, slug):
 @login_required(login_url='login')
 def delete_classroom(request, id):
 
+    is_staf = give_permission(request, "can_delete_classroom")
+    if not is_staf:
+        return redirect("admin_panel")
+
     model = get_object_or_404(Salle, id=id)
     try:
         if request.method == 'POST':
@@ -772,6 +867,15 @@ def delete_classroom(request, id):
 
 
 def delete_timetable(request, id):
+
+    is_staf = give_permission(request, "can_delete_timetable")
+    if not is_staf:
+        return redirect("admin_panel")
+
+
+
+
+
     timetable = get_object_or_404(EmploiTemps, id=id)
 
     context={
