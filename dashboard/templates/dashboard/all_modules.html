@@ -41,8 +41,8 @@
           <td>{{ module.coeff}}</td>
           <td>{{ module.credit}}</td>
           <td class="td-btn">
-            <a href="{% url 'update-module' module.slug %}" class="btn btn-outline-primary "> update</a>
-            <a href="{% url 'delete-module' module.slug %} " class="btn btn-outline-danger"><i class="fal fa-trash-alt"></i> delete</a>
+            <a href="{% url 'update-module' module.slug %}"> <i class="fas fa-pencil-alt text-primary mr-4 ml-4" style="font-size: 25px;"></i></a>
+            <a href="{% url 'delete-module' module.slug %} "><i class="fas fa-minus-circle text-danger mr-4 ml-4" style="font-size: 25px;"></i></a>
           </td>
         </tr>
         {% endfor %}

@@ -224,9 +224,7 @@ a[data-toggle="collapse"] {
     border-radius: 5%;
 }
 
-.td-btn {
-    width: 281.967px;
-}
+
 table td .btn:first-child {
    margin-right:40px;
 }
@@ -289,12 +287,6 @@ div #table-container {
 	padding: 0;
 }
 
-/* div span .our_col{
-	display: block;
-    border: 1px solid #CCC; 
-	text-align: center;
-}  */
-
 .our_table .our_row .our_cell:first-child {
 	color: #000;
 	font-weight: bolder;
@@ -321,6 +313,46 @@ div span.our_target:hover {
 #visible {
 	display: none;
 }
+
+
+/* update timetable */
+
+
+.confirmation {
+    /* background: #ea0a0a; */
+    border-radius: 8px;
+    text-align: center;
+    color: #fff;
+}
+
+.btn-confirm-modification {
+    color: #ffffff;
+    padding: 5px 20px;
+    background-color: #05ab05;
+    border-radius: 5%;
+}
+
+
+.btn-confirm-modification:hover, .btn-cancel-modification:hover {
+    cursor: pointer;
+}
+
+.btn-cancel-modification {
+    color: #ffffff;
+    padding: 5px 20px;
+    background-color: #ab2005;
+    border-radius: 5%;
+}
+
+
+
+
+
+
+
+
+
+
 
 /* styling bootstrap modal popup ==============================================================*/
 select#period-select {
@@ -416,6 +448,35 @@ div.create-module-container {
     transition: transform .2s ease-out;
 }
 
+
+.create-module-container .module-input-condition {
+    border: none;
+    border-bottom: 1px solid #999;
+    padding: 10px 0 0 0;
+    margin-top: 10px;
+    margin-left: 20px;
+    margin-bottom: 20px;
+}
+
+
+.create-module-container .module-input-condition:focus {
+    border-bottom: 2px solid #4caf50;
+    transition: border-bottom .8s ease-out;
+    will-change: border-bottom;
+}
+
+.create-module-container .module-input-condition:focus::placeholder {
+    
+    color: #4caf50;
+    cursor:default;
+    font-size: 0.950em;
+    transform: translateY(-15px);
+    transition: transform .2s ease-out;
+}
+
+
+
+
 .col-3 {
     float: center;
     width: 33%; 
@@ -428,6 +489,14 @@ div.create-module-container {
     border-bottom: 1px solid #999;
     padding: 10px 0 0 0;
 }
+
+
+/* .create-module-container - {
+    width: 80%;
+    border: none;
+    border-bottom: 1px solid #999;
+    padding: 10px 0 0 0;
+} */
 
 .bullets-style{
     list-style: none;
@@ -493,4 +562,28 @@ label[for="id_permissions"]{
     float: right;
     position: relative;
     bottom: 20px;
+}
+
+
+/*----------------------------------------------------------------
+    reserve material styling
+----------------------------------------------------------------*/
+.btn-reserve {
+    padding: 2px 15px;
+    width: 109px;
+    border-radius: 5%;
+}
+
+.return-material-btn{
+    padding: 2px 15px;
+    width: 109px;
+    border-radius: 5%;
+}
+
+
+.thumbnail{
+	height: 45px;
+	-webkit-box-shadow: -1px -3px 5px -2px rgba(214,214,214,1);
+    -moz-box-shadow: -1px -3px 5px -2px rgba(214,214,214,1);
+    box-shadow: -1px -3px 5px -2px rgba(214,214,214,1);
 }

@@ -1,0 +1,61 @@
+{% extends 'dashboard/admin_panel.html' %}
+
+
+
+
+
+{% block content %}
+
+<div class="container-search">
+  <form class="form-inline my-2 my-lg-0 search">
+    <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+    <button class="btn btn-outline-primary my-2 my-sm-0" type="submit">Search</button>
+  </form>
+
+  <button type="button" class="btn btn-primary mb-4 adding"><a href="{% url 'new-staff' %}">Add staff</a></button>
+</div>
+
+<div class="container">
+  <div id="table">
+    <table class="table">
+      <thead class="thead">
+        <tr>
+          <th scope="col">id</th>
+          <th scope="col">Nom de utilisateur</th>
+          <th scope="col">email</th>
+          <th scope="col">est-il admin</th>
+          <th scope="col" class="text-center">Action</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for staf in staff %}
+        <tr>
+          <th scope="row">{{ forloop.counter|add:0 }}</th>
+          <td>{{ staf.user.username}}</td>
+          <td>{{ staf.user.email}}</td>
+          <td>
+                {% if staf.user.is_staff %}
+                    <span style="color:#00ff14;">{{ staf.user.is_staff}}</span>
+                {% else %}
+                    <span>{{ staf.user.is_staff}}</span>
+                {% endif %}
+            </td>
+          <td class="td-btn">
+            <a href="{% url 'update-staff' staf.id %}"><i class="fas fa-user-edit text-primary mr-5 ml-5" style="font-size: 25px;"></i></a>
+            <a href="{% url 'delete-staff' staf.id %}"> <i class="fas fa-user-times text-danger mr-5 ml-5" style="font-size: 25px;"></i></a>
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+    <h6 class=" pb-2 border-bottom">
+        {% if staff.count == 1  %}
+            {{ staff.count }} utilisateur
+        {% else %}
+            {{ staff.count }} utilisateurs
+        {% endif %}
+    </h6>
+</div>
+
+{% endblock %}

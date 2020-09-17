@@ -28,7 +28,13 @@
                     {% if  request.user.is_staff %}                  
                       <ul class="list-unstyled components">
                         <li>
-                          <a href="{% url 'new-staff' %}"><i class="fas fa-user"></i> users</a>
+                          <a href="{% url 'all_staff' %}"><i class="fas fa-user"></i> utilisateurs</a>
+                        </li>
+                        <li>
+                          <a href="{% url 'all_material' %}"><i class="fas fa-angle-right"></i> material</a>
+                        </li>
+                        <li>
+                          <a href="{% url 'all_orders' %}"><i class="fas fa-angle-right"></i> ordres</a>
                         </li>
                         <li>
                             <a href="{% url 'all_teachers' %}" class="pr-3"><i class="fas fa-angle-right"></i> Enseignants</a>
@@ -38,9 +44,6 @@
                         </li>
                         <li>
                             <a href="{% url 'all_classrooms' %}"><i class="fas fa-angle-right"></i> Salles</a>
-                        </li>
-                        <li>
-                          <a href="{% url 'all_TT_conditions' %}"><i class="fas fa-angle-right"></i> verification de l'emploi ...</a>
                         </li>
                         <li>
                             <a href="{% url 'all_emploitemps' %}"><i class="fas fa-angle-right"></i> Emploi de temps</a>
@@ -54,6 +57,14 @@
                               <li><a href="{% url 'new-staff' %}"><i class="fas fa-user"></i> users</a></li>                              
                             {% endif %}
 
+                            {% if permission.name  == "can_list_all_material" %}
+                              <li><a href="{% url 'all_material' %}"><i class="fas fa-angle-right"></i> material</a></li>
+                            {% endif %}
+
+                            {% if permission.name  == "can_list_all_orders" %}
+                              <li><a href="{% url 'all_orders' %}"><i class="fas fa-angle-right"></i> ordres</a></li>
+                            {% endif %}
+
                             {% if permission.name  == "can_list_all_teachers" %} 
                               <li><a href="{% url 'all_teachers' %}" class="pr-3"><i class="fas fa-angle-right"></i> Enseignants</a></li>                              
                             {% endif %}
@@ -65,14 +76,10 @@
                             {% if permission.name  == "can_list_all_classrooms" %}
                               <li><a href="{% url 'all_classrooms' %}" class="pr-3"><i class="fas fa-angle-right"></i> Salles</a></li>                               
                             {% endif %}
-
-                            {% if permission.name  == "can_list_all_TT_conditions" %}
-                              <li><a href="{% url 'all_TT_conditions' %}" class="pr-3"><i class="fas fa-angle-right"></i> verification de l'emploi ...</a></li>                               
-                            {% endif %}
-
                             {% if permission.name  == "can_list_all_timetables" %}
                               <li><a href="{% url 'all_emploitemps' %}" class="pr-3"><i class="fas fa-angle-right"></i> Emploi de temps</a></li>                             
                             {% endif %}
+                            
                           {% endfor %}
                       </ul>
                         
@@ -99,7 +106,10 @@
                                     <img id="profile-img" src="{% static 'dashboard/imgs/admin.jpg' %}" alt="admin-phpto">
                                     <div  class="dropdown-list show">
                                       <ul class="">
-                                        <li>my Account</li>
+                                        <li>
+                                          <h6 style="color: #ea1d24;">{{user.username}}</h6>
+                                          <!-- <span style="font-size: 10px; color:bisque">voir ta profile</span> -->
+                                        </li>
                                         <li>Setting</li>
                                         <li>
                                           <a style="padding-left: 0; font-size:14px" href="{% url 'logout' %}">Logout</a>
@@ -122,16 +132,25 @@
         <script src="{% static 'dashboard/js/popper.min.js' %}"></script>
         <script src="{% static 'dashboard/js/bootstrap.min.js' %}"></script>
         <script src="{% static 'dashboard/js/fontawesome-all.min.js' %}"></script>
-        <script defer src="{% static 'dashboard/js/main.js' %}"></script>
+        
+       
+        
         
         <!-- this script is for styling the Sidebar -->
         <script>
+          var sidebarColl = document.querySelector('#sidebarCollapse');
+          var sidebar = document.querySelector('#sidebar');
+          sidebarColl.addEventListener('click', () =>{
+              sidebar.classList.toggle('active');
+          });
+
+          
           var sideBarButton = document.getElementById("sidebarCollapse");
           var wrapper = document.getElementById("wrapper");
 
           sideBarButton.addEventListener('click', function () {
             //alert("window is sxrolling !!!")
-            console.log("done!") 
+            //console.log("done!") 
             wrapper.classList.toggle("wrapper");            
           });
 

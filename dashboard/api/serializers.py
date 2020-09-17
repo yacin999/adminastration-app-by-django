@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from dashboard.models import EmploiTemps, Module, Periode, CanvasTimeTable, Enseignant, Salle
+from dashboard.models import EmploiTemps, Module, Periode, Enseignant, Salle, ChargeHoraire
 from django.contrib.auth.models import User
 
 
@@ -30,26 +30,26 @@ class EmpoiTempsSerializer(serializers.ModelSerializer):
 
 
 
-class CanvasSerializer(serializers.ModelSerializer):
-    class  Meta:
-        model = CanvasTimeTable
-        fields = '__all__'
-        depth = 1
+# class CanvasSerializer(serializers.ModelSerializer):
+#     class  Meta:
+#         model = CanvasTimeTable
+#         fields = '__all__'
+#         depth = 1
 
 
 class ModuleSerializer(serializers.ModelSerializer):
-    canvas = CanvasSerializer(many=True)
+    # canvas = CanvasSerializer(many=True)
     class  Meta:
         model = Module
         fields = '__all__'
         depth = 2
 
-    def create(self, validated_data):
-        canvas = validated_data.pop('canvas')
-        module = Module.objects.create(**validated_data)
-        for canva in canvas:
-            CanvasTimeTable.objects.create(modules=module, **canva)
-        return module
+    # def create(self, validated_data):
+    #     canvas = validated_data.pop('canvas')
+    #     module = Module.objects.create(**validated_data)
+    #     for canva in canvas:
+    #         CanvasTimeTable.objects.create(modules=module, **canva)
+    #     return module
     
 
 
@@ -66,5 +66,13 @@ class ClassroomSerializer(serializers.ModelSerializer):
     class  Meta:
         model = Salle
         fields = '__all__'
+
+
+class ChargeHoraireSerializer(serializers.ModelSerializer):
+    
+    class  Meta:
+        model = ChargeHoraire
+        fields = '__all__'
+        depth = 2
 
 

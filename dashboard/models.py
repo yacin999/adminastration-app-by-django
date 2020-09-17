@@ -6,6 +6,8 @@ from django.db.models.signals import pre_save
 from django.utils.text import slugify
 from django.utils import timezone
 from univv.utils import unique_slug_generator 
+from user.models import Staff
+from django.utils import timezone
 
 
 # the level class <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
@@ -32,7 +34,6 @@ class Enseignant(models.Model):
     prenom = models.CharField(max_length=30)
     grade = models.CharField(max_length=30)
     tel = models.PositiveIntegerField(unique=True)
-    password = models.CharField(max_length=100, blank=True)
     active = models.BooleanField(default=False)
 
 
@@ -54,19 +55,24 @@ def pre_save_enseignant_receiver(sender, instance, *args, **kwargs):
 pre_save.connect(pre_save_enseignant_receiver, sender=Enseignant)   
 
 # class module <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+UNITES = [('1', 'Fondamentale'), ('2', 'Methodologie')]
 
 class Module(models.Model):
     operateur = models.ForeignKey(User, on_delete=models.CASCADE, related_name='modules')
     code = models.CharField(max_length=30, primary_key=True)
     slug = models.SlugField(unique=True)
     designation = models.CharField(max_length=40)
-    unite = models.CharField(max_length=40)
+    unite = models.CharField(max_length=40, choices=UNITES)
     credit = models.PositiveIntegerField()
     coeff = models.PositiveIntegerField()
     niveau = models.ForeignKey(Niveau, on_delete=models.CASCADE, related_name='nivaux')
     prof = models.ForeignKey(Enseignant, on_delete=models.CASCADE, related_name='profs')
     active = models.BooleanField(default=False)
     semestre = models.CharField(max_length=10) 
+
+    cours = models.PositiveSmallIntegerField()
+    td = models.PositiveSmallIntegerField()
+    tp = models.PositiveSmallIntegerField()
 
     def __str__(self):
         return self.designation
@@ -97,13 +103,14 @@ pre_save.connect(pre_save_module_receiver, sender=Module)
 
 # class Salle <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 CHOICES =  [('1', 'TP'), ('2', 'TD'), ('3', 'Amphi')]
+BLOCKS = [('1', 'Bloc 30Salles'), ('2', 'Bloc 22Salles')]
 class Salle(models.Model):
-    enseignants = models.ManyToManyField(Enseignant)
-    opr = models.ForeignKey(User, on_delete=models.CASCADE)
-    bloc = models.CharField(max_length=30)
+    enseignants = models.ForeignKey(Enseignant, on_delete=models.DO_NOTHING)
+    bloc = models.CharField(max_length=30, choices=BLOCKS)
     design = models.CharField(max_length=20)
     type_of = models.CharField(max_length=10, choices=CHOICES)
     active = models.BooleanField(default=False)
+    is_available = models.BooleanField(default=True)
 
     def __str__(self):
         return self.design
@@ -127,18 +134,22 @@ class EmploiTemps(models.Model):
     first_second = models.ManyToManyField(Periode, blank=True, related_name='perides_two')
     first_third = models.ManyToManyField(Periode, blank=True, related_name='perides_three')
     first_forth = models.ManyToManyField(Periode, blank=True, related_name='perides_four')
+
     second_first = models.ManyToManyField(Periode, blank=True, related_name='peride_five')
     second_second = models.ManyToManyField(Periode, blank=True,  related_name='perides_six')
     second_third = models.ManyToManyField(Periode, blank=True,  related_name='perides_seven')
     second_forth = models.ManyToManyField(Periode, blank=True,  related_name='perides_eight')
+    
     third_first = models.ManyToManyField(Periode, blank=True,  related_name='perides_nine')
     third_second = models.ManyToManyField(Periode, blank=True,  related_name='perides_ten')
     third_third = models.ManyToManyField(Periode, blank=True,  related_name='perides_eleven')
     third_forth = models.ManyToManyField(Periode, blank=True,  related_name='perides_twelve')
+    
     forth_first = models.ManyToManyField(Periode, blank=True,  related_name='perides_thirteen')
     forth_second = models.ManyToManyField(Periode, blank=True,  related_name='perides_fourteen')
     forth_third = models.ManyToManyField(Periode, blank=True,  related_name='perides_fifteen')
     forth_forth = models.ManyToManyField(Periode, blank=True,  related_name='perides_sixteen')
+    
     fifth_first = models.ManyToManyField(Periode, blank=True,  related_name='perides_seventeen')
     fifth_second = models.ManyToManyField(Periode, blank=True,  related_name='perides_eighteen')
     fifth_third = models.ManyToManyField(Periode, blank=True,  related_name='perides_nineteen')
@@ -149,7 +160,7 @@ class EmploiTemps(models.Model):
     slug = models.SlugField(unique=True)
     created = models.DateTimeField(default=timezone.now)
     apdated_time = models.DateTimeField(auto_now=True)
-    #canvas = models.ForeignKey(CanvasTimeTable, on_delete=models.PROTECT, related_name='emplois')
+    active = models.BooleanField(default=True)
     
     def __str__(self):
         return self.slug
@@ -171,38 +182,127 @@ pre_save.connect(pre_save_emp_receiver, sender=EmploiTemps)
 
 #Canvas for Emploi <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
-class CanvasTimeTable (models.Model):
-    modules = models.ForeignKey(Module, on_delete=models.CASCADE, related_name='canvas')
-    semestre = models.CharField(max_length=10)
-    cours = models.PositiveSmallIntegerField()
-    td = models.PositiveSmallIntegerField()
-    tp = models.PositiveSmallIntegerField()
-    niveau = models.ForeignKey(Niveau, on_delete=models.CASCADE)
-    slug = models.SlugField()
+# class CanvasTimeTable (models.Model):
+#     modules = models.ForeignKey(Module, on_delete=models.CASCADE, related_name='canvas')
+#     semestre = models.CharField(max_length=10)
+#     cours = models.PositiveSmallIntegerField()
+#     td = models.PositiveSmallIntegerField()
+#     tp = models.PositiveSmallIntegerField()
+#     niveau = models.ForeignKey(Niveau, on_delete=models.CASCADE)
+#     slug = models.SlugField()
+#     active = models.BooleanField(default=True)
 
 
-    def __str__(self):
-        return self.slug
+#     def __str__(self):
+#         return self.slug
     
-    class Meta:
-        db_table = "canvasTimeTable"
+#     class Meta:
+#         db_table = "canvasTimeTable"
 
 
-def create_Canvas_slug(instance, new_slug=None):
+# def create_Canvas_slug(instance, new_slug=None):
 
-    slug = "{}-{}".format(instance.niveau, instance.semestre)
-    return slug
+#     slug = "{}-{}".format(instance.niveau, instance.semestre)
+#     return slug
 
-def pre_save_canvas_receiver(sender, instance, *args, **kwargs):
-    if not instance.slug:
-        instance.slug = create_Canvas_slug(instance) 
+# def pre_save_canvas_receiver(sender, instance, *args, **kwargs):
+#     if not instance.slug:
+#         instance.slug = create_Canvas_slug(instance) 
 
-pre_save.connect(pre_save_canvas_receiver, sender=CanvasTimeTable)    
+# pre_save.connect(pre_save_canvas_receiver, sender=CanvasTimeTable)    
 
 
 # Material class <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
-# class Material(models.Model):
-#     name = models.CharField(max_length=10, blank=True, null=True)
-#     image = models.ImageField(upload_to="")
+class Material(models.Model):
+    name = models.CharField(max_length=10, blank=True, null=True)
+    is_available = models.BooleanField(default=True)
+    active = models.BooleanField(default=True)
+    image = models.ImageField(upload_to="Materil_pic", default="default.jpg")
+    salles = models.ForeignKey(Salle, on_delete=models.CASCADE, default=None)
 
+    def __str__(self):
+        return self.name
+    
+
+
+    @property
+    def imageURL(self):
+        try:
+            url = self.image.url
+        except:
+            url = ""
+        return url
+       
+
+
+class Order(models.Model):
+    staff = models.ForeignKey(Staff, on_delete=models.CASCADE, related_name="staff")
+    ordering_date = models.DateTimeField(auto_now_add=True)
+    item = models.ForeignKey(Material, on_delete=models.CASCADE, related_name="orders")
+    returned = models.BooleanField(default=False)
+    active = models.BooleanField(default=True)
+    retering_date = models.DateTimeField(auto_now=True)
+
+
+    def __str__(self):
+        return self.staff.user.username
+
+
+
+# chrge horaire class <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+class Science(models.Model):
+    nature = models.CharField(max_length=20, choices=CHOICES)
+    groupe = models.CharField(max_length=3, blank=True)
+    occupe = models.BooleanField(default=False)
+
+
+    
+
+
+
+
+SEMESTRES = [('1', 'S1'), ('2', 'S2'), ('3', 'S3'),('4', 'S4'), ('5', 'S5'), ('6', 'S6'), ('7', 'M1'), ('8', 'M2')]
+
+class ChargeHoraire(models.Model):
+    enseignant = models.ForeignKey(Enseignant, on_delete=models.CASCADE)
+    niveau = models.ForeignKey(Niveau, on_delete=models.CASCADE)
+    semestre = models.CharField(max_length=20, choices=SEMESTRES)
+    active = models.BooleanField(default=True) 
+
+    science1_J1 = models.ForeignKey(Science, on_delete=models.DO_NOTHING, related_name="science1_J1")
+    science2_J1 = models.ForeignKey(Science, on_delete=models.DO_NOTHING, related_name="science2_J1")
+    science3_J1 = models.ForeignKey(Science, on_delete=models.DO_NOTHING, related_name="science3_J1")
+    science4_J1 = models.ForeignKey(Science, on_delete=models.DO_NOTHING, related_name="science4_J1")
+
+    science1_J2 = models.ForeignKey(Science, on_delete=models.DO_NOTHING, related_name="science1_J2")
+    science2_J2 = models.ForeignKey(Science, on_delete=models.DO_NOTHING, related_name="science2_J2")
+    science3_J2 = models.ForeignKey(Science, on_delete=models.DO_NOTHING, related_name="science3_J2")
+    science4_J2 = models.ForeignKey(Science, on_delete=models.DO_NOTHING, related_name="science4_J2")
+
+    science1_J3 = models.ForeignKey(Science, on_delete=models.DO_NOTHING, related_name="science1_J3")
+    science2_J3 = models.ForeignKey(Science, on_delete=models.DO_NOTHING, related_name="science2_J3")
+    science3_J3 = models.ForeignKey(Science, on_delete=models.DO_NOTHING, related_name="science3_J3")
+    science4_J3 = models.ForeignKey(Science, on_delete=models.DO_NOTHING, related_name="science4_J3")
+
+    science1_J4 = models.ForeignKey(Science, on_delete=models.DO_NOTHING, related_name="science1_J4")
+    science2_J4 = models.ForeignKey(Science, on_delete=models.DO_NOTHING, related_name="science2_J4")
+    science3_J4 = models.ForeignKey(Science, on_delete=models.DO_NOTHING, related_name="science3_J4")
+    science4_J4 = models.ForeignKey(Science, on_delete=models.DO_NOTHING, related_name="science4_J4")
+
+    science1_J5 = models.ForeignKey(Science, on_delete=models.DO_NOTHING, related_name="science1_J5")
+    science2_J5 = models.ForeignKey(Science, on_delete=models.DO_NOTHING, related_name="science2_J5")
+    science3_J5 = models.ForeignKey(Science, on_delete=models.DO_NOTHING, related_name="science3_J5")
+    science4_J5 = models.ForeignKey(Science, on_delete=models.DO_NOTHING, related_name="science4_J5")
+
+    science5_J1 = models.ForeignKey(Science, on_delete=models.DO_NOTHING, related_name="science5_J1")
+    science5_J2 = models.ForeignKey(Science, on_delete=models.DO_NOTHING, related_name="science5_J2")
+    science5_J3 = models.ForeignKey(Science, on_delete=models.DO_NOTHING, related_name="science5_J3")
+    science5_J4 = models.ForeignKey(Science, on_delete=models.DO_NOTHING, related_name="science5_J4")
+    science5_J5 = models.ForeignKey(Science, on_delete=models.DO_NOTHING, related_name="science5_J5")
+
+
+
+    def __str__(self):
+        return self.enseignant.nom
+    

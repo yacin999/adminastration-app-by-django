@@ -1,0 +1,28 @@
+{% extends "dashboard/admin_panel.html" %}
+
+
+
+
+{% block content %}
+
+  <div class="create-module-container">
+    <div class="section-bar">material</div>
+    <form method="post" class="m-5"> {% csrf_token %}
+        <div class="row mb-5">
+            
+            {{form}}
+        </div>
+
+        
+
+        <input class="btn btn-success user-sub-btn" type="submit" value="submit">
+
+        
+    </form>
+  </div>
+  
+  
+
+  
+
+{% endblock %}

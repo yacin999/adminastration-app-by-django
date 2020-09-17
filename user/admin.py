@@ -12,9 +12,9 @@ class StaffPermissionAdmin(admin.ModelAdmin):
 
 
 class StaffAdmin(admin.ModelAdmin):
-    list_filter = ['user', 'permissions']
-    list_display = ['user']
-    search_fields = ['user', 'permissions']
+    list_filter = ['user', 'permissions', 'active']
+    list_display = ['user', 'active']
+    search_fields = ['user', 'permissions', 'active']
 
 
 admin.site.register(StaffPermission, StaffPermissionAdmin)

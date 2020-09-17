@@ -1,10 +1,11 @@
-from .models import Enseignant, Module, Salle, CanvasTimeTable, Niveau, EmploiTemps
+from .models import Enseignant, Module, Salle, Niveau, EmploiTemps, Material
 from user.models import Staff, StaffPermission
 from django import forms
 from django.core.validators import MinValueValidator
 
 CHOICES =  [('1', 'TP'), ('2', 'TD'), ('3', 'Amphi')]
 SEMESTRES = [('1', 'S1'), ('2', 'S2'), ('3', 'S3'),('4', 'S4'), ('5', 'S5'), ('6', 'S6'), ('7', 'M1'), ('8', 'M2')]
+UNITES = [('1', 'Fondamentale'), ('2', 'Methodologie')]
 
 
 
@@ -27,16 +28,20 @@ class ModuleModelForm(forms.ModelForm):
     semestre = forms.ChoiceField(label="semestre", widget=forms.Select(attrs={"class": "module-select-input", "placeholder": "semestre"}), choices=SEMESTRES)
     prof = forms.ModelChoiceField(queryset=Enseignant.objects.all(), empty_label=None, label="prof", widget=forms.Select(attrs={"class": "module-select-input", "placeholder": "prof"}), to_field_name="nom")
     niveau = forms.ModelChoiceField(queryset=Niveau.objects.all(), empty_label=None, label="niveau", widget=forms.Select(attrs={"class": "module-select-input", "placeholder": "niveau"}))
+    unite = forms.ChoiceField(label="unite", widget=forms.Select(attrs={"class": "module-select-input", "placeholder": "unite"}), choices=UNITES)
     class Meta:
         model = Module
-        fields = fields = ['code', 'designation', 'unite', 'credit', 'coeff', 'niveau', 'semestre', 'prof']
+        fields = fields = ['code', 'designation', 'credit', 'coeff', 'cours', 'tp', 'td' , 'niveau', 'semestre', 'prof', 'unite']
         widgets = {
             "code": forms.TextInput(attrs={"class": "module-input", "placeholder": "code"}),
-            "unite": forms.TextInput(attrs={"class": "module-input", "placeholder": "unite"}),
+            "unite": forms.Select(attrs={"class": "module-input", "placeholder": "unite"}),
             "coeff": forms.NumberInput(attrs={"class": "module-input", "placeholder": "coeff"}),
             "niveau": forms.Select(attrs={"class": "module-select-input", "placeholder": "niveau"}),
             "credit": forms.NumberInput(attrs={"class": "module-input", "placeholder": "credit"}),
             "prof": forms.Select(attrs={"class": "module-select-input", "placeholder": "prof"}),
+            "cours": forms.NumberInput(attrs={"class": "module-input", "placeholder": "cours"}),
+            "tp": forms.NumberInput(attrs={"class": "module-input", "placeholder": "tp"}),
+            "td": forms.NumberInput(attrs={"class": "module-input", "placeholder": "td"}),
         }
 
     def clean_designation(self, *args, **kwargs):
@@ -79,10 +84,18 @@ class SalleModelForm(forms.ModelForm):
         return name
 
 
-class StaffForm(forms.Form):
+# class StaffForm(forms.Form):
+#     class Meta:
+#         models = Staff
+#         fields = ["permissions"]
+
+
+class MaterialModelForm(forms.ModelForm):
+    
     class Meta:
-        models = Staff
-        fields = ["permissions"]
+        model = Material
+        fields = ["image", "name"]
+
 
         
 

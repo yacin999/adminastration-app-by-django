@@ -71,6 +71,24 @@ class UserForm(forms.ModelForm):
 
 
 
+class UpdateUserForm(forms.ModelForm):
+    
+    class Meta:
+        model = User
+        fields = ["username", "email", "first_name", "last_name"]
+        widgets = {
+            "username": forms.TextInput(attrs={"class": "module-input", "placeholder": "username"}), 
+            "email": forms.EmailInput(attrs={"class": "module-input", "placeholder": "email"}),
+            "first_name": forms.TextInput(attrs={"class": "module-input", "placeholder": "first name"}),
+            "last_name": forms.TextInput(attrs={"class": "module-input", "placeholder": "last name"}),
+        }
+
+
+
+
+
+
+
 
 
 class StaffForm(forms.ModelForm):

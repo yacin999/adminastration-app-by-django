@@ -19,6 +19,7 @@
         <th scope="col">Nom de salle</th>
         <th scope="col">type de salle</th>
         <th scope="col">bloc</th>
+        <th scope="col">disponible</th>
         <th scope="col" class="text-center">Action</th>
       </tr>
     </thead>
@@ -29,9 +30,10 @@
         <td>{{ salle.design}}</td>
         <td>{{ salle.type_of}}</td>
         <td>{{ salle.bloc}}</td>
-        <td class="td-btn">
-          <a href="{% url 'update-classroom' salle.id %}" class="btn btn-outline-primary "><i class="far fa-edit"></i> update</a>
-          <a href="{% url 'delete-classroom' salle.id %} " class="btn btn-outline-danger"><i class="far fa-trash-alt"></i> delete</a>
+        <td>{{ salle.is_available}}</td>
+        <td class="td-btn" style="width: 200px;">
+          <a href="{% url 'update-classroom' salle.id %}"><i class="fas fa-pencil-alt text-primary mr-4 ml-4" style="font-size: 25px;"></i></a>
+          <a href="{% url 'delete-classroom' salle.id %} "><i class="fas fa-minus-circle text-danger mr-4 ml-4" style="font-size: 25px;"></i></a>
         </td>
       </tr>
       {% endfor %}

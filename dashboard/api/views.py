@@ -3,8 +3,8 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework import generics
 from rest_framework import mixins
-from .serializers import EmpoiTempsSerializer, ModuleSerializer, CanvasSerializer, TeacherSerializer, ClassroomSerializer
-from dashboard.models import EmploiTemps, Module, CanvasTimeTable, Enseignant, Salle
+from .serializers import EmpoiTempsSerializer, ModuleSerializer, TeacherSerializer, ClassroomSerializer, ChargeHoraireSerializer
+from dashboard.models import EmploiTemps, Module, Enseignant, Salle, ChargeHoraire
 from rest_framework import status
 
 
@@ -63,27 +63,27 @@ def module_serializer_detail(request, id):
 
 
 #Canvas of timetable serializer::::::::::
-class CanvasList(mixins.ListModelMixin, generics.GenericAPIView):
+# class CanvasList(mixins.ListModelMixin, generics.GenericAPIView):
     
-    queryset = CanvasTimeTable.objects.all()
-    serializer_class = CanvasSerializer
+#     queryset = CanvasTimeTable.objects.all()
+#     serializer_class = CanvasSerializer
 
-    def get(self, request, *args, **kwargs):
-        return self.list(self, *args, **kwargs)
+#     def get(self, request, *args, **kwargs):
+#         return self.list(self, *args, **kwargs)
 
     
 
-@api_view(['GET',])
-def canvas_serializer_detail(request, id):
+# @api_view(['GET',])
+# def canvas_serializer_detail(request, id):
     
-    try:
-        canva = CanvasTimeTable.objects.get(id=id)
-    except canva.DoesNotExist:
-        Response(status=status.HTTP_404_NOT_FOUND)    
+#     try:
+#         canva = CanvasTimeTable.objects.get(id=id)
+#     except canva.DoesNotExist:
+#         Response(status=status.HTTP_404_NOT_FOUND)    
 
-    if request.method == 'GET':
-        serializer = EmpoiTempsSerializer(canva, many=True)   
-        return Response(serializer.data)
+#     if request.method == 'GET':
+#         serializer = EmpoiTempsSerializer(canva, many=True)   
+#         return Response(serializer.data)
 
 
 
@@ -105,4 +105,14 @@ def classroom_serializer_list(request):
 
     if request.method == 'GET':
         serializer = ClassroomSerializer(classrooms, many=True)
+        return Response(serializer.data)
+
+
+# charge horaire serializer ::::::::::::::::
+@api_view(['GET',])
+def chargeHoraire_serializer_list(request):
+    chargehoraire = ChargeHoraire.objects.all()
+
+    if request.method == 'GET':
+        serializer = ChargeHoraireSerializer(chargehoraire, many=True)
         return Response(serializer.data)

@@ -1,16 +1,3 @@
-//---------------------------------||
-//    for bootstrap popup modal    ||
-//---------------------------------||
-
-var sidebarColl = document.querySelector('#sidebarCollapse');
-var sidebar = document.querySelector('#sidebar');
-sidebarColl.addEventListener('click', () =>{
-    sidebar.classList.toggle('active');
-});
-
-
-
-
 //............................
 //. GLOGAL VARIABLES         .
 //............................                
@@ -372,15 +359,15 @@ function generate_inputs(nbr_group, type){
 
 
 // This function verify all the data of the table and compares it with canvas:_____________
-var verify_all_data = async (periodType, user_input) => {
+var verify_modules_periods = async (periodType, user_input) => {
   let forceEnable = false;
-  await fetch('http://127.0.0.1:8000/api/canvas-list')
+  await fetch('http://127.0.0.1:8000/api/module-list')
   .then(res =>  res.json())
   .then((canvas_data) => {
 
     if(periodType === "TP") {
       for (let i = 0; i < canvas_data.length; i++) {
-        if (canvas_data[i].modules.designation === user_input.value){
+        if (canvas_data[i].designation === user_input.value){
           
           if (`${user_input.value}` in counters_module_TP === false && user_input.getAttribute("data-previous-value") === "") {
             counters_module_TP[`${user_input.value}`] = 1;
@@ -423,7 +410,7 @@ var verify_all_data = async (periodType, user_input) => {
       }
     }else if (periodType === "TD") {
       for (let i = 0; i < canvas_data.length; i++) {
-        if (canvas_data[i].modules.designation === user_input.value){
+        if (canvas_data[i].designation === user_input.value){
           
           if (`${user_input.value}` in counters_module_TD === false && user_input.getAttribute("data-previous-value") === "") {
             counters_module_TD[`${user_input.value}`] = 1;
@@ -466,7 +453,7 @@ var verify_all_data = async (periodType, user_input) => {
       }
     }else if(periodType === "Cours"){
       for (let i = 0; i < canvas_data.length; i++) {
-        if (canvas_data[i].modules.designation === user_input.value){
+        if (canvas_data[i].designation === user_input.value){
           
           if (`${user_input.value}` in counters_module_Cours === false && user_input.getAttribute("data-previous-value") === "") {
             counters_module_Cours[`${user_input.value}`] = 1;
@@ -512,6 +499,12 @@ var verify_all_data = async (periodType, user_input) => {
   }).catch(err => console.log("from catch promise", err))
   return forceEnable;
 }
+
+
+
+
+
+
 // This function checks if an input of the user was empty or not
 function check_empty_input() {
   console.log("check empty inputs function")
@@ -849,7 +842,10 @@ function td_cr_click(ev) {
         // COUR---------------------------------------COUR---------------------------------------COUR
       }else if(choise.value === 'Cours') {
 
-        if(cours_was_submitted) return
+        // if(cours_was_submitted) {
+        //   console.log("before returning function")
+        //   return
+        // }
 
         let nbr_group = 1;
         generate_inputs(nbr_group, choise.value); 
@@ -868,7 +864,7 @@ function td_cr_click(ev) {
         })
 
         // checking the user's inputs _____________________
-        examine_inputs(verify_all_data, choise.value);
+        examine_inputs(verify_modules_periods, choise.value);
         
         // if the user clicked to generate inputs this will prevent his to click again
         cours_was_submitted = true
@@ -880,7 +876,10 @@ function td_cr_click(ev) {
 // generating inputs for the user so he can fill them
 function nbr_group_click() {
 
-  if (tdp_was_submitted) return
+  // if (tdp_was_submitted) {
+  //   console.log("before returning function 'nbr group' ")
+  //   return
+  // }
 
   const choise = document.getElementById("select-TD-cours");
   const nmb_group = document.querySelector("#group-numb-input")
@@ -902,7 +901,7 @@ function nbr_group_click() {
 
 
   //calling this function to check user inputs if they are frequent:  
-  examine_inputs(verify_all_data, choise.value);
+  examine_inputs(verify_modules_periods, choise.value);
 
   // if the user clicked to generate inputs this will prevent his to click again
   tdp_was_submitted = true

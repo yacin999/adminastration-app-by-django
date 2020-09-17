@@ -29,9 +29,9 @@
         <td>{{ teacher.prenom}}</td>
         <td>{{ teacher.nom}}</td>
         <td>{{ teacher.email}}</td>
-        <td class="td-btn">
-            <a href="{% url 'update-teacher' teacher.slug %}" class="btn btn-outline-primary "> update</a>
-            <a href="{% url 'delete-teacher' teacher.slug %} " class="btn btn-outline-danger"><i class="fal fa-trash-alt"></i> delete</a>
+        <td class="td-btn" style="width: 300px;">
+            <a href="{% url 'update-teacher' teacher.slug %}" > <i class="fas fa-edit mr-5 ml-5" style="font-size: 25px;"></i></a>
+            <a href="{% url 'delete-teacher' teacher.slug %} "><i class="fas fa-trash-alt text-danger mr-5 ml-5" style="font-size: 25px;"></i></a>
         </td>
       </tr>
       {% endfor %}

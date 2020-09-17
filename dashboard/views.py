@@ -1,9 +1,9 @@
 from django.shortcuts import get_object_or_404, redirect, render
-from .models import Enseignant, Module, Salle, EmploiTemps, Periode, Niveau, CanvasTimeTable
+from .models import Enseignant, Module, Salle, EmploiTemps, Periode, Niveau, Material, Order
 from user.models import Staff, StaffPermission
 from django.views.generic import CreateView
-from .forms import EnseignantModelForm, ModuleModelForm, SalleModelForm
-from user.forms import UserForm , StaffForm
+from .forms import EnseignantModelForm, ModuleModelForm, SalleModelForm, MaterialModelForm
+from user.forms import UserForm , StaffForm, UpdateUserForm
 from django.contrib.auth.models import User
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
@@ -123,20 +123,61 @@ def all_timetables(request):
 
     return render(request, 'dashboard/all_emploitems.html', context)
 
-@login_required(login_url='login')
-def all_TT_canvas(request):
 
-    is_staf = give_permission(request, "can_list_all_TT_conditions")
+
+@login_required(login_url='login')
+def all_material(request):
+    
+    is_staf = give_permission(request, "can_list_all_material")
     if not is_staf:
         return redirect("admin_panel")
 
-    all_conditions = CanvasTimeTable.objects.all().order_by('slug')
+    material = Material.objects.all()
+
     context = {
-        'all_conditions': all_conditions,
+        'title': 'all material', 
+        'material': material
     }
 
+    return render(request, "dashboard/all_material.html", context)
 
-    return render(request, 'dashboard/all_TT_conditions.html', context)
+@login_required(login_url='login')
+def all_orders(request):
+    
+    is_staf = give_permission(request, "can_list_all_orders")
+    if not is_staf:
+        return redirect("admin_panel")
+
+
+
+
+    if request.user.is_staff:
+        orders = Order.objects.all()
+    else:
+        orders = Order.objects.filter(staff=request.user.staff)
+
+
+    context = {
+        'title': 'all orders', 
+        'orders': orders
+    }
+
+    return render(request, "dashboard/all_orders.html", context)
+
+def all_staff(request):
+    
+    is_staf = give_permission(request, "can_list_all_staff")
+    if not is_staf:
+        return redirect("admin_panel")
+
+    staff = Staff.objects.filter(active=True)
+
+    context = {
+        'title': 'all staff', 
+        'staff': staff
+    }
+
+    return render(request, "dashboard/all_staff.html", context)
 
 
 
@@ -222,18 +263,18 @@ def timetable_detail(request, id):
 
 
 
-@login_required(login_url='login')
-def canvas_detail(request, id):
-    canva = CanvasTimeTable.objects.get(id=id)
-    canvas = CanvasTimeTable.objects.all()
+# @login_required(login_url='login')
+# def canvas_detail(request, id):
+#     canva = CanvasTimeTable.objects.get(id=id)
+#     canvas = CanvasTimeTable.objects.all()
 
-    context = {
-        'title': 'canvas-detail',
-        'canvas_detail': canva,
-        'all_canvas': canvas
-    } 
+#     context = {
+#         'title': 'canvas-detail',
+#         'canvas_detail': canva,
+#         'all_canvas': canvas
+#     } 
 
-    return render(request, 'dashboard/canvas_datail.html', context)
+#     return render(request, 'dashboard/canvas_datail.html', context)
 
 
 
@@ -251,7 +292,6 @@ def new_timetable(request):
     teachers = Enseignant.objects.all().values("nom").distinct().filter(active=False)
     name_of_modules = Module.objects.all().filter(active=False)
     classrooms = Salle.objects.all().values("design").distinct()
-    canvas = CanvasTimeTable.objects.all()
 
     context = {
         'title': 'creating timetables',
@@ -259,7 +299,6 @@ def new_timetable(request):
         'modules': name_of_modules,
         'classrooms': classrooms,
         'niveau': niveau,
-        'canvas': canvas,
     }
     return render(request, 'dashboard/new_timetable.html', context)
 
@@ -303,12 +342,33 @@ def new_staff(request):
     return render(request, "dashboard/new_staff.html", context)
 
 
+@login_required(login_url='login')
+def new_material(request):
 
+    is_staf = give_permission(request, "can_create_material")
+    if not is_staf:
+        return redirect("admin_panel")
+
+
+    if request.method == 'POST':
+        form = MaterialModelForm(request.POST)
+        if form.is_valid():
+
+            form.save()
+            return redirect("all_classrooms")
+    else:
+        form = MaterialModelForm()
+    context = {
+        'title': 'new material',
+        'form': form,
+    }
+    return render(request, 'dashboard/new_material.html', context)
 
 
 
 # to save data in the database via the ajax object ---------------$$
 import json
+@login_required(login_url='login')
 def save_data(request):
 
     ajax_data = {} 
@@ -677,6 +737,63 @@ def save_data(request):
     return HttpResponse(json.dumps(ajax_data))
 
 
+@login_required(login_url='login')
+def create_order_staff(request):
+    returned_data = {}
+
+    if request.method == 'POST':
+       
+        data_client = json.loads(request.body)
+        
+        material = Material.objects.get(id=data_client['id_of_material'])
+        material.is_available = False
+        material.save()
+
+        u = User.objects.get(id=request.user.id)
+
+        staff = Staff.objects.get(user=u)
+
+        order = Order.objects.create(staff=staff, item=material, returned=False)
+
+        returned_data["success_message"] = "data was received successfuly"
+
+    else:
+        returned_data["error_message"] = "data didn't receive , something went wrong"
+   
+    return HttpResponse(json.dumps(returned_data))
+
+
+def return_material(request):
+    returned_data = {}
+
+    if request.method == 'POST':
+       
+        data_client = json.loads(request.body)
+        
+        material = Material.objects.get(id=data_client['id_of_material'])
+        material.is_available = True
+        material.save()
+
+        order = Order.objects.get(item=material, returned=False)
+        order.returned = True
+        order.save()
+
+        returned_data["success_message"] = "data was received successfuly"
+        returned_data["is returned"] = order.returned
+
+    else:
+        returned_data["error_message"] = "data didn't receive , something went wrong"
+   
+    return HttpResponse(json.dumps(returned_data))
+
+
+
+
+
+
+
+
+
 
 # generate the timetable template to PDF:
  
@@ -691,37 +808,37 @@ def generatePDF(request, id):
 
 
 
-def createTimetableCanvas(request):
+# def createTimetableCanvas(request):
 
-    is_staf = give_permission(request, "can_create_TT_canvas")
-    if not is_staf:
-        return redirect("admin_panel")
+#     is_staf = give_permission(request, "can_create_TT_canvas")
+#     if not is_staf:
+#         return redirect("admin_panel")
     
 
-    niveax = Niveau.objects.all()
-    modules = Module.objects.all()
+#     niveax = Niveau.objects.all()
+#     modules = Module.objects.all()
 
-    context = {
-        'niveax': niveax,
-        'modules': modules
-    }
+#     context = {
+#         'niveax': niveax,
+#         'modules': modules
+#     }
 
-    if request.method == 'POST':
-        niveau_name = request.POST['niveau']
-        semestre = request.POST['semestre']
-        module_name = request.POST['module']
-        cours = request.POST['cours']
-        tp = request.POST['tp']
-        td = request.POST['td']
+#     if request.method == 'POST':
+#         niveau_name = request.POST['niveau']
+#         semestre = request.POST['semestre']
+#         module_name = request.POST['module']
+#         cours = request.POST['cours']
+#         tp = request.POST['tp']
+#         td = request.POST['td']
 
-        module_object = Module.objects.get(designation=module_name)
-        niveau_object = Niveau.objects.get(Nv=niveau_name)
+#         module_object = Module.objects.get(designation=module_name)
+#         niveau_object = Niveau.objects.get(Nv=niveau_name)
 
-        canva = CanvasTimeTable(modules= module_object, semestre=semestre, cours=cours, niveau=niveau_object, tp=tp, td=td)
-        canva.save()
-        return redirect('all_TT_conditions')
+#         canva = CanvasTimeTable(modules= module_object, semestre=semestre, cours=cours, niveau=niveau_object, tp=tp, td=td)
+#         canva.save()
+#         return redirect('all_TT_conditions')
 
-    return render(request, 'dashboard/new_TTcanvas.html', context)
+#     return render(request, 'dashboard/new_TTcanvas.html', context)
 
 # update all teachers and modules and classrooms____________________________________________________________________________
 @login_required(login_url='login')
@@ -792,6 +909,54 @@ def update_salle(request, id):
         'form': form,
     } 
     return render(request, 'dashboard/update_classroom.html', context)   
+
+
+@login_required(login_url='login')
+def update_staff(request, id): 
+
+    is_staf = give_permission(request, "can_update_staff")
+    if not is_staf:
+        return redirect("admin_panel")
+
+    staff = get_object_or_404(Staff, id=id)
+
+    if request.method == 'POST':
+        userForm = UpdateUserForm(request.POST, instance=staff.user)
+        staffForm = StaffForm(request.POST, instance=staff)
+
+        if userForm.is_valid() and staffForm.is_valid():
+
+             userForm.save()
+             staff = staffForm.save(commit=False)
+             u = User.objects.get(id=userForm.cleaned_data['id'])
+             staff.user = u
+             staff.save()
+    else:
+        userForm = UpdateUserForm(instance=staff.user)
+        staffForm = StaffForm(instance=staff)
+
+    context = {
+        'user': userForm,
+        'staff': staffForm
+    }
+
+    return render(request, 'dashboard/update_staff.html', context)
+
+@login_required(login_url='login')
+def update_timetable(request, id):
+    
+    timetables = EmploiTemps.objects.get(id=id)
+
+    context = {
+        'emploitemps': timetables
+    }
+
+    return render(request, 'dashboard/update_timetable.html', context)
+
+
+
+    
+
 
 
 # delete all teachers and modules and classrooms----------------------------------------------------------
@@ -890,3 +1055,24 @@ def delete_timetable(request, id):
         messages.error(request, "something is wrong")        
 
     return render(request, 'dashboard/delete_timetable.html', context)
+
+
+def delete_staff(request, id):
+
+    is_staf = give_permission(request, "can_delete_staff")
+    if not is_staf:
+        return redirect("admin_panel")
+
+    staff = get_object_or_404(Staff, id=id)
+    try:
+        if request.method == 'POST':
+            staff.active = False
+            staff.save()
+            return redirect('all_staff')
+            messages.success(request, 'you have successfully delete it')
+    except Exception as e:
+        messages.error(request, 'the classroom could not be deleted: Error {}'.format(e))          
+    context = {
+        'staff': staff,
+    }
+    return render(request, 'dashboard/delete_staff.html', context)
