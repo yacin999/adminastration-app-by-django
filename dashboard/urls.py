@@ -30,6 +30,7 @@ urlpatterns = [
 
 # DETAIL urls ===================================================================================
     path('timetable-detail/<int:id>', views.timetable_detail, name='timetable-detail'),
+    path('hourlycharge-teacher-detail/<int:id>', views.hourlyLoad_teacher_detail, name='hourlycharge_teacher_detail'),
 
 
 # UPDATE urls ===================================================================================

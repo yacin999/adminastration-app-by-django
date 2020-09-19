@@ -10,6 +10,33 @@ let event_period = {};
 let id_event = "";
 let cours_was_submitted = false
 let tdp_was_submitted = false
+const id_period_converter = {
+  1: 'science1_J1',
+  2: 'science2_J1',
+  3: 'science3_J1',
+  4: 'science4_J1',
+
+  5: 'science1_J2',
+  6: 'science2_J2',
+  7: 'science3_J2',
+  8: 'science4_J2',
+
+  9: 'science1_J3',
+  10: 'science2_J3',
+  11: 'science3_J3',
+  12: 'science4_J3',
+
+  13: 'science1_J4',
+  14: 'science2_J4',
+  15: 'science3_J4',
+  16: 'science4_J4',
+
+  17: 'science1_J5',
+  18: 'science2_J5',
+  19: 'science3_J5',
+  20: 'science4_J5',
+
+}
 // this variable is for listening to users clicks on the timetable
 const targets = document.querySelectorAll(".our_target");
 const td_cours_btn = document.getElementById("choise");
@@ -93,7 +120,6 @@ try {
 
 // reset function:
 function resetInputs() {
-  console.log("from reset FUNCTION //")
   document.getElementById('creates').innerHTML='';    
   $('#select-TD-cours').val('');                            
 }
@@ -103,6 +129,19 @@ function searchIn_select(parent, val) {
     if (parent.querySelectorAll("option")[i].value === val) {
       return parent.querySelectorAll("option")[i];
     }
+  }
+}
+//Function to return an attribute by period's id:
+function search_property_api(apiObject, periodID){
+  if(apiObject[`${id_period_converter[periodID]}`] != null ){
+    if(apiObject.hasOwnProperty(id_period_converter[periodID]) && apiObject[`${id_period_converter[periodID]}`].hasOwnProperty('occupe')){
+      console.log("the intended property is: ", id_period_converter[periodID], apiObject[`${id_period_converter[periodID]}`].hasOwnProperty('occupe'))
+      return apiObject[`${id_period_converter[periodID]}`]['occupe']
+    }else {
+      return false
+    }
+  }else {
+    return false
   }
 }
   
@@ -150,9 +189,9 @@ function classroom_api(our_element, first_child) {
     our_element.appendChild(first_child);
      for (let i = 0; i < classroom_data.length; i++) {
       var other_option = document.createElement('option');    
-        other_option.textContent = `${classroom_data[i].design}`;
-        other_option.setAttribute(`value`, `${classroom_data[i].design}`);
-        our_element.appendChild(other_option);
+      other_option.textContent = `${classroom_data[i].design}`;
+      other_option.setAttribute(`value`, `${classroom_data[i].design}`);
+      our_element.appendChild(other_option);
     }
     })
   .catch(err => console.log(err))
@@ -358,7 +397,7 @@ function generate_inputs(nbr_group, type){
 
 
 
-// This function verify all the data of the table and compares it with canvas:_____________
+// This function verify all the data of table's modules and compares it with module's api :_____________
 var verify_modules_periods = async (periodType, user_input) => {
   let forceEnable = false;
   await fetch('http://127.0.0.1:8000/api/module-list')
@@ -379,7 +418,7 @@ var verify_modules_periods = async (periodType, user_input) => {
           }else if (counters_module_TP[`${user_input.value}`] >= canvas_data[i].tp) {
             let modalHeader = document.querySelector(".modal-header");
             const div = document.createElement('div');
-            const textNode = document.createTextNode(`canvas tells that this module (${user_input.value}) has just ${canvas_data[i].tp} TP per timetable`);
+            const textNode = document.createTextNode(`le module (${user_input.value}) n'a que ${canvas_data[i].tp} TP par emploi`);
             div.className = "alert alert-danger ml-4 mr-4 ";
             div.appendChild(textNode);
             modalHeader.insertBefore(div, modalHeader.childNodes[2]);
@@ -422,7 +461,7 @@ var verify_modules_periods = async (periodType, user_input) => {
           }else if (counters_module_TD[`${user_input.value}`] >= canvas_data[i].td) {
             let modalHeader = document.querySelector(".modal-header");
             const div = document.createElement('div');
-            const textNode = document.createTextNode(`canvas tells that this module (${user_input.value}) has just ${canvas_data[i].td} TP per timetable`);
+            const textNode = document.createTextNode(`le module (${user_input.value}) n'a que  ${canvas_data[i].td} TD  par emploi`);
             div.className = "alert alert-danger ml-4 mr-4 ";
             div.appendChild(textNode);
             modalHeader.insertBefore(div, modalHeader.childNodes[2]);
@@ -465,7 +504,7 @@ var verify_modules_periods = async (periodType, user_input) => {
           }else if (counters_module_Cours[`${user_input.value}`] >= canvas_data[i].cours) {
             let modalHeader = document.querySelector(".modal-header");
             const div = document.createElement('div');
-            const textNode = document.createTextNode(`canvas tells that this module (${user_input.value}) has just ${canvas_data[i].cours} cours per timetable`);
+            const textNode = document.createTextNode(`le module (${user_input.value}) n'a que ${canvas_data[i].cours} cours par emploi`);
             div.className = "alert alert-danger ml-4 mr-4 ";
             div.appendChild(textNode);
             modalHeader.insertBefore(div, modalHeader.childNodes[2]);
@@ -501,13 +540,56 @@ var verify_modules_periods = async (periodType, user_input) => {
 }
 
 
+var verify_teachers_periods = async (user_input, period_id) =>{
+  let forceEnable = false;
+  await fetch('http://127.0.0.1:8000/api/chargeHoraire-list')
+  .then(res =>  res.json())
+  .then((chargeHoraire_data) => {
+    console.log("charge horaire data", chargeHoraire_data)
+    for (let i = 0; i < chargeHoraire_data.length; i++) {
+      if ( chargeHoraire_data[i].enseignant.nom === user_input.value){
+        const is_occupied = search_property_api(chargeHoraire_data[i], period_id)
+        console.log('is occupied ', is_occupied)
+        if (is_occupied){
+          
+          let modalHeader = document.querySelector(".modal-header");
+          const div = document.createElement('div');
+          const textNode = document.createTextNode(`cet enseignant (${chargeHoraire_data[i].enseignant.nom}) est occupé par une autre classe  `);
+          div.className = "alert alert-danger ml-4 mr-4 ";
+          div.appendChild(textNode);
+          modalHeader.insertBefore(div, modalHeader.childNodes[2]);
+          
+          // after 2s the alert message will be deleted (fade in animation)
+          setTimeout(()=>{
+            let ambiguity = 1;
+            let setintervalID = setInterval(fadeIn, 50);
+            function fadeIn () {
+              if (ambiguity > 0){
+                ambiguity = ambiguity - 0.1;
+                div.style.opacity = ambiguity;
+              } else {
+                clearInterval(setintervalID);
+                modalHeader.removeChild(modalHeader.childNodes[2]);
+              }
+            }
+          }, 3000);
+          forceEnable = true
+        }else{
+          console.log("this teacher is NOT occupied by another class")
+        }
+      }
+    }
+  })
+  return forceEnable;
+}
+
+
 
 
 
 
 // This function checks if an input of the user was empty or not
 function check_empty_input() {
-  console.log("check empty inputs function")
   let user_inputs = document.querySelectorAll(".period-select")
   let empty_input = false
 
@@ -544,7 +626,7 @@ function check_empty_input() {
   return empty_input
 }
 // This function checks the inputs of user IF he selected a given input before or not :___________________________
-function examine_inputs(callbackFunction, periodType) {
+function examine_inputs(callbackFunctionM, callbackFunctionE, periodType) {
   var user_inputs = document.querySelectorAll(".period-select")
 
   if (periodType === "TD-TP") {
@@ -586,8 +668,8 @@ function examine_inputs(callbackFunction, periodType) {
 
 
         // if the user is standing on a "Module" input
-        } else if (user_inputs[e].previousSibling.textContent === "Module"){
-          callbackFunction(user_inputs[e-2].value, user_inputs[e])
+        }else if (user_inputs[e].previousSibling.textContent === "Module"){
+          callbackFunctionM(user_inputs[e-2].value, user_inputs[e])
           .then(forceEnable => {
             let m = 0;
 
@@ -644,33 +726,65 @@ function examine_inputs(callbackFunction, periodType) {
         
         // if the user is standing on a "Teacher" input
         }else if (user_inputs[e].previousSibling.textContent === "Enseignant") {
-          let t = 0;
-          let childE;
-          let dataT_attr = user_inputs[e].getAttribute("data-previous-value");
 
-          if (user_inputs[e].getAttribute("data-previous-value") === "") {
-            for (let i = 3; i < user_inputs.length; i++) {
-              if(t%5 === 0) {
-                childE = searchIn_select(user_inputs[i], user_inputs[e].value);
-                childE.disabled = true;
-                childE.style.backgroundColor = "#d9d3d3";
+          callbackFunctionE(user_inputs[e], id_event)
+          .then((force_enable)=>{
+              let t = 0;
+              let childE;
+              let dataT_attr = user_inputs[e].getAttribute("data-previous-value");
+
+              if (user_inputs[e].getAttribute("data-previous-value") === "" && !force_enable) {
+                console.log("condition one")
+                for (let i = 3; i < user_inputs.length; i++) {
+                  if(t%5 === 0) {
+                    childE = searchIn_select(user_inputs[i], user_inputs[e].value);
+                    childE.disabled = true;
+                    childE.style.backgroundColor = "#d9d3d3";
+                  }
+                  t = t+1;
+                }
+                user_inputs[e].setAttribute("data-previous-value", `${user_inputs[e].value}`);
+              }else if(!force_enable) {
+                console.log("condition two")
+                for (let i = 3; i < user_inputs.length; i++) {
+                  if(t%5 === 0) {
+                    childE = searchIn_select(user_inputs[i], user_inputs[e].value);
+                    childE.disabled = true;
+                    childE.style.backgroundColor = "#d9d3d3";
+                    let changed_value = searchIn_select(user_inputs[i], dataT_attr);
+                    changed_value.disabled = false;
+                    changed_value.style.backgroundColor = "";
+                  }
+                  t = t+1;
+                }
+                user_inputs[e].setAttribute("data-previous-value", `${user_inputs[e].value}`);
+              }else if (user_inputs[e].getAttribute("data-previous-value") !== "" && force_enable) {
+                setTimeout(() => {
+                  let childE = searchIn_select(user_inputs[e], user_inputs[e].value);
+                  let pre_option = searchIn_select(user_inputs[e], user_inputs[e].getAttribute("data-previous-value"));
+                  console.log("condition three ")
+                  childE.disabled = false;
+                  childE.style.backgroundColor = "";
+                  pre_option.selected = true;
+                  user_inputs[e].setAttribute("data-previous-value", `${user_inputs[e].value}`);
+                }, 3000);
+  
+              }else {
+                console.log("condition four")
+                setTimeout(() => {
+                  let childE = searchIn_select(user_inputs[e], user_inputs[e].value);
+                  let def_option = searchIn_select(user_inputs[e], "--Please select--");
+                  childE.disabled = false;
+                  childE.style.backgroundColor = "";
+                  def_option.selected = true;
+                  user_inputs[e].setAttribute("data-previous-value", `${user_inputs[e].value}`);
+                }, 3000);
               }
-              t = t+1;
-            }
-          }else {
-            for (let i = 3; i < user_inputs.length; i++) {
-              if(t%5 === 0) {
-                childE = searchIn_select(user_inputs[i], user_inputs[e].value);
-                childE.disabled = true;
-                childE.style.backgroundColor = "#d9d3d3";
-                let changed_value = searchIn_select(user_inputs[i], dataT_attr);
-                changed_value.disabled = false;
-                changed_value.style.backgroundColor = "";
-              }
-              t = t+1;
-            }
-          }
-          user_inputs[e].setAttribute("data-previous-value", `${user_inputs[e].value}`);
+          })
+          .catch(err=>{
+            console.log("something went wrong from verify teacher API !!", err)
+          })
+
 
         // if the user is standing on a "Classroom" input
         }else if (user_inputs[e].previousSibling.textContent === "Salle") {
@@ -707,37 +821,69 @@ function examine_inputs(callbackFunction, periodType) {
       });
     }
   }else if(periodType === "Cours") {
-      user_inputs[0].setAttribute("data-previous-value", `${user_inputs[0].value}`);
-      user_inputs[0].addEventListener('change', (event) => {
-        if (user_inputs[0].previousSibling.textContent === "Module"){
-          callbackFunction("Cours", user_inputs[0])
+    for (let i = 0; i < user_inputs.length; i++) {
+      user_inputs[i].setAttribute("data-previous-value", `${user_inputs[i].value}`);
+      user_inputs[i].addEventListener('change', (event) => {
+        if (user_inputs[i].previousSibling.textContent === "Module"){
+          callbackFunctionM("Cours", user_inputs[i])
           .then((forceEnable)=>{
 
-            if (user_inputs[0].getAttribute("data-previous-value") !== "" && forceEnable) {
+            if (user_inputs[i].getAttribute("data-previous-value") !== "" && forceEnable) {
               setTimeout(() => {
 
-                let pre_option = searchIn_select(user_inputs[0], user_inputs[0].getAttribute("data-previous-value"));
+                let pre_option = searchIn_select(user_inputs[i], user_inputs[i].getAttribute("data-previous-value"));
                 pre_option.selected = true;
-                user_inputs[0].setAttribute("data-previous-value", `${user_inputs[0].value}`);
+                user_inputs[i].setAttribute("data-previous-value", `${user_inputs[i].value}`);
               }, 3000);
 
             }else if (forceEnable) {
               setTimeout(() => {
-                let def_option = searchIn_select(user_inputs[0], "--Please select--");
+                let def_option = searchIn_select(user_inputs[i], "--Please select--");
                 def_option.selected = true;
-                user_inputs[0].setAttribute("data-previous-value", `${user_inputs[0].value}`);
+                user_inputs[i].setAttribute("data-previous-value", `${user_inputs[i].value}`);
               }, 3000);
             }else{
-              user_inputs[0].setAttribute("data-previous-value", `${user_inputs[0].value}`);
+              user_inputs[i].setAttribute("data-previous-value", `${user_inputs[i].value}`);
             }
 
           })
           .catch((err)=>{
             console.log("error", err)
           })
+        }else if(user_inputs[i].previousSibling.textContent === "Enseignant"){
+          
+          callbackFunctionE(user_inputs[i], id_event)
+          .then((force_enable)=>{
+
+            if (user_inputs[i].getAttribute("data-previous-value") !== "" && force_enable) {
+              setTimeout(() => {
+
+                let pre_option = searchIn_select(user_inputs[i], user_inputs[i].getAttribute("data-previous-value"));
+                pre_option.selected = true;
+                user_inputs[i].setAttribute("data-previous-value", `${user_inputs[i].value}`);
+              }, 3000);
+
+            }else if (force_enable) {
+              setTimeout(() => {
+                let def_option = searchIn_select(user_inputs[i], "--Please select--");
+                def_option.selected = true;
+                user_inputs[i].setAttribute("data-previous-value", `${user_inputs[i].value}`);
+              }, 3000);
+            }else{
+              user_inputs[i].setAttribute("data-previous-value", `${user_inputs[i].value}`);
+            }
+
+          }).catch(err=>{
+            console.log('error from vefify enseignent api',err)
+          })
+
+
+
+
+
         }
       })
-    
+    }
   }
 }
 
@@ -817,6 +963,7 @@ function period_tb_click(event) {
     
     $('#exampleModall').modal('show');
     event.target.innerHTML= "";
+
     
     
     $("#closes").click(function () {
@@ -864,7 +1011,7 @@ function td_cr_click(ev) {
         })
 
         // checking the user's inputs _____________________
-        examine_inputs(verify_modules_periods, choise.value);
+        examine_inputs(verify_modules_periods, verify_teachers_periods, choise.value);
         
         // if the user clicked to generate inputs this will prevent his to click again
         cours_was_submitted = true
@@ -898,11 +1045,8 @@ function nbr_group_click() {
         
     })
   })
-
-
   //calling this function to check user inputs if they are frequent:  
-  examine_inputs(verify_modules_periods, choise.value);
-
+  examine_inputs(verify_modules_periods, verify_teachers_periods, choise.value);
   // if the user clicked to generate inputs this will prevent his to click again
   tdp_was_submitted = true
 }

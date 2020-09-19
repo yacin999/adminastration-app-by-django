@@ -28,7 +28,7 @@
       <tr>
         <th scope="row">{{ forloop.counter|add:0 }}</th>
         <td>{{ salle.design}}</td>
-        <td>{{ salle.type_of}}</td>
+        <td>{{ salle.get_type_of_display}}</td>
         <td>{{ salle.bloc}}</td>
         <td>{{ salle.is_available}}</td>
         <td class="td-btn" style="width: 200px;">

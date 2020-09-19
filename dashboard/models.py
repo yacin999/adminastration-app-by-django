@@ -102,7 +102,7 @@ def pre_save_module_receiver(sender, instance, *args, **kwargs):
 pre_save.connect(pre_save_module_receiver, sender=Module)      
 
 # class Salle <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
-CHOICES =  [('1', 'TP'), ('2', 'TD'), ('3', 'Amphi')]
+CHOICES =  [('TP', 'TP'), ('TD', 'TD'), ('Amphi', 'Amphi')]
 BLOCKS = [('1', 'Bloc 30Salles'), ('2', 'Bloc 22Salles')]
 class Salle(models.Model):
     enseignants = models.ForeignKey(Enseignant, on_delete=models.DO_NOTHING)
@@ -260,46 +260,44 @@ class Science(models.Model):
     
 
 
-
-
-SEMESTRES = [('1', 'S1'), ('2', 'S2'), ('3', 'S3'),('4', 'S4'), ('5', 'S5'), ('6', 'S6'), ('7', 'M1'), ('8', 'M2')]
+SEMESTRES = [('S1', 'S1'), ('S2', 'S2'), ('S3', 'S3'),('S4', 'S4'), ('S5', 'S5'), ('S6', 'S6'), ('M1', 'M1'), ('M2', 'M2')]
 
 class ChargeHoraire(models.Model):
-    enseignant = models.ForeignKey(Enseignant, on_delete=models.CASCADE)
+    enseignant = models.OneToOneField(Enseignant, on_delete=models.CASCADE)
     niveau = models.ForeignKey(Niveau, on_delete=models.CASCADE)
     semestre = models.CharField(max_length=20, choices=SEMESTRES)
     active = models.BooleanField(default=True) 
 
-    science1_J1 = models.ForeignKey(Science, on_delete=models.DO_NOTHING, related_name="science1_J1")
-    science2_J1 = models.ForeignKey(Science, on_delete=models.DO_NOTHING, related_name="science2_J1")
-    science3_J1 = models.ForeignKey(Science, on_delete=models.DO_NOTHING, related_name="science3_J1")
-    science4_J1 = models.ForeignKey(Science, on_delete=models.DO_NOTHING, related_name="science4_J1")
+    science1_J1 = models.ForeignKey(Science, on_delete=models.DO_NOTHING, related_name="science1_J1", blank=True, null=True)
+    science2_J1 = models.ForeignKey(Science, on_delete=models.DO_NOTHING, related_name="science2_J1", blank=True, null=True)
+    science3_J1 = models.ForeignKey(Science, on_delete=models.DO_NOTHING, related_name="science3_J1", blank=True, null=True)
+    science4_J1 = models.ForeignKey(Science, on_delete=models.DO_NOTHING, related_name="science4_J1", blank=True, null=True)
 
-    science1_J2 = models.ForeignKey(Science, on_delete=models.DO_NOTHING, related_name="science1_J2")
-    science2_J2 = models.ForeignKey(Science, on_delete=models.DO_NOTHING, related_name="science2_J2")
-    science3_J2 = models.ForeignKey(Science, on_delete=models.DO_NOTHING, related_name="science3_J2")
-    science4_J2 = models.ForeignKey(Science, on_delete=models.DO_NOTHING, related_name="science4_J2")
+    science1_J2 = models.ForeignKey(Science, on_delete=models.DO_NOTHING, related_name="science1_J2", blank=True, null=True)
+    science2_J2 = models.ForeignKey(Science, on_delete=models.DO_NOTHING, related_name="science2_J2", blank=True, null=True)
+    science3_J2 = models.ForeignKey(Science, on_delete=models.DO_NOTHING, related_name="science3_J2", blank=True, null=True)
+    science4_J2 = models.ForeignKey(Science, on_delete=models.DO_NOTHING, related_name="science4_J2", blank=True, null=True)
 
-    science1_J3 = models.ForeignKey(Science, on_delete=models.DO_NOTHING, related_name="science1_J3")
-    science2_J3 = models.ForeignKey(Science, on_delete=models.DO_NOTHING, related_name="science2_J3")
-    science3_J3 = models.ForeignKey(Science, on_delete=models.DO_NOTHING, related_name="science3_J3")
-    science4_J3 = models.ForeignKey(Science, on_delete=models.DO_NOTHING, related_name="science4_J3")
+    science1_J3 = models.ForeignKey(Science, on_delete=models.DO_NOTHING, related_name="science1_J3", blank=True, null=True)
+    science2_J3 = models.ForeignKey(Science, on_delete=models.DO_NOTHING, related_name="science2_J3", blank=True, null=True)
+    science3_J3 = models.ForeignKey(Science, on_delete=models.DO_NOTHING, related_name="science3_J3", blank=True, null=True)
+    science4_J3 = models.ForeignKey(Science, on_delete=models.DO_NOTHING, related_name="science4_J3", blank=True, null=True)
 
-    science1_J4 = models.ForeignKey(Science, on_delete=models.DO_NOTHING, related_name="science1_J4")
-    science2_J4 = models.ForeignKey(Science, on_delete=models.DO_NOTHING, related_name="science2_J4")
-    science3_J4 = models.ForeignKey(Science, on_delete=models.DO_NOTHING, related_name="science3_J4")
-    science4_J4 = models.ForeignKey(Science, on_delete=models.DO_NOTHING, related_name="science4_J4")
+    science1_J4 = models.ForeignKey(Science, on_delete=models.DO_NOTHING, related_name="science1_J4", blank=True, null=True)
+    science2_J4 = models.ForeignKey(Science, on_delete=models.DO_NOTHING, related_name="science2_J4", blank=True, null=True)
+    science3_J4 = models.ForeignKey(Science, on_delete=models.DO_NOTHING, related_name="science3_J4", blank=True, null=True)
+    science4_J4 = models.ForeignKey(Science, on_delete=models.DO_NOTHING, related_name="science4_J4", blank=True, null=True)
 
-    science1_J5 = models.ForeignKey(Science, on_delete=models.DO_NOTHING, related_name="science1_J5")
-    science2_J5 = models.ForeignKey(Science, on_delete=models.DO_NOTHING, related_name="science2_J5")
-    science3_J5 = models.ForeignKey(Science, on_delete=models.DO_NOTHING, related_name="science3_J5")
-    science4_J5 = models.ForeignKey(Science, on_delete=models.DO_NOTHING, related_name="science4_J5")
+    science1_J5 = models.ForeignKey(Science, on_delete=models.DO_NOTHING, related_name="science1_J5", blank=True, null=True)
+    science2_J5 = models.ForeignKey(Science, on_delete=models.DO_NOTHING, related_name="science2_J5", blank=True, null=True)
+    science3_J5 = models.ForeignKey(Science, on_delete=models.DO_NOTHING, related_name="science3_J5", blank=True, null=True)
+    science4_J5 = models.ForeignKey(Science, on_delete=models.DO_NOTHING, related_name="science4_J5", blank=True, null=True)
 
-    science5_J1 = models.ForeignKey(Science, on_delete=models.DO_NOTHING, related_name="science5_J1")
-    science5_J2 = models.ForeignKey(Science, on_delete=models.DO_NOTHING, related_name="science5_J2")
-    science5_J3 = models.ForeignKey(Science, on_delete=models.DO_NOTHING, related_name="science5_J3")
-    science5_J4 = models.ForeignKey(Science, on_delete=models.DO_NOTHING, related_name="science5_J4")
-    science5_J5 = models.ForeignKey(Science, on_delete=models.DO_NOTHING, related_name="science5_J5")
+    science5_J1 = models.ForeignKey(Science, on_delete=models.DO_NOTHING, related_name="science5_J1", blank=True, null=True)
+    science5_J2 = models.ForeignKey(Science, on_delete=models.DO_NOTHING, related_name="science5_J2", blank=True, null=True)
+    science5_J3 = models.ForeignKey(Science, on_delete=models.DO_NOTHING, related_name="science5_J3", blank=True, null=True)
+    science5_J4 = models.ForeignKey(Science, on_delete=models.DO_NOTHING, related_name="science5_J4", blank=True, null=True)
+    science5_J5 = models.ForeignKey(Science, on_delete=models.DO_NOTHING, related_name="science5_J5", blank=True, null=True)
 
 
 

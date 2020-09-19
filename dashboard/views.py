@@ -1,5 +1,5 @@
 from django.shortcuts import get_object_or_404, redirect, render
-from .models import Enseignant, Module, Salle, EmploiTemps, Periode, Niveau, Material, Order
+from .models import Enseignant, Module, Salle, EmploiTemps, Periode, Niveau, Material, Order, ChargeHoraire, Science
 from user.models import Staff, StaffPermission
 from django.views.generic import CreateView
 from .forms import EnseignantModelForm, ModuleModelForm, SalleModelForm, MaterialModelForm
@@ -182,7 +182,7 @@ def all_staff(request):
 
 
 
-#create all teachers and modules and classrooms and tabletimes ______________________________________________________________________________
+#_____________________CREATE VIEWS ______________________________________________________________________________
 @login_required(login_url='login')
 def new_teacher(request):
 
@@ -251,6 +251,9 @@ def new_classroom(request):
     return render(request, 'dashboard/new_classroom.html', context)
 
 
+
+
+#_____________________DETAIL VIEWS ______________________________________________________________________________
 @login_required(login_url='login')
 def timetable_detail(request, id):
 
@@ -261,6 +264,18 @@ def timetable_detail(request, id):
     }
     return render(request, 'dashboard/detail_timetable.html', context)
 
+
+
+def hourlyLoad_teacher_detail(request, id):
+
+    chargehoraire = get_object_or_404(ChargeHoraire, id=id)
+
+    context = {
+        'title': 'charge horaire pour enseignent',
+        'chargehoraire': chargehoraire
+    }
+
+    return render(request, "dashboard/detail_hourlyload_teacher.html", context)
 
 
 # @login_required(login_url='login')
