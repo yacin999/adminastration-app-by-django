@@ -42,50 +42,50 @@
    <div class="our_row">
       <span class="our_cell">dimanche</span>
       
-     <span class="our_cell our_target" id="1">Click here</span>
-     <span class="our_cell our_target" id="2">Click here</span>
+     <span class="our_cell our_target" id="1">Cliquez ici</span>
+     <span class="our_cell our_target" id="2">Cliquez ici</span>
      <span class="our_cell" ></span>
-     <span class="our_cell our_target" id="3">Click here</span>
-     <span class="our_cell our_target" id="4">Click here</span>
+     <span class="our_cell our_target" id="3">Cliquez ici</span>
+     <span class="our_cell our_target" id="4">Cliquez ici</span>
    </div>
    <div class="our_row">
-      <span class="our_cell">lendi</span>
-     <span class="our_cell our_target" id="5">Click here</span>
-     <span class="our_cell our_target" id="6">Click here</span>
+      <span class="our_cell">lundi</span>
+     <span class="our_cell our_target" id="5">Cliquez ici</span>
+     <span class="our_cell our_target" id="6">Cliquez ici</span>
      <span class="our_cell" ></span>
-     <span class="our_cell our_target" id="7">Click here</span>
-     <span class="our_cell our_target" id="8">Click here</span>
+     <span class="our_cell our_target" id="7">Cliquez ici</span>
+     <span class="our_cell our_target" id="8">Cliquez ici</span>
    </div>
    <div class="our_row">
       <span class="our_cell">mardi</span>
-     <span class="our_cell our_target" id="9">Click here</span>
-     <span class="our_cell our_target" id="10">Click here</span>
+     <span class="our_cell our_target" id="9">Cliquez ici</span>
+     <span class="our_cell our_target" id="10">Cliquez ici</span>
      <span class="our_cell" ></span>
-     <span class="our_cell our_target" id="11">Click here</span>
-     <span class="our_cell our_target" id="12">Click here</span>
+     <span class="our_cell our_target" id="11">Cliquez ici</span>
+     <span class="our_cell our_target" id="12">Cliquez ici</span>
    </div>
    <div class="our_row">
       <span class="our_cell">mercredi</span>
-     <span class="our_cell our_target" id="13">Click here</span>
-     <span class="our_cell our_target" id="14">Click here</span>
+     <span class="our_cell our_target" id="13">Cliquez ici</span>
+     <span class="our_cell our_target" id="14">Cliquez ici</span>
      <span class="our_cell" ></span>
-     <span class="our_cell our_target" id="15">Click here</span>
-     <span class="our_cell our_target" id="16">Click here</span>
+     <span class="our_cell our_target" id="15">Cliquez ici</span>
+     <span class="our_cell our_target" id="16">Cliquez ici</span>
    </div>
    <div class="our_row">
-      <span class="our_cell">juedi</span>
-     <span class="our_cell our_target" id="17">Click here</span>
-     <span class="our_cell our_target" id="18">Click here</span>
+      <span class="our_cell">jeudi</span>
+     <span class="our_cell our_target" id="17">Cliquez ici</span>
+     <span class="our_cell our_target" id="18">Cliquez ici</span>
      <span class="our_cell"></span>
-     <span class="our_cell our_target" id="19">Click here</span>
-     <span class="our_cell our_target" id="20">Click here</span>
+     <span class="our_cell our_target" id="19">Cliquez ici</span>
+     <span class="our_cell our_target" id="20">Cliquez ici</span>
    </div>
   </div>
 
   <!--ajax button-->
   <div>
     <button class="btn btn-secondary float-right m-5" onclick="sendData()">
-      Submit
+      Création
     </button>
   </div>
 
@@ -93,17 +93,16 @@
 
   
 
- <!-- Modal -->
+ <!-- Modals ============================================================================= -->
+ 
+ <!-- Bootstrap modal -->
  <div class="modal fade" id="exampleModall" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
    <div class="modal-dialog modal-lg " role="document">
      <div class="modal-content">
        <div class="modal-header">
          <h5 class="modal-title" id="exampleModalLabel">new period</h5>
 
-         <!-- <div class="alert alert-danger ml-4 text-center" role="alert">
-          canvas tells that this module<a href="#" class="alert-link">(${module_value})</a>has just ${canvas_data[i].tp} TP per timetable
-         </div> -->
-
+         
          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
            <span aria-hidden="true">&times;</span>
          </button>
@@ -121,7 +120,6 @@
          </div>
          <div class="hidden-part" hidden>
           <label for="" class="pl-3 pr-3">combien de groupes étudieront cette période?</label>
-          <!-- <input type="number" value="" placeholder="Number" class="group-numb-input"> -->
           <span id="group-numb-input"></span>
           <div style="display: inline;">
             <div id="arrow-up" style="display: inline; cursor:pointer;">
@@ -138,7 +136,7 @@
          
          
          <div id="creates">
-            <!-- here we will create our table -->
+            
           </div>
 
           <button type="button" class="btn btn-danger mt-4" id="close">Close</button>
@@ -148,6 +146,147 @@
      </div>
    </div>
  </div>
+
+
+<!-- <div class="modal fade" id="period-popup-modal">
+  <div class="modal-dialog modal-lg " role="document">
+    <div >
+      <div >
+        <h5 class="modal-title" id="exampleModalLabel">new period</h5>
+
+        
+
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="row pb">
+          <label for="" class="pl-3 pr-3">voulez-vous sélectionner  des cours ou des (TDs & TPs)</label>
+          <select name="emplois" class="selectpicker custom-select" style="width: 130px; position: relative;
+          top: -6px;" data-style="btn-primary" id="select-TD-cours">
+            <option value="" selected disabled >-select-</option>
+            <option value="Cours">Cours</option>
+            <option value="TD-TP">TD-TP</option>
+          </select>
+          <a class="text-primary ml-3 h6" name="button" id="choise">Next</a>
+        </div>
+        <div class="hidden-part" hidden>
+         <label for="" class="pl-3 pr-3">combien de groupes étudieront cette période?</label>
+         <span id="group-numb-input"></span>
+         <div style="display: inline;">
+           <div id="arrow-up" style="display: inline; cursor:pointer;">
+             <i class="fa fa-caret-up" aria-hidden="true"></i>
+           </div>
+           <div id="arrow-down" style="display: inline; cursor:pointer;">
+             <i class="fa fa-caret-down" aria-hidden="true"></i>
+           </div>
+         </div>
+         <a class="text-primary ml-2 h6" name="button" id="R-numb-btn">Submit</a>
+        </div>
+
+         
+        
+        
+        <div id="creates">
+         </div>
+
+         <button type="button" class="btn btn-danger mt-4" id="close">Close</button>
+         <button type="button" name="myButton" class="btn btn-primary float-right mt-4" id="create">Create</button>
+      </div>
+
+    </div>
+  </div>
+</div> -->
+
+
+<!-- timetable name error modal -->
+ <div id="popup-tt-name-error" class="overlay">
+	<div class="popup">
+		<h2>ERROR</h2>
+		<a class="popup-tt-name-close" href="#">&times;</a>
+		<div class="content">
+			ce emploi du temps existe déjà, essaie un autre semestre ou niveau
+		</div>
+	</div>
+</div>
+
+
+<!-- module completion worning modal -->
+<div class="modal fade" id="exampleModalLong" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header module-modal-header">
+        <h5 class="modal-title" id="exampleModalLongTitle">
+          <h2><i class="fas fa-exclamation-triangle" style="color: rgb(229, 245, 1);"></i> Warning</h2>
+        </h5>
+        
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true" id="closeBtn">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <p class="par"><i class="fas fa-exclamation-circle mr-3" style="color: #000"></i>Veuillez terminez la charge horaire du module SVP !</p>
+        <div class="module-modal-body-container">
+
+        </div>
+      </div>
+      <div class="modal-footer module-modal-footer">
+        
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+<!-- checking all modules if are completed before submitting -->
+<div class="modal fade" id="all-modules-alert-modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content" style="background: #f5e5e5;
+    border: 2px solid red;
+    color: #f00;">
+      <div class="modal-header" style="border-bottom: 0;">
+        <h5 class="modal-title" id="exampleModalLabel"><i class="fas fa-exclamation-triangle mr-1"></i> Alert</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true" style="color: #f00;">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body all-modules-alert-modal-body">
+        <div class="mb-3">veuillez remplir ces modules avant de soumettre !!</div>
+        <div class="all-modules-alert-modal-container">
+    
+        </div>
+        
+      </div>
+      <!-- <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary">Save changes</button>
+      </div> -->
+    </div>
+  </div>
+</div>
+
+<!-- 888888888888888888888888888888888888888888888888888888888888888888888888888888888 -->
+<!-- <div id="simpleModal" class="module-modal">
+  <div class="module-modal-content">
+    <div class="module-modal-content2">
+      <div class="module-modal-header">
+        <h2><i class="fas fa-exclamation-triangle" style="color: rgb(229, 245, 1);"></i> Warning</h2>
+        <span class="closeBtn"> &times;</span>
+      </div>
+      <div class="module-modal-body">
+        <p><i class="fas fa-exclamation-circle mr-3" style="color: #000"></i>ci-dessous quelques modules dont vous n'avez pas terminé leur création ou qui ne conviennent pas à leur création :</p>
+        <div class="module-modal-body-container">
+        </div>
+      </div>
+      <div class="module-modal-footer">
+        <h3></h3>
+      </div>
+    </div>
+  </div>
+</div> -->
+
 
  
 
@@ -227,6 +366,27 @@
       value_group.textContent = group_parser
     }
   })
+
+  var simpleModal = document.getElementById('simpleModal');
+  //var closeBtn = document.getElementsByClassName('closeBtn')[0];
+  //closeBtn.addEventListener('click', closeModal);
+  window.addEventListener('click', outsideClick);
+
+
+  //function closeModal() {
+  //  simpleModal.style.display = 'none';
+  //}
+
+  function outsideClick (event) {
+    if (event.target == simpleModal) {
+      simpleModal.style.display = 'none';
+    }
+  }
+
+
+
+
+
 </script>  
 
 

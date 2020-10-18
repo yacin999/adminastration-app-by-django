@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from dashboard.models import EmploiTemps, Module, Periode, Enseignant, Salle, ChargeHoraire
+from dashboard.models import EmploiTemps, Module, Periode, Enseignant, Salle
 from django.contrib.auth.models import User
 
 
@@ -39,9 +39,10 @@ class EmpoiTempsSerializer(serializers.ModelSerializer):
 
 class ModuleSerializer(serializers.ModelSerializer):
     # canvas = CanvasSerializer(many=True)
+    semestre = serializers.CharField(source="get_semestre_display")
     class  Meta:
         model = Module
-        fields = '__all__'
+        fields = ['code', 'slug', 'designation', 'unite', 'credit', 'coeff', 'active', 'semestre', 'cours', 'td', 'tp', 'niveau']
         depth = 2
 
     # def create(self, validated_data):
@@ -62,17 +63,13 @@ class TeacherSerializer(serializers.ModelSerializer):
 
 
 class ClassroomSerializer(serializers.ModelSerializer):
+    bloc = serializers.CharField(source="get_bloc_display")
+    type_of = serializers.CharField(source="get_type_of_display")
+
     
     class  Meta:
         model = Salle
-        fields = '__all__'
+        fields = ['bloc', 'design', 'type_of', 'active', 'is_available']
 
-
-class ChargeHoraireSerializer(serializers.ModelSerializer):
-    
-    class  Meta:
-        model = ChargeHoraire
-        fields = '__all__'
-        depth = 2
 
 

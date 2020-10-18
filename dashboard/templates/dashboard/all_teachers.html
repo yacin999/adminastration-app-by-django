@@ -6,9 +6,9 @@
 <div class="container-search">
   <form class="form-inline my-2 my-lg-0 search">
     <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
-    <button class="btn btn-outline-primary my-2 my-sm-0" type="submit">Search</button>
+    <button class="btn btn-outline-primary my-2 my-sm-0" type="submit">Chercher</button>
   </form>
-  <button type="button" class="btn btn-primary mb-4 adding"><a href="{% url 'new-teacher' %}">add teacher</a></button> 
+  <button type="button" class="btn btn-primary mb-4 adding"><a href="{% url 'new-teacher' %}">Ajouter enseigannt</a></button> 
 </div>
 
 <div id="table">
@@ -19,6 +19,7 @@
         <th scope="col">nom</th>
         <th scope="col">prenom</th>
         <th scope="col">email</th>
+        <th scope="col">département</th>
         <th scope="col" class="text-center">Action</th>
       </tr>
     </thead>
@@ -27,8 +28,9 @@
       <tr>
         <th scope="row">{{ forloop.counter|add:0 }}</th>
         <td>{{ teacher.prenom}}</td>
-        <td>{{ teacher.nom}}</td>
+        <td><a href="{% url 'hourlycharge_teacher_detail' teacher.slug %}">{{ teacher.nom}}</a></td>
         <td>{{ teacher.email}}</td>
+        <td>{{ teacher.get_departement_display}}</td>
         <td class="td-btn" style="width: 300px;">
             <a href="{% url 'update-teacher' teacher.slug %}" > <i class="fas fa-edit mr-5 ml-5" style="font-size: 25px;"></i></a>
             <a href="{% url 'delete-teacher' teacher.slug %} "><i class="fas fa-trash-alt text-danger mr-5 ml-5" style="font-size: 25px;"></i></a>

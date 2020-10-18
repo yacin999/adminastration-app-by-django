@@ -66,3 +66,30 @@
     
 
 })(jQuery);
+
+
+
+try {
+    const login_button = document.getElementById("login-link")
+
+    login_button.addEventListener("click", ()=>{
+        const login_div = document.getElementById("login")
+        const nav_bar_container = document.querySelector(".navbar.navbar-expand-lg.navbar-light")
+        console.log("from login button",login_div, login_div.hidden)
+        login_div.hidden = false
+    })
+
+
+    
+
+} catch (error) {
+    
+}
+
+const delete_msg_btn = document.querySelectorAll(".delete-btn-error")
+
+    delete_msg_btn.forEach(element => {
+        element.addEventListener("click", ()=>{
+            element.parentNode.removeChild(element)
+        })
+    });

@@ -1,19 +1,44 @@
-{% extends 'adminn/base.html' %}
-{% load crispy_forms_tags %}
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="{% static 'user/css/main.css' %}">
+  <link rel="stylesheet" href="{% static 'dashboard/css/font-awesome.min.css' %}">
+  <title>Document</title>
+</head>
+<body class="register-body">
+  
 
 
-{% block content %}
-
-   <div class="border p-4 mb-5">
-       <h3 class="border-bottom pb-3 mb-3">register new account</h3>
-       <form method="POST">
-       {% csrf_token %}
-       {{ form|crispy }}
-       <input type="submit" class="btn btn-secondary mt-4" value="signup">
-   </form>
-       <div class="border-top pt-3">
-           <small>if you had an account before so can <a href="">register here</a> </small>
+   <div  id="register-container">
+        <a href="{% url 'home' %}" class="goback-btn"><i class="fa fa-arrow-left"></i></a>
+       <h3 class="register-header">S'inscrire nouveau compte</h3>
+       <form  method="post" class="form">
+        {% csrf_token %}
+        
+        
+        {% for input in user %}
+          
+            {{input}}
+            <div class="text-danger ml-3" class="error-input-message" id="error{{forloop.counter}}"  hidden><i class="fas fa-exclamation-triangle text-danger mr-1"></i></div>
+          
+        {% endfor %}
+          <button type="submit" class="submit-btn">
+            valider
+            <i class="fas fa-arrow-right" style="margin-left: 5px;"></i>
+          </button>
+      </form>
+       <div>
+           <span class="footer">si vous aviez un compte auparavant, vous pouvez <a href="{% url 'login' %}">se connecter ici</a> </span>
        </div>
-   </div>
+  </div>
 
-{% endblock %}
+  <div class="register-overlay" ></div>
+
+  <script src="{% static 'dashboard/js/fontawesome-all.min.js' %}"></script>
+   <script defer src="{% static 'dashboard/js/order.js' %}"></script>
+
+  </body>
+</html>

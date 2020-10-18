@@ -10,7 +10,10 @@
     
       <div class="row">
         {% for input in form %}
-          <div class="col-6">
+          <div class="col-6 mb-5">
+            {% if forloop.counter == 3 or forloop.counter == 1 %}
+              <label for="{{ input.id_for_label }}"> {{input.label}}</label>
+            {% endif %}
             {{input}}
           </div>
         {% endfor %}

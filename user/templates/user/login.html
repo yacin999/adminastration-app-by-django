@@ -19,36 +19,41 @@
 
 
 </head>
-    <body>
+    <body  class="login-body">
 
         <div class="mesaage-system">
             {% if messages %}
                 <ul class="messages">
                 {% for message in messages %}
-                    <li style="list-style-type: none;" {% if message.tags %} class="{{ message.tags }} alert alert-danger session"{% endif %}>{{ message }} <i class="ml-2 fa fa-times" aria-hidden="true"></i></li>
+                    <li style="list-style-type: none;top: -13px;" {% if message.tags %} class="{{ message.tags }} alert alert-danger session delete-btn-error"{% endif %}>{{ message }} <i class="ml-2 fa fa-times" aria-hidden="true" style="position: absolute;
+                        top: 17px;
+                        right: 13px;text-align:center"></i></li>
                 {% endfor %}
                 </ul>
             {% endif %}
         </div>
 
-        <div class="form-container" id="login">
+        <div class="form-container" id="login-container" >
+            <h3 class="login-header">se connecter</h3>
             <form method="POST" class="">
                 {% csrf_token %}
-                <a href="{% url 'home' %}" ><i class="fa fa-arrow-left" style="font-size: 20px;" aria-hidden="true"></i></a>
+                <a href="{% url 'home' %}" class="goback-btn"><i class="fa fa-arrow-left" aria-hidden="true"></i></a>
                 <div class="form-group">
-                    <label for="exampleInputUsername" style="color: #fff;"> username</label>
-                    <input type="text" class="form-control" id="exampleInputUsername" placeholder="enter username" name="username">
+                    <!-- <label for="exampleInputUsername" style="color: #fff;"> nom d'utilisateur</label> -->
+                    <input type="text" class="form-control" id="exampleInputUsername" placeholder="Nom d'utilisateur" name="username">
                 </div>
                 <div class="form-group">
-                    <label for="exampleInputPassword1" style="color: #fff;">Password</label>
-                    <input type="password" class="form-control" id="exampleInputPassword1" placeholder="password" name="password">
+                    <!-- <label for="exampleInputPassword1" style="color: #fff;">mot de pass</label> -->
+                    <input type="password" class="form-control password" id="exampleInputPassword1" placeholder="mot de passe" name="password">
                 </div>
                 <input type="submit" class="btn btn-block mt-3 text-light" value="submit" style="background-color: red; font-size: 18px">
                 <div class="pt-3">
-                    <small style="color: #fff;">if you haven't an account yet, you can <a href="" id="register-link">REGISTER</a> </small>
+                    <span class="footer">si vous n'avez pas de compte, vous pouvez <a href="{% url 'register' %}"  id="register-link">S'inscrire</a> </span>
                 </div>
             </form>
         </div>
+
+        <div class="register-overlay" ></div>
 
 
                 
@@ -64,25 +69,3 @@
             
 
             
-<!--              
-                <div class="border p-4 mb-5">
-                    <h3 class="border-bottom pb-3 mb-3">log in </h3>
-                    <form method="POST">
-                      {% csrf_token %}
-                      <div class="form-group">
-                        <label>username</label>
-                        <input type="text" name="username" placeholder="enter your username" class="form-control">
-             
-                        <label>password</label>
-                        <input type="password" name="password" placeholder="enter your password" class="form-control">
-                     </div>
-                        <input type="submit" class="btn btn-secondary mt-4" value="signin">
-             
-             
-                   </form>
-                    <div class="border-top pt-3">
-                        <small>if you had an account before so can <a href="">register here</a> </small>
-                    </div>
-                </div>
-   
-              -->

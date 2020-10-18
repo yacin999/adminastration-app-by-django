@@ -1,0 +1,33 @@
+{% extends "dashboard/admin_panel.html" %}
+{% load static %}
+
+
+{% block content %}
+  
+
+
+    <div class="mb-5">
+        
+        <label for="tableau"> L'enseignat :</label>
+        <select id="teacher" class="custom-select ml-1 mr-5" style="width: 130px;" onchange="location = this.options[this.selectedIndex].value;">
+            <option value="" selected disabled>-select-</option>
+            {% for ens in enseignant %}
+            <option value="{% url 'hourlycharge_teacher_detail' ens.slug %}"><a href="{% url 'hourlycharge_teacher_detail' ens.slug %}">{{ens}}</a></option>
+            {% endfor %}  
+        </select>
+
+        
+
+        
+        <!-- <button class="btn btn-success ml-5" id="searchBtn_tt_teacher">chercher</button> -->
+    </div>
+
+    <h6 class="hint-header">"selectioner un enseignant"</h6>
+
+    
+
+    
+
+
+    <script src="{% static 'dashboard/js/order.js' %}"></script>
+{% endblock content %}

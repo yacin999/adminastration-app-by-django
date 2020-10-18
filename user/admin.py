@@ -13,7 +13,7 @@ class StaffPermissionAdmin(admin.ModelAdmin):
 
 class StaffAdmin(admin.ModelAdmin):
     list_filter = ['user', 'permissions', 'active']
-    list_display = ['user', 'active']
+    list_display = ['user', 'active', 'accepted', 'id']
     search_fields = ['user', 'permissions', 'active']
 
 

@@ -1,6 +1,5 @@
 from django.contrib import admin
-from .models import Niveau, Module, Enseignant, Salle, Periode, EmploiTemps, Material, Order, ChargeHoraire, Science
-
+from .models import Niveau, Module, Enseignant, Salle, Periode, EmploiTemps, Material, Order
 # Register your models here.
 
 
@@ -11,7 +10,7 @@ class ModuleAdmin(admin.ModelAdmin):
 
 class EnseignantAdmin(admin.ModelAdmin):
     list_filter = ['nom', 'prenom']
-    list_display = ['pk', 'nom', 'prenom', 'grade', 'email']
+    list_display = ['pk', 'nom', 'prenom', 'grade', 'email', 'departement']
     search_fields = ['nom', 'prenom']
 
 class SalleAdmin(admin.ModelAdmin):
@@ -44,14 +43,14 @@ class OrderAdmin(admin.ModelAdmin):
 
 
 class ChargeHoraireAdmin(admin.ModelAdmin):
-    list_filter = ['semestre']
-    list_display = ['id', 'semestre']
-    search_fields = ['semestre']
+    list_filter = ['enseignant']
+    list_display = ['id', 'enseignant']
+    search_fields = ['enseignant']
 
 
 class ScienceAdmin(admin.ModelAdmin):
     list_filter = ['nature']
-    list_display = ['id', 'nature', 'groupe', 'occupe']
+    list_display = ['id', 'nature', 'groupe', 'occupe','semestre', 'niveau']
     search_fields = ['nature', 'groupe', 'occupe']
 
 
@@ -64,10 +63,6 @@ admin.site.register(Periode, PeriodeAdmin)
 admin.site.register(EmploiTemps, EmploiTempsAdmin)
 admin.site.register(Material, MaterialAdmin)
 admin.site.register(Order, OrderAdmin)
-admin.site.register(ChargeHoraire, ChargeHoraireAdmin)
-admin.site.register(Science, ScienceAdmin)
-
-
 
 
 

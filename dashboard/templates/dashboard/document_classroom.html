@@ -1,0 +1,49 @@
+{% extends "dashboard/admin_panel.html" %}
+{% load static %}
+
+
+{% block content %}
+  
+
+
+    <div class="mb-5">
+        
+        <label for="tableau"> le niveau :</label>
+        <select id="level" class="custom-select ml-1 mr-5" style="width: 130px;">
+            <option value="" selected disabled>-select-</option>
+            {% for level in niveau %}
+            <option value="{{level}}">{{level}}</option>
+            {% endfor %}  
+        </select>
+
+        <label for="tableau" class="ml-5">le semestre :</label>
+        <select id="semestre" class="custom-select ml-1 mr-5" style="width: 130px;" disabled>
+            <option value="" selected>-select-</option>
+        </select>
+
+        <label for="type">type</label>
+        <select name="" id="type" class="custom-select ml-1 mr-5" style="width: 130px;">
+            <option value="TD">TD</option>
+            <option value="TP">TP</option>
+            <option value="tout" selected>tout</option>
+            
+        </select>
+
+
+        <button class="btn btn-success ml-5" id="search">chercher</button>
+    </div>
+
+
+    <h6 class="hint-header">"chercher par niveau , semstre et le type des salles"</h6>
+
+    <div class="container">
+        <div id="table">
+          
+        </div>
+    </div>
+
+
+    <span class="btn btn-primary" id="pdf-btn" hidden><a id="url-anchor">charger PDF</a></span>
+
+    <script src="{% static 'dashboard/js/order.js' %}"></script>
+{% endblock content %}

@@ -7,13 +7,13 @@
 {% block content %}
   
   <div class="delete">
-      <h3 class="border-bottom mb-3 pb-3 ens">Are you sure you want to delete "{{staff.user.username}}"</h3>
+      <h3 class="border-bottom mb-3 pb-3 ens">Voulez-vous vraiment supprimer "{{staff.user.username}}"</h3>
       <form method="post">
           {% csrf_token %}
 
           <div class="btns ">
-                <input type="submit" class="btn btn-danger m-1" value="delete">
-                <a href="{% url 'all_modules' %}" class="btn btn-secondary m-1 ">Go back</a>
+                <input type="submit" class="btn btn-danger m-1" value="supprimer">
+                <a href="{% url 'all_modules' %}" class="btn btn-secondary m-1 ">retourner</a>
           </div>
       </form>
 

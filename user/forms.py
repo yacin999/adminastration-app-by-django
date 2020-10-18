@@ -3,17 +3,14 @@ from django.contrib.auth.models import User
 from .models import Staff
 
 class RegisterForm(forms.ModelForm):
-    username = forms.CharField(max_length=30)
-    email = forms.EmailField()
-    first_name = forms.CharField()
-    last_name = forms.CharField()
-    password1 = forms.CharField(widget=forms.PasswordInput, min_length=8)
-    password2 = forms.CharField(widget=forms.PasswordInput, min_length=8)
+    username = forms.CharField(max_length=30, widget=forms.TextInput(attrs={"class": "register-inputs username", "placeholder" : "Nom d'utilisateur"}))
+    email = forms.EmailField(widget=forms.EmailInput(attrs={"class": "register-inputs email", "placeholder" : "email"}))
+    password1 = forms.CharField(widget=forms.PasswordInput(attrs={"class": "register-inputs password1", "placeholder" : "mot de passe"}), min_length=8)
+    password2 = forms.CharField(widget=forms.PasswordInput(attrs={"class": "register-inputs password2", "placeholder" : "confirmer mot de passe"}), min_length=8)
 
     class Meta:
         model = User
-        fields = ['username', 'email', 'first_name',
-                  'last_name', 'password1', 'password2']
+        fields = ['username', 'email', 'password1', 'password2']
 
 
 
@@ -31,7 +28,6 @@ class RegisterForm(forms.ModelForm):
     #     return cd['username']
 
 
-
 class UserForm(forms.ModelForm):
     password1 = forms.CharField(min_length=8, label="", widget=forms.PasswordInput(attrs={
         "class": "module-input", "placeholder": "password"
@@ -41,10 +37,10 @@ class UserForm(forms.ModelForm):
         }))
     class Meta:
         model = User
-        fields = ["username", "email", "first_name", "last_name", "password1", "password2"]
+        fields = [ "email", "username", "first_name", "last_name", "password1", "password2"]
         widgets = {
             "username": forms.TextInput(attrs={"class": "module-input", "placeholder": "username"}), 
-            "email": forms.EmailInput(attrs={"class": "module-input", "placeholder": "email"}),
+            "email": forms.EmailInput(attrs={"class": "module-input", "placeholder": "email", 'id': 'email-user'}),
             "first_name": forms.TextInput(attrs={"class": "module-input", "placeholder": "first name"}),
             "last_name": forms.TextInput(attrs={"class": "module-input", "placeholder": "last name"}),
             "password1": forms.PasswordInput(attrs={"class": "module-input", "placeholder": "password"}),
@@ -82,11 +78,6 @@ class UpdateUserForm(forms.ModelForm):
             "first_name": forms.TextInput(attrs={"class": "module-input", "placeholder": "first name"}),
             "last_name": forms.TextInput(attrs={"class": "module-input", "placeholder": "last name"}),
         }
-
-
-
-
-
 
 
 

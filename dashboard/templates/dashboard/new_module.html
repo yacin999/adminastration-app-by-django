@@ -1,6 +1,7 @@
 {% extends 'dashboard/admin_panel.html' %}
 {% load crispy_forms_tags %}
 {% load bootstrap4 %}
+{% load static %}
 
 
 {% block content %}
@@ -17,6 +18,7 @@
             {% endif %}
             <div class="col-md-4 mb-5">
               {{input}}
+              <div class="text-danger ml-3" class="error-input-message" id="error{{forloop.counter}}"  hidden><i class="fas fa-exclamation-triangle text-danger mr-1"></i></div>
             </div>   
             {% if forloop.counter == 7 %}
               </div>
@@ -40,10 +42,13 @@
           {% endif %}
         {% endfor %}
       <!-- </div> -->
-        <input type="submit" value="save" class="btn btn-primary mt-5">
+        <input type="submit" value="ajouter" class="btn btn-primary mt-5">
         <!-- <input type="submit" value="save and add another" class="btn btn-primary"> -->
     </form>
   </div>
   
 
+
+
+  <script src="{% static 'dashboard/js/order.js' %}"></script>
 {% endblock %}

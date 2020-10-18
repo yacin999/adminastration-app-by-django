@@ -26,12 +26,13 @@ urlpatterns = [
     path('new-timetable/saveData/', views.save_data, name='save-data'),
     path('new-order/', views.create_order_staff, name='create_order'),
     path('return-material/', views.return_material, name='return_material'),
+    path('confirm-anony-user/', views.confirm_anony_user, name='confirm_anony_user'),
 
 
 # DETAIL urls ===================================================================================
     path('timetable-detail/<int:id>', views.timetable_detail, name='timetable-detail'),
-    path('hourlycharge-teacher-detail/<int:id>', views.hourlyLoad_teacher_detail, name='hourlycharge_teacher_detail'),
-
+    url(r'^hourlycharge-teacher-detail/(?P<slug>.*)/$', views.hourlyLoad_teacher_detail, name='hourlycharge_teacher_detail'),
+    path('teacher-detail/<int:tel>', views.timetable_detail, name='teacher-detail'),
 
 # UPDATE urls ===================================================================================
     url(r'^update-teacher/(?P<slug>.*)/$', views.update_teacher, name='update-teacher'),
@@ -49,9 +50,30 @@ urlpatterns = [
     path('delete-staff/<int:id>', views.delete_staff, name='delete-staff'),
 
 # PDF urls ===================================================================================
-    url(r'^(?P<id>\d+)/pdf$', views.generatePDF, name="pdf_emploi"),
+    url(r'^(?P<id>\d+)/pdf$', views.generatePDF, name="pdf_emploi"), 
+    path('<slug>/pdf', views.generate_ttt_PDF, name="generate_ttt_PDF"),   
+    path('<level>/<semester>/<department>/pdf', views.generate_teacher_hourlyL_PDF, name="generate_teacher_hourlyL_PDF"), 
+    path('<level>-<semester>-<cr_type>/cr-tt/pdf', views.generate_clarssR_timetable_PDF, name="generate_clarssR_timetable_PDF"), 
+    path('<level>-<semester>/weekly-followup/pdf', views.generate_Weekly_teaching_followup_PDF, name="generate_Weekly_teaching_followup_PDF"), 
+      
+
+# documents urls ==================================================================================
+    path('classroom-document' , views.salle_document, name="salle_document"), 
+    path('load_document_cr_data' , views.load_classR_doc_data, name="load_document_cr_data"),  
+    path('teaching-followup-document' , views.Weekly_teaching_followup_document, name="teaching_followup_document"),
+    path('load-document-tf' , views.load_teaching_followup, name="load_teaching_followup"),
+    path('teacher-hourly-loader' , views.teacher_hourly_loader, name="teacher_hourly_loader"),
+    path('load-document-tl' , views.load_teacher_hourlyL, name="load_teacher_hourlyL"),
+    path('teacher-department' , views.teacher_dep, name="teacher_dep"),
+    path('load-teacher-department' , views.load_teacher_dep, name="load_teacher_dep"),
+    path('teacher-timetable' , views.teacher_timetable, name="teacher_timetable"),
+    # path('load-teacher-timetable' , views.load_teacher_timetable, name="load_teacher_timetable"),
+
+    
     
 ]
+
+
 
 
 

@@ -19,7 +19,8 @@
       <thead class="thead">
         <tr>
           <th scope="col">#</th>
-          <th scope="col">Nom de empoit de temps</th>
+          <th scope="col">Nom de empoit du temps</th>
+          <th scope="col">date de création</th>
           <th scope="col" class="text-center">Action</th>
         </tr>
       </thead>
@@ -28,6 +29,7 @@
         <tr>
           <td scope="row">{{ forloop.counter|add:0 }}</td>
           <td><a href="{% url 'timetable-detail'  emploitemp.id %}" id="timetable-name">{{ emploitemp.slug}}</a></td>
+          <td>{{emploitemp.created}}</td>
           <td class="td-btn" style="width: 30%;">
             <a href="{% url 'update-timetable' emploitemp.id %}" class="mr-5 ml-5"><i class="far fa-edit text-primary" style="font-size: 25px;"></i></a>
             <a href="{% url 'delete-timetable' emploitemp.id  %}" class="mr-5 ml-5"><i class="far fa-trash-alt text-danger" style="font-size: 25px;"></i></a>
@@ -38,7 +40,7 @@
   </table>
   </div>
   
-  <h6 class=" pb-2 border-bottom"> {{ emploitemps.count }} emploi de temps</h6>
+  <h6 class=" pb-2 border-bottom"> {{ emploitemps.count }} emploi du temps</h6>
 </div>
 
 {% endblock %}

@@ -47,19 +47,19 @@
                   <div class="collapse navbar-collapse" id="min-nav">
                       <ul class="navbar-nav ml-auto">
                           <li class="nav-item active">
-                            <a class="nav-link" href="#">Home <span class="sr-only">(active)</span></a>
+                            <a class="nav-link" href="#">acceil <span class="sr-only">(active)</span></a>
                           </li>
                           <li class="nav-item ">
-                                  <a class="nav-link" href="{% url 'login' %}"><i class="fas fa-sign-in-alt"></i> log in</a>
+                                  <a class="nav-link" href="{% url 'login' %}" id="login-link"><i class="fas fa-sign-in-alt"></i> log in</a>
                           </li>
-                          <!-- <li class="nav-item ">
-                                  <a class="nav-link" href="{% url 'register' %}">register</a>
-                          </li> -->
+                          <li class="nav-item ">
+                                  <a class="nav-link" href="{% url 'register' %}">S'inscrire</a>
+                          </li>
                       </ul>
                   </div>
-          </div>
-        </nav>
-        <div class="slider">
+        </div>
+      </nav>
+         <div class="slider">
             <div id="main-slider" class="carousel slide" data-ride="carousel">
 
               <div class="carousel-inner">
@@ -85,11 +85,11 @@
               </ol>
 
             </div>
-        </div>
+        </div> 
 
 
-        <!-- <!-- <div class="features text-center"> -->
-          <!-- <div class="container">
+        <!-- <div class="features text-center"> 
+           <div class="container">
             <div class="row">
                <div class="col-sm-6 col-lg-3">
                  <i class="fa fa-home fa-3x rounded-circle"></i>
@@ -113,24 +113,23 @@
               </div>
             </div>
           </div>
-        </div> -->
+        </div>  -->
 
 
 
         <!-- Overview block-->
-        <!-- <!-- <div class="overview text-center"> -->
-          <!-- <div class="container">
+         <!-- <div class="overview text-center"> 
+           <div class="container">
             <h2>university overview</h2>
             <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Adipisci doloribus repudiandae nisi quam quos voluptas voluptatibus consequatur, numquam similique sint deleniti, pariatur itaque. Voluptates odio in, inventore deleniti eius quia?</p>
             <h4>let's start today</h4>
             <button> view more</button>
           </div>
-        </div> --> -->
+        </div>  -->
 
 
         <!-- featured work-->
-<!-- 
-        <div class="freatured-work text-center">
+        <!-- <div class="freatured-work text-center">
           <h2>Featured studies</h2>
           <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Est culpa laudantium aliquid consequuntur optio autem harum quibusdam quo. Officia excepturi debitis expedita, optio adipisci quasi corrupti quos dolorum error! Eligendi.</p>
           <ul class="list-unstyled row">
@@ -140,12 +139,12 @@
             <li class="col-md">Graphic Design</li>
             <li class="col-md">Videos</li>
           </ul>
-        </div> -->
+        </div>  -->
 
 
         <!--latest posts -->
 
-        <!-- <div class="latest-posts p-5 text-center">
+         <!-- <div class="latest-posts p-5 text-center">
           <div class="contianer">
             <h2 class="text-center">latest posts</h2>
             <p class="text-center mb-5">Lorem ipsum dolor, sit amet consectetur adipisicing elit. Alias, consequuntur amet ipsa molestiae facere voluptatum esse corrupti eaque facilis cupiditate! Sed earum illo officiis deleniti inventore unde consectetur iste deserunt.</p>
@@ -196,9 +195,9 @@
               </div>
             </div>
           </div>
-        </div>
+        </div> -->
 
-        <div class="contact-us">
+        <!-- <div class="contact-us">
           <div class="container">
             <div class="row">
               <div class="col-md-6 text-left">
@@ -209,13 +208,12 @@
               </div>
             </div>
           </div>
-        </div> -->
+        </div>  -->
 
 
 
-        <!-- footer part-->
-<!-- 
-        <div class="footer">
+        <!-- footer part--> 
+        <!-- <div class="footer">
           <div class="container">
             <div class="row">
               <div class="col-md-6">
@@ -272,7 +270,7 @@
               </div>
             </div>
           </div>
-        </div> --> 
+        </div>    -->
 
         
 
@@ -287,33 +285,12 @@
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-   <!-- <section>
-
-         {% block content %}
-
-         {% endblock  %}
+   <section>
+    
+         
    </section>
 
-   <footer class="foot">
+   <!-- <footer class="foot">
      <div class="row">
        <div class="col">
          <ul>
@@ -334,7 +311,7 @@
        </div>
      </div>
 
-   </footer> -->
+   </footer>  -->
 
     <script src="{% static 'adminn/js/jquery-3.3.1.slim.min.js' %}"></script>
     <script src="{% static 'adminn/js/popper.min.js' %}"></script>

@@ -18,69 +18,212 @@
 <body>
 
 
+        
+
+
         <div id="wrapper" class="wrapper">
                 <!-- Sidebar  -->
                   <nav id="sidebar" class="">
                     <div class="sidebar-header">
-                        <h4><i class="fas fa-tachometer-alt icon"></i> Admin Panel</h4>
+                        {% if user.is_superuser %}
+                          <h4><i class="fas fa-tachometer-alt icon"></i> Admin Panel</h4>
+                        {% elif user.is_staff %}
+                          <h4><i class="fas fa-tachometer-alt icon"></i> Staff Panel</h4>
+                        {% elif user.staff.accepted %}
+                        <h4><i class="fas fa-tachometer-alt icon"></i> User Panel</h4>
+                        {% endif %}
+                        
+                        
                     </div>
                     
-                    {% if  request.user.is_staff %}                  
+                    {% if  request.user.is_superuser %}                  
                       <ul class="list-unstyled components">
                         <li>
-                          <a href="{% url 'all_staff' %}"><i class="fas fa-user"></i> utilisateurs</a>
+                          <span class="dropdown-btn"><i class="fas fa-angle-right"></i> Utilisateurs</span>
+                          <div class="dropdown-container">
+                            <a class="sidebar-links" href="{% url 'all_staff' %}">tous les utilisateurs</a>
+                            <a class="sidebar-links" href="{% url 'new-staff' %}">ajouter staff</a>
+                          </div>
                         </li>
                         <li>
-                          <a href="{% url 'all_material' %}"><i class="fas fa-angle-right"></i> material</a>
+                          <span class="dropdown-btn"><i class="fas fa-angle-right"></i> Matérials</span>
+                          <div class="dropdown-container">
+                            <a class="sidebar-links" href="{% url 'all_material' %}">tous les matérials</a>
+                            <a class="sidebar-links" href="{% url 'new_material' %}">ajouter matérial</a>
+                          </div>
                         </li>
                         <li>
-                          <a href="{% url 'all_orders' %}"><i class="fas fa-angle-right"></i> ordres</a>
+                          <span class="dropdown-btn"><i class="fas fa-angle-right"></i> ordres</span>
+                          <div class="dropdown-container">
+                            <a class="sidebar-links" href="{% url 'all_orders' %}">tous les ordres</a>
+                          </div>
                         </li>
                         <li>
-                            <a href="{% url 'all_teachers' %}" class="pr-3"><i class="fas fa-angle-right"></i> Enseignants</a>
+                          <span class="dropdown-btn"><i class="fas fa-angle-right"></i> Enseignants</span>
+                          <div class="dropdown-container">
+                            <a class="sidebar-links" href="{% url 'all_teachers' %}">tous les enseignants</a>
+                            <a class="sidebar-links" href="{% url 'new-teacher' %}">ajouter enseignant</a>
+                          </div>
                         </li>
                         <li>
-                            <a href="{% url 'all_modules' %}"><i class="fas fa-angle-right"></i> Modules</a>
+                          <span class="dropdown-btn"><i class="fas fa-angle-right"></i> Modules</span>
+                          <div class="dropdown-container">
+                            <a class="sidebar-links" href="{% url 'all_modules' %}">tous les Modules</a>
+                            <a class="sidebar-links" href="{% url 'new-module' %}">ajouter module</a>
+                          </div>
                         </li>
                         <li>
-                            <a href="{% url 'all_classrooms' %}"><i class="fas fa-angle-right"></i> Salles</a>
+                          <span class="dropdown-btn"><i class="fas fa-angle-right"></i> Salles</span>
+                          <div class="dropdown-container">
+                            <a class="sidebar-links" href="{% url 'all_classrooms' %}">tous les Salles</a>
+                            <a class="sidebar-links" href="{% url 'new-classroom' %}">ajouter salle</a>
+                          </div>
                         </li>
                         <li>
-                            <a href="{% url 'all_emploitemps' %}"><i class="fas fa-angle-right"></i> Emploi de temps</a>
+                            <span class="dropdown-btn"><i class="fas fa-angle-right"></i> Emploi du temps</span>
+                          <div class="dropdown-container">
+                            <a class="sidebar-links" href="{% url 'all_emploitemps' %}">Tous les emploi du temps</a>
+                            <a class="sidebar-links" href="{% url 'new-timetable' %}">Ajouter emploi du temps</a>
+                            <a class="sidebar-links" href="{% url 'teacher_hourly_loader' %}">Charger horaire des ensei </a>
+                            <a class="sidebar-links" href="{% url 'salle_document' %}">Emploi par salle </a>
+                            <a class="sidebar-links" href="{% url 'teacher_timetable' %}">Emploi par enseignant </a>
+                            <a class="sidebar-links" href="{% url 'teaching_followup_document' %}">Fiche hebdomadaire d'enseignement</a>
+                            <a class="sidebar-links" href="{% url 'teacher_dep' %}">Enseignement par departement</a>
+                          </div>
                         </li>
                       </ul>
                     {% else %}
                       <ul class="list-unstyled components">
-                          {% for permission in user.staff.permissions.all %}
-                        
-                            {% if permission.name  == "can_list_all_staff" %}
-                              <li><a href="{% url 'new-staff' %}"><i class="fas fa-user"></i> users</a></li>                              
-                            {% endif %}
+                          
+                            <li>
+                              <span class="dropdown-btn"><i class="fas fa-angle-right"></i> Utilisateurs</span>
+                              <div class="dropdown-container">
+                                {% for permission in user.staff.permissions.all %}
+                                {% if permission == "peut_lister_toutes_staff" %}
+                                  <a class="sidebar-links" href="{% url 'all_staff' %}">tous les utilisateurs</a>
+                                {% endif %}
+                                {% endfor %}
+                                {% for permission in user.staff.permissions.all %}
+                                {% if permission == "peut_créer_du_staff" %}
+                                <a class="sidebar-links" href="{% url 'new-staff' %}">ajouter staff</a>
+                                {% endif %}
+                                {% endfor %}
 
-                            {% if permission.name  == "can_list_all_material" %}
-                              <li><a href="{% url 'all_material' %}"><i class="fas fa-angle-right"></i> material</a></li>
-                            {% endif %}
+                                
+                                
+                                
+                              </div>
+                            </li>
+                            <li>
+                              <span class="dropdown-btn"><i class="fas fa-angle-right"></i> Matérials</span>
+                              <div class="dropdown-container">
+                                {% if permission ==  "peut_lister_toutes_materials" %}
+                                  <a class="sidebar-links" href="{% url 'all_material' %}">tous les matérials</a>
+                                {% endif %}
 
-                            {% if permission.name  == "can_list_all_orders" %}
-                              <li><a href="{% url 'all_orders' %}"><i class="fas fa-angle-right"></i> ordres</a></li>
-                            {% endif %}
+                                {% if permission ==  "peut_créer_du_material" %}
+                                  <a class="sidebar-links" href="{% url 'new_material' %}">ajouter matérial</a>
+                                {% endif %}
+                                
+                                
+                              </div>
+                            </li>
+                            <li>
+                              <span class="dropdown-btn"><i class="fas fa-angle-right"></i> ordres</span>
+                              <div class="dropdown-container">
+                                {% if permission ==  "peut_lister_toutes_ordres" %}
+                                  <a class="sidebar-links" href="{% url 'all_orders' %}">tous les ordres</a>
+                                {% endif %}
+                                
+                              </div>
+                            </li>
+                            <li>
+                              <span class="dropdown-btn"><i class="fas fa-angle-right"></i> Enseignants</span>
+                              <div class="dropdown-container">
+                                {% for permission in request.user.staff.permissions.all %}
+                                  {% if permission ==  "peut_lister_toutes_enseignants" %}
+                                  {{permission}}
+                                  <a class="sidebar-links" href="{% url 'all_teachers' %}">tous les enseignants</a>
+                                  {% endif %}
+                                {% endfor %}
 
-                            {% if permission.name  == "can_list_all_teachers" %} 
-                              <li><a href="{% url 'all_teachers' %}" class="pr-3"><i class="fas fa-angle-right"></i> Enseignants</a></li>                              
-                            {% endif %}
+                                {% if permission ==  "peut_créer_du_enseignant" %}
+                                <a class="sidebar-links" href="{% url 'new-teacher' %}">ajouter enseignant</a>
+                                {% endif %}
+                                
+                                
+                              </div>
+                            </li>
+                            <li>
+                              <span class="dropdown-btn"><i class="fas fa-angle-right"></i> Modules</span>
+                              <div class="dropdown-container">
+                                {% for permission in request.user.staff.permissions.all %}
+                                    {% if permission != "peut_lister_toutes_modules" %}
+                                    {% else %}
+                                    <a class="sidebar-links" href="{% url 'all_modules' %}">tous les Modules</a>
+                                    {% endif %}
+                                {% endfor %}
 
-                            {% if permission.name  == "can_list_all_modules" %}
-                              <li><a href="{% url 'all_modules' %}" class="pr-3"><i class="fas fa-angle-right"></i> Modules</a></li>                             
-                            {% endif %}
+                                {% for permission in request.user.staff.permissions.all %}
+                                  {% if permission == "peut_créer_du_module" %}
+                                    <a class="sidebar-links" href="{% url 'new-module' %}">ajouter module</a>
+                                  {% endif %}
+                                {% endfor %}
+                                
+                                
+                              </div>
+                            </li>
+                            <li>
+                              <span class="dropdown-btn"><i class="fas fa-angle-right"></i> Salles</span>
+                              <div class="dropdown-container">
+                                {% if permission ==  "peut_lister_toutes_salles" %}
+                                <a class="sidebar-links" href="{% url 'all_classrooms' %}">tous les Salles</a>
+                                {% endif %}
 
-                            {% if permission.name  == "can_list_all_classrooms" %}
-                              <li><a href="{% url 'all_classrooms' %}" class="pr-3"><i class="fas fa-angle-right"></i> Salles</a></li>                               
-                            {% endif %}
-                            {% if permission.name  == "can_list_all_timetables" %}
-                              <li><a href="{% url 'all_emploitemps' %}" class="pr-3"><i class="fas fa-angle-right"></i> Emploi de temps</a></li>                             
-                            {% endif %}
-                            
-                          {% endfor %}
+                                {% if permission ==  "peut_créer_du_salle" %}
+                                <a class="sidebar-links" href="{% url 'new-classroom' %}">ajouter salle</a>
+                                {% endif %}
+                                
+                                
+                              </div>
+                            </li>
+                            <li>
+                                <span class="dropdown-btn"><i class="fas fa-angle-right"></i> Emploi du temps</span>
+                              <div class="dropdown-container">
+
+                                {% if permission ==  "peut_lister_toutes_emploitems" %}
+                                <a class="sidebar-links" href="{% url 'all_emploitemps' %}">Tous les emploi du temps</a>
+                                {% endif %}
+
+                                {% if permission ==  "peut_créer_du_empoitemps" %}
+                                <a class="sidebar-links" href="{% url 'new-timetable' %}">Ajouter emploi du temps</a>
+                                {% endif %}
+
+                                {% if permission ==  "peut_afficher_charge_horaire_e" %}
+                                <a class="sidebar-links" href="{% url 'teacher_hourly_loader' %}">Charger horaire des ensei </a>
+                                {% endif %}
+
+                                {% if permission ==  "peut_afficher_emploi_salle" %}
+                                <a class="sidebar-links" href="{% url 'salle_document' %}">Emploi par salle </a>
+                                {% endif %}
+
+                                {% if permission ==  "peut_afficher_emploi_ens" %}
+                                <a class="sidebar-links" href="{% url 'teacher_timetable' %}">Emploi par enseignant </a>
+                                {% endif %}
+
+                                {% if permission ==  "peut_afficher_fiche_haib_sui_e" %}
+                                <a class="sidebar-links" href="{% url 'teaching_followup_document' %}">Fiche hebdomadaire d'enseignement</a>
+                                {% endif %}
+
+                                {% if permission ==  "peut_afficher_ens_département" %}
+                                <a class="sidebar-links" href="{% url 'teacher_dep' %}">Enseignement par departement</a>
+                                {% endif %}
+                                
+                              </div>
+                            </li>
+                          
+                             
+                          
                       </ul>
                         
     
@@ -97,18 +240,46 @@
                             </button>                       
                                 <ul class="float-right">
                                   <li class="main-list">
-                                    <a class=" home" href="#">Dashboard</a>
+                                    <a class=" home" href="{% url 'admin_panel' %}"><i class="fas fa-home" style="font-size: 29px;
+                                      position: relative;
+                                      top: 7px;
+                                      margin-right: 20px;"></i></a>
                                   </li>
+                                  {% if user.is_superuser %}
                                   <li class="main-list">
-                                    <a class=" home" href="#">Another</a>
+                                    <a class=" home"  id="notification-btn"><i class="fas fa-bell" style="font-size: 27px;
+                                      position: relative;
+                                      top: 7px;
+                                      margin-right: 20px;"></i><span class="num-notif">{{plain_user.count}}</span></a>
+                                      <div  class="dropdown-list bell-dropdown-list">
+                                        <h4>Notification</h4>
+                                        <span>nouvau</span>
+                                        <ul class="">
+                                          {% for u in plain_user %}
+                                          <li id="account-id" data-account-id="{{u.id}}">
+                                            <p>Tu-ai un nouveau compte à confirmer de 
+                                              <span>  
+                                                {{u.user.first_name}} {{u.user.last_name}}                                            
+                                              </span> 
+                                              voulez-vous confirmer ce compte</p>
+                                            <span>Tu-es confirmer ce compte?</span>
+                                            <div id="notif-btn-container">
+                                              <a href="" class="notif-confirm">confirmer</a>
+                                              <a href="" class="notif-suprimer">suprimer</a>
+                                            </div>
+                                          </li>
+                                          {% endfor %}
+                                        </ul>
+                                      </div>
                                   </li>
+                                  {% endif %}
+                                  
                                   <li class="main-list">
-                                    <img id="profile-img" src="{% static 'dashboard/imgs/admin.jpg' %}" alt="admin-phpto">
-                                    <div  class="dropdown-list show">
+                                    <img id="profile-img" src="{% static 'dashboard/imgs/admin.jpg' %}" alt="admin-photo">
+                                    <div  class="dropdown-list profile-dropdown-list">
                                       <ul class="">
                                         <li>
                                           <h6 style="color: #ea1d24;">{{user.username}}</h6>
-                                          <!-- <span style="font-size: 10px; color:bisque">voir ta profile</span> -->
                                         </li>
                                         <li>Setting</li>
                                         <li>
@@ -120,10 +291,33 @@
                                 </ul>
                         </div>
 
+
+
+                    
+                    {% if request.path == "/dashboard/" %}
+                      <div class="create-module-container">
+                        <h4 class="main-title">bienvenue "{{request.user.username}}" sur votre compte </h4>
+                        <h4 style="margin-bottom: 16px;">les privilèges que vous avez
+                        {% if request.user.is_superuser %}
+                          (tout)
+                        {% endif %}:</h4>
+                        <ol>
+                          {% for permission in request.user.staff.permissions.all %}
+                            <li>{{permission}}</li>
+                          {% endfor %}
+                        </ol>
+                      </div>
+                    {% endif %}
+                    
+
+
                     {% block content %}
 
                     {% endblock %}
-                      
+
+                    
+
+                    
                 </div>
             </div>
             
@@ -133,43 +327,14 @@
         <script src="{% static 'dashboard/js/bootstrap.min.js' %}"></script>
         <script src="{% static 'dashboard/js/fontawesome-all.min.js' %}"></script>
         
+        <script defer src="{% static 'dashboard/js/admin_panel.js' %}"></script>
        
         
         
         <!-- this script is for styling the Sidebar -->
-        <script>
-          var sidebarColl = document.querySelector('#sidebarCollapse');
-          var sidebar = document.querySelector('#sidebar');
-          sidebarColl.addEventListener('click', () =>{
-              sidebar.classList.toggle('active');
-          });
+      
 
-          
-          var sideBarButton = document.getElementById("sidebarCollapse");
-          var wrapper = document.getElementById("wrapper");
-
-          sideBarButton.addEventListener('click', function () {
-            //alert("window is sxrolling !!!")
-            //console.log("done!") 
-            wrapper.classList.toggle("wrapper");            
-          });
-
-
-          var admin_icon = document.getElementById("profile-img");
-          var dropdown_list = document.querySelector(".dropdown-list")
-          admin_icon.addEventListener("click", ()=> {
-            dropdown_list.classList.toggle("show")
-          })
-
-          //canceling dropdown if the user clicked anywhere 
-          window.addEventListener('click', (e)=>{
-            if(e.target.id !== "profile-img"){
-              if(!dropdown_list.classList.contains("show")){
-                dropdown_list.classList.add("show")
-              }
-            }
-          })
-        </script>
+      
         
 </body>
 </html>

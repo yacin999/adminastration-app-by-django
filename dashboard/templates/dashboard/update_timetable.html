@@ -7,7 +7,7 @@
 {% block content %}
 
 
-<div class="mb-5" id="append_div">
+<!-- <div class="mb-5" id="append_div">
     <label for="tableau">le niveau de cette tableau :</label>
     <select id="level" class="custom-select ml-1 mr-5" style="width: 130px;">
       <option value="" selected disabled>-select-</option>
@@ -20,21 +20,21 @@
     <select id="semestre" class="custom-select ml-1" style="width: 130px;" disabled>
       <option value="" selected>-select-</option>
     </select>
-</div>
+</div> -->
   
   
   
 <div class="row mt-3 mb-5">
 <span><label for="" class="pl-3 pr-3">entrer le nombre des groupes</label></span>
-<span><input type="number" name="" value=""  id="nbr-group" style="width: 70px;" disabled></span>
+<span><input type="number" name="" value="{{emploitemps.group_number}}"  id="nbr-group" style="width: 70px;" disabled></span>
 </div>
 
 
 
 <div id="table-container">
-    <div class="our_table" data-timetable-id="{{emploitemps.id}}">
+    <div class="our_table" data-timetable-id="{{emploitemps.id}}" data-timetable-semester="{{emploitemps.semestree}}" data-timetable-level="{{emploitemps.level.Nv}}">
         <div class="our_row">
-            <span class="our_cell times">days</span>
+            <span class="our_cell times">les jours</span>
            <span class="our_cell times">8:30 - 10:00</span>
            <span class="our_cell times">10:15 - 11:45</span>
            <span class="our_cell times">11:45 - 13:30</span>
@@ -42,11 +42,11 @@
            <span class="our_cell times">15:00 - 16:30</span>
          </div>
        <div class="our_row">
-          <span class="our_cell">sunday</span>
+          <span class="our_cell">Dimanche</span>
          <span class="our_cell our_target" id="1">
                    {% for emploitemp in emploitemps.first_first.all %}   
                       {% if emploitemp.groupe_type == 'Cours' %}
-                          <div>{{ emploitemp.module }}</div>
+                          <div data-module="{{ emploitemp.module }}">{{ emploitemp.module }}</div>
                           <div>{{ emploitemp.enseignant }}</div>
                           <div>{{ emploitemp.salle }}</div>
                       {% elif emploitemp.groupe_type == 'TP' or emploitemp.groupe_type == 'TD' %} 
@@ -57,7 +57,7 @@
          <span class="our_cell our_target" id="2">
               {% for emploitemp in emploitemps.first_second.all %}   
                       {% if emploitemp.groupe_type == 'Cours' %}
-                          <div>{{ emploitemp.module }}</div>
+                          <div data-module="{{ emploitemp.module }}">{{ emploitemp.module }}</div>
                           <div>{{ emploitemp.enseignant }}</div>
                           <div>{{ emploitemp.salle }}</div>
                       {% elif emploitemp.groupe_type == 'TP' or emploitemp.groupe_type == 'TD' %} 
@@ -69,7 +69,7 @@
          <span class="our_cell our_target" id="3">
               {% for emploitemp in emploitemps.first_third.all %}   
                 {% if emploitemp.groupe_type == 'Cours' %}
-                    <div>{{ emploitemp.module }}</div>
+                    <div data-module="{{ emploitemp.module }}">{{ emploitemp.module }}</div>
                     <div>{{ emploitemp.enseignant }}</div>
                     <div>{{ emploitemp.salle }}</div>
                 {% elif emploitemp.groupe_type == 'TP' or emploitemp.groupe_type == 'TD' %} 
@@ -80,7 +80,7 @@
          <span class="our_cell our_target" id="4">
             {% for emploitemp in emploitemps.first_forth.all %}   
             {% if emploitemp.groupe_type == 'Cours' %}
-                <div>{{ emploitemp.module }}</div>
+                <div data-module="{{ emploitemp.module }}">{{ emploitemp.module }}</div>
                 <div>{{ emploitemp.enseignant }}</div>
                 <div>{{ emploitemp.salle }}</div>
             {% elif emploitemp.groupe_type == 'TP' or emploitemp.groupe_type == 'TD' %} 
@@ -90,11 +90,11 @@
          </span>
        </div>
        <div class="our_row">
-          <span class="our_cell">monday</span>
+          <span class="our_cell">Lundi</span>
          <span class="our_cell our_target" id="5">
           {% for emploitemp in emploitemps.second_first.all %}   
           {% if emploitemp.groupe_type == 'Cours' %}
-              <div>{{ emploitemp.module }}</div>
+              <div data-module="{{ emploitemp.module }}">{{ emploitemp.module }}</div>
               <div>{{ emploitemp.enseignant }}</div>
               <div>{{ emploitemp.salle }}</div>
           {% elif emploitemp.groupe_type == 'TP' or emploitemp.groupe_type == 'TD' %} 
@@ -105,7 +105,7 @@
          <span class="our_cell our_target" id="6">
             {% for emploitemp in emploitemps.second_second.all %}   
             {% if emploitemp.groupe_type == 'Cours' %}
-                <div>{{ emploitemp.module }}</div>
+                <div data-module="{{ emploitemp.module }}">{{ emploitemp.module }}</div>
                 <div>{{ emploitemp.enseignant }}</div>
                 <div>{{ emploitemp.salle }}</div>
             {% elif emploitemp.groupe_type == 'TP' or emploitemp.groupe_type == 'TD' %} 
@@ -117,7 +117,7 @@
          <span class="our_cell our_target" id="7">
           {% for emploitemp in emploitemps.second_third.all %}   
           {% if emploitemp.groupe_type == 'Cours' %}
-              <div>{{ emploitemp.module }}</div>
+              <div data-module="{{ emploitemp.module }}">{{ emploitemp.module }}</div>
               <div>{{ emploitemp.enseignant }}</div>
               <div>{{ emploitemp.salle }}</div>
           {% elif emploitemp.groupe_type == 'TP' or emploitemp.groupe_type == 'TD' %} 
@@ -128,7 +128,7 @@
          <span class="our_cell our_target" id="8">
           {% for emploitemp in emploitemps.second_forth.all %}   
           {% if emploitemp.groupe_type == 'Cours' %}
-              <div>{{ emploitemp.module }}</div>
+              <div data-module="{{ emploitemp.module }}">{{ emploitemp.module }}</div>
               <div>{{ emploitemp.enseignant }}</div>
               <div>{{ emploitemp.salle }}</div>
           {% elif emploitemp.groupe_type == 'TP' or emploitemp.groupe_type == 'TD' %} 
@@ -138,11 +138,11 @@
          </span>
        </div>
        <div class="our_row">
-         <span class="our_cell">tuesday</span>
+         <span class="our_cell">Mardi</span>
          <span class="our_cell our_target" id="9">
           {% for emploitemp in emploitemps.third_first.all %}   
           {% if emploitemp.groupe_type == 'Cours' %}
-              <div>{{ emploitemp.module }}</div>
+              <div data-module="{{ emploitemp.module }}">{{ emploitemp.module }}</div>
               <div>{{ emploitemp.enseignant }}</div>
               <div>{{ emploitemp.salle }}</div>
           {% elif emploitemp.groupe_type == 'TP' or emploitemp.groupe_type == 'TD' %} 
@@ -153,7 +153,7 @@
          <span class="our_cell our_target" id="10">
           {% for emploitemp in emploitemps.third_second.all %}   
           {% if emploitemp.groupe_type == 'Cours' %}
-              <div>{{ emploitemp.module }}</div>
+              <div data-module="{{ emploitemp.module }}">{{ emploitemp.module }}</div>
               <div>{{ emploitemp.enseignant }}</div>
               <div>{{ emploitemp.salle }}</div>
           {% elif emploitemp.groupe_type == 'TP' or emploitemp.groupe_type == 'TD' %} 
@@ -165,7 +165,7 @@
          <span class="our_cell our_target" id="11">
           {% for emploitemp in emploitemps.third_third.all %}   
           {% if emploitemp.groupe_type == 'Cours' %}
-              <div>{{ emploitemp.module }}</div>
+              <div data-module="{{ emploitemp.module }}">{{ emploitemp.module }}</div>
               <div>{{ emploitemp.enseignant }}</div>
               <div>{{ emploitemp.salle }}</div>
           {% elif emploitemp.groupe_type == 'TP' or emploitemp.groupe_type == 'TD' %} 
@@ -176,7 +176,7 @@
          <span class="our_cell our_target" id="12">
           {% for emploitemp in emploitemps.third_forth.all %}   
           {% if emploitemp.groupe_type == 'Cours' %}
-              <div>{{ emploitemp.module }}</div>
+              <div data-module="{{ emploitemp.module }}">{{ emploitemp.module }}</div>
               <div>{{ emploitemp.enseignant }}</div>
               <div>{{ emploitemp.salle }}</div>
           {% elif emploitemp.groupe_type == 'TP' or emploitemp.groupe_type == 'TD' %} 
@@ -186,11 +186,11 @@
          </span>
        </div>
        <div class="our_row">
-          <span class="our_cell">wednesday</span>
+          <span class="our_cell">Mercredi</span>
          <span class="our_cell our_target" id="13">
           {% for emploitemp in emploitemps.forth_first.all %}   
           {% if emploitemp.groupe_type == 'Cours' %}
-              <div>{{ emploitemp.module }}</div>
+              <div data-module="{{ emploitemp.module }}">{{ emploitemp.module }}</div>
               <div>{{ emploitemp.enseignant }}</div>
               <div>{{ emploitemp.salle }}</div>
           {% elif emploitemp.groupe_type == 'TP' or emploitemp.groupe_type == 'TD' %} 
@@ -201,7 +201,7 @@
          <span class="our_cell our_target" id="14">
           {% for emploitemp in emploitemps.forth_second.all %}   
             {% if emploitemp.groupe_type == 'Cours' %}
-                <div>{{ emploitemp.module }}</div>
+                <div data-module="{{ emploitemp.module }}">{{ emploitemp.module }}</div>
                 <div>{{ emploitemp.enseignant }}</div>
                 <div>{{ emploitemp.salle }}</div>
             {% elif emploitemp.groupe_type == 'TP' or emploitemp.groupe_type == 'TD' %} 
@@ -213,7 +213,7 @@
          <span class="our_cell our_target" id="15">
           {% for emploitemp in emploitemps.forth_third.all %}   
           {% if emploitemp.groupe_type == 'Cours' %}
-              <div>{{ emploitemp.module }}</div>
+              <div data-module="{{ emploitemp.module }}">{{ emploitemp.module }}</div>
               <div>{{ emploitemp.enseignant }}</div>
               <div>{{ emploitemp.salle }}</div>
           {% elif emploitemp.groupe_type == 'TP' or emploitemp.groupe_type == 'TD' %} 
@@ -224,7 +224,7 @@
          <span class="our_cell our_target" id="16">
           {% for emploitemp in emploitemps.forth_forth.all %}   
           {% if emploitemp.groupe_type == 'Cours' %}
-              <div>{{ emploitemp.module }}</div>
+              <div data-module="{{ emploitemp.module }}">{{ emploitemp.module }}</div>
               <div>{{ emploitemp.enseignant }}</div>
               <div>{{ emploitemp.salle }}</div>
           {% elif emploitemp.groupe_type == 'TP' or emploitemp.groupe_type == 'TD' %} 
@@ -234,11 +234,11 @@
          </span>
        </div>
        <div class="our_row">
-          <span class="our_cell">thursday</span>
+          <span class="our_cell">Jeudi</span>
          <span class="our_cell our_target" id="17">
           {% for emploitemp in emploitemps.fifth_first.all %}   
           {% if emploitemp.groupe_type == 'Cours' %}
-              <div>{{ emploitemp.module }}</div>
+              <div data-module="{{ emploitemp.module }}">{{ emploitemp.module }}</div>
               <div>{{ emploitemp.enseignant }}</div>
               <div>{{ emploitemp.salle }}</div>
           {% elif emploitemp.groupe_type == 'TP' or emploitemp.groupe_type == 'TD' %} 
@@ -249,7 +249,7 @@
          <span class="our_cell our_target" id="18">
             {% for emploitemp in emploitemps.fifth_second.all %}   
             {% if emploitemp.groupe_type == 'Cours' %}
-                <div>{{ emploitemp.module }}</div>
+                <div data-module="{{ emploitemp.module }}">{{ emploitemp.module }}</div>
                 <div>{{ emploitemp.enseignant }}</div>
                 <div>{{ emploitemp.salle }}</div>
             {% elif emploitemp.groupe_type == 'TP' or emploitemp.groupe_type == 'TD' %} 
@@ -261,7 +261,7 @@
          <span class="our_cell our_target" id="19">
           {% for emploitemp in emploitemps.fifth_third.all %}   
           {% if emploitemp.groupe_type == 'Cours' %}
-              <div>{{ emploitemp.module }}</div>
+              <div data-module="{{ emploitemp.module }}">{{ emploitemp.module }}</div>
               <div>{{ emploitemp.enseignant }}</div>
               <div>{{ emploitemp.salle }}</div>
           {% elif emploitemp.groupe_type == 'TP' or emploitemp.groupe_type == 'TD' %} 
@@ -272,7 +272,7 @@
          <span class="our_cell our_target" id="20">
             {% for emploitemp in emploitemps.fifth_forth.all %}   
             {% if emploitemp.groupe_type == 'Cours' %}
-                <div>{{ emploitemp.module }}</div>
+                <div data-module="{{ emploitemp.module }}">{{ emploitemp.module }}</div>
                 <div>{{ emploitemp.enseignant }}</div>
                 <div>{{ emploitemp.salle }}</div>
             {% elif emploitemp.groupe_type == 'TP' or emploitemp.groupe_type == 'TD' %} 
@@ -287,7 +287,7 @@
 
 <div>
     <button class="btn btn-secondary float-right m-5" onclick="sendData()">
-      Update
+      Modifier
     </button>
 </div>
 
@@ -297,7 +297,7 @@
     <div class="modal-dialog modal-lg " role="document">
       <div class="modal-content">
         <div class="modal-header">
-          <h5 class="modal-title" id="exampleModalLabel">new period</h5>
+          <h5 class="modal-title" id="exampleModalLabel">modifier periode</h5>
  
           <!-- <div class="alert alert-danger ml-4 text-center" role="alert">
            canvas tells that this module<a href="#" class="alert-link">(${module_value})</a>has just ${canvas_data[i].tp} TP per timetable
@@ -348,8 +348,8 @@
              <!-- here we will create our table -->
            </div>
  
-           <button type="button" class="btn btn-danger mt-4" id="close">Close</button>
-           <button type="button" name="myButton" class="btn btn-primary float-right mt-4" id="create" hidden>Create</button>
+           <button type="button" class="btn btn-danger mt-4" id="close">Fermer</button>
+           <button type="button" name="myButton" class="btn btn-primary float-right mt-4" id="create" hidden>Créer</button>
         </div>
  
       </div>

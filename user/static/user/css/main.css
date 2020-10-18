@@ -1,4 +1,4 @@
-/* LOGIN  and LOGOUT style  ========================================================================================*/
+/* LOGOUT style  ========================================================================================*/
 .mesaage-system {
   width: 298px;
   left: 523px;
@@ -6,28 +6,227 @@
   top: 30px;
 }
 
-.form-container {
+/* .form-container {
   position: absolute;
   top: 15vh;
   background: #fff;
   padding: 30px;
   border-radius: 10px;
   box-shadow: 0 0 10px 0 #000;
-}
+} */
 
-#login {
+/* #login {
   position: absolute;
   right: 500px;
   background: #0f526d;
-}
+  z-index: 99;
+} */
 
 #logout {
   background-color: #0f526d;
+  margin-top: 10%;
+  border-radius: 5px;
+  box-shadow: 1px 1px 17px 2px;
+  
 }
 
-a#register-link {
+
+#logout a {
+  color: #fbff03;
+  text-decoration: none;
+}
+
+
+/* a#register-link {
   font-size: 15px; 
   color:#ff0018; 
   text-decoration:none; 
   font-weight: bold
+} */
+
+
+/* LOGIN style ========================================================================= */
+
+
+#login-container {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  margin-top: -170px;
+  margin-left: -195px;
+  width: 400px;
+  height: 60%;
+  padding: 60px;
+  background-color: #FFF;
+  text-align: center;
+  border-radius: 5px;
 }
+
+
+
+
+.form-container .form-control {
+  border: 0;
+  border-bottom: 2px solid #999;
+  margin-bottom: 30px;
+}
+
+#login-container .login-header {
+  margin-top: 0;
+  margin-bottom: 40px;
+  text-transform: uppercase;
+  font-weight: bold;
+  font-family: sans-serif;
+  font-size: 26px;
+}
+
+#login-container .goback-btn {
+  font-size: 23px;
+  position: absolute;
+  left: 28px;
+  top: 27px;
+  color: #000;
+}
+
+#login-container .goback-btn {
+  color: #ab2005;
+}
+
+
+
+#login-container .password {
+  margin-bottom: 40px;
+}
+
+
+#register-link {
+  text-decoration: none;
+  color: #0f526d;
+}
+
+#login-container .footer {
+  font-size: 12px;
+  font-family: sans-serif;
+  color: #000;
+}
+
+
+
+
+
+
+
+
+/* REGISTER style""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""" */
+.login-body, .register-body {
+  /* background: url("/static/user/images/register-login.jpg") no-repeat center; */
+  background-color: #000;
+  background-image: url("/static/user/images/register&login.png");
+  background-position: center;
+  background-repeat: no-repeat; 
+  background-size: cover;
+}
+
+#register-container{
+  position: absolute;
+  left: 440px;
+  width: 400px;
+  height: 60%;
+  padding: 60px;
+  /* background-color: #0f526d; */
+  background-color: #FFF;
+  top: 70px;
+  text-align: center;
+  border-radius: 5px;
+}
+
+
+#register-container h3.register-header {
+  margin-top: 0;
+  margin-bottom: 40px;
+  text-transform: uppercase;
+  font-weight: bold;
+  font-family: sans-serif;
+}
+
+
+#register-container .goback-btn {
+  font-size: 23px;
+  position: absolute;
+  left: 28px;
+  top: 27px;
+  color: #000;
+}
+
+
+#register-container .goback-btn:hover {
+  color: #ab2005;
+}
+
+#register-container form {
+  margin-bottom: 34px;
+}
+
+
+#register-container .register-inputs {
+  margin-bottom: 20px;
+  width: 100%;
+  border: 0;
+  border-bottom: 2px solid #7e7f82;
+  height: 30px;
+
+}
+
+#register-container .password2 {
+  margin-bottom: 58px;
+}
+
+
+
+
+#register-container .submit-btn {
+  padding: 12px 24px;
+  font-size: 15px;
+  background-color: #0f526d;
+  border: 0;
+  color: #fff;
+  font-size: 18px;
+  border-radius: 3px;
+  text-align: center;
+}
+
+#register-container .submit-btn:hover {
+  cursor: pointer;
+}
+
+
+#register-container .footer {
+  font-size: 13px;
+  font-family: sans-serif;
+}
+
+
+#register-container .footer a {
+  text-decoration: none;
+  color :#ab2005
+}
+
+
+
+.register-overlay {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  z-index: -1;
+  background-color: #000;
+  opacity: 0.7;
+}
+
+
+
+
+
+
+

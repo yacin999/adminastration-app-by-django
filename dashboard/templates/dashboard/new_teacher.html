@@ -1,8 +1,9 @@
 {% extends 'dashboard/admin_panel.html' %}
+{% load static %}
 
+  {% block content %}
 
-
-{% block content %}
+ 
   
   <div class="create-module-container">
     <div class="section-bar">Informations d'ensegnient</div>
@@ -10,15 +11,23 @@
     <form method="post"> {% csrf_token %}
       <div class="row">
         {% for input in form %}
-          <div class="col-3 mb-5">
+          {% if not forloop.counter == 6 %}
+          <div class="col-3 mb-3">
+            {{input}}
+            <div class="text-danger ml-3" class="error-input-message" id="error{{forloop.counter}}"  hidden><i class="fas fa-exclamation-triangle text-danger mr-1"></i></div>
+          </div>
+          {% else %}
+          <div class="col-12 mb-5 ml-5">
+            <label for="{{id_for_label}}">{{input.label}}</label>
             {{input}}
           </div>
+          {% endif %}     
         {% endfor %}
       </div>
-        <input type="submit" value="save" class="btn btn-primary">
+        <input type="submit" value="enregister" class="btn btn-primary">
     </form>
   </div>
   
   
-
+  <script src="{% static 'dashboard/js/order.js' %}"></script>
 {% endblock %}

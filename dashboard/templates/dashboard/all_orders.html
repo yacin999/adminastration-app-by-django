@@ -33,7 +33,7 @@
                 {% if order.returned %}
                   <span class="text-danger">returnd</span>
                 {% else %}
-                  {% if request.user.is_staff %}
+                  {% if not request.user.is_staff %}
                     <span class="text-danger">pas revenu</span>
                   {% else %}
                     <span data-item="{{ order.item.id}}" class="btn btn-success return-material-btn" >revenu</span>

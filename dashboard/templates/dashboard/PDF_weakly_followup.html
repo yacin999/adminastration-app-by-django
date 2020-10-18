@@ -1,0 +1,169 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+    <head>
+        <title>Title</title>
+        <style type="text/css">
+            body {
+                font-weight: 200;
+                font-size: 14px;
+            }
+            .header {
+                font-size: 20px;
+                font-weight: 100;
+                text-align: center;
+                color: #007cae;
+            }
+            .title {
+                font-size: 22px;
+                font-weight: 100;
+               /* text-align: right;*/
+               padding: 10px 20px 0px 20px;  
+            }
+            .title td {
+                color: #007cae;
+            }
+            .details {
+                padding: 10px 20px 0px 20px;
+                text-align: left !important;
+                /*margin-left: 40%;*/
+                position: relative;
+            }
+            .hrItem {
+                border: none;
+                height: 1px;
+                color: #333;
+                background-color: #fff;
+            }
+
+            div table{
+                border: #000  1px solid; 
+                margin-top: 50px;
+               
+            }
+
+            .center {
+                position: fixed;
+                top: 200px;
+                left: 200px;
+            }
+
+            tr td{
+                text-align: center;
+            }
+            tr {
+                text-align: center;
+                padding-top: 6px;
+            }
+
+            tr td.days {
+                text-align: center;
+                font-weight: bold;
+
+            }
+
+            .seperator{
+                height: 12px;
+                border: 0;
+                box-shadow: inset 0 12px 12px -12px rgba(0, 0, 0, 0.5);
+            }
+
+
+            #signature {
+                margin-top: 100px;
+                margin-left: 450px;
+                font-size: 18px;
+                text-align: center;
+            }
+
+           
+
+
+        </style>
+    </head>
+    <body>
+
+
+        <div class='wrapper'>
+            <div class='header'>
+                <p class='title'> emploi du temps </p>
+            </div>
+        <div>
+        <div class='details'>
+            Université de Mascara<br/>
+            Faculté des Sciences Exact<br/>
+            Deparetement Informatique<br/> 
+
+            <div class="center">
+                {% if emploitemps.level|lower == "licence1" %}
+                  <td>1 <sup>er</sup> licence </td>
+                  {% endif %}
+                {% ifequal emploitemps.level|lower "licence2" %}
+                  <td>2 <sup>ème</sup> licence </td>
+                {% endifequal %}
+                {% ifequal emploitemps.level|lower "Licence3" %}
+                  <td>3 <sup>ème</sup> licence </td>
+                {% endifequal %}
+                {% ifequal emploitemps.level|lower "Master1" %}
+                  <td>1 <sup>er</sup> master </td>
+                {% endifequal %}
+                {% ifequal emploitemps.level|lower "Master2" %}
+                  <td>2 <sup>ème</sup> master </td>
+                {% endifequal %}
+            </div>
+            <!-- <div>{{emploitemps.level}}</div> -->
+
+            
+            
+            <!-- <hr class='hrItem'/> -->
+        </div>
+
+
+
+        <table class="table">
+            <thead class="thead">
+            <tr>
+                <th scope="col">Jour</th>
+                <th scope="col">Heure</th>
+                <th scope="col">Groupe</th>
+                <th scope="col">Module</th>
+                <th scope="col">Nature</th>
+                <th scope="col">Enseignant</th>
+                <th scope="col">Salle</th>
+                
+                
+            </tr>
+            </thead>
+            <tbody id="body-table">
+                {% for key,value in weakly_teaching_followup.items %}
+                    <tr>
+                        <td>{{value.day}}</td>
+                        <th >{{value.hour}}</th>
+                        <td>{{value.group}}</td>
+                        <td>{{value.module}}</td>
+                        <th>{{value.nature}}</th>
+                        <th>{{value.teacher}}</th>
+                        <th>{{value.classroom}}</th>
+                            
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+
+
+
+
+
+
+
+
+
+    <div id="signature">
+        <span>Mascara le : {{ current_time|date:"d M Y" }}</span>
+        <span>Signature</span>
+    </div>
+
+
+</body>
+</html>
+

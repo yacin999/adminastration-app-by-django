@@ -3,8 +3,8 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework import generics
 from rest_framework import mixins
-from .serializers import EmpoiTempsSerializer, ModuleSerializer, TeacherSerializer, ClassroomSerializer, ChargeHoraireSerializer
-from dashboard.models import EmploiTemps, Module, Enseignant, Salle, ChargeHoraire
+from .serializers import EmpoiTempsSerializer, ModuleSerializer, TeacherSerializer, ClassroomSerializer
+from dashboard.models import EmploiTemps, Module, Enseignant, Salle
 from rest_framework import status
 
 
@@ -108,11 +108,3 @@ def classroom_serializer_list(request):
         return Response(serializer.data)
 
 
-# charge horaire serializer ::::::::::::::::
-@api_view(['GET',])
-def chargeHoraire_serializer_list(request):
-    chargehoraire = ChargeHoraire.objects.all()
-
-    if request.method == 'GET':
-        serializer = ChargeHoraireSerializer(chargehoraire, many=True)
-        return Response(serializer.data)

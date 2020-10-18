@@ -1,0 +1,35 @@
+{% extends "dashboard/admin_panel.html" %}
+{% load static %}
+
+
+{% block content %}
+  
+
+
+    <div class="mb-5">
+    
+        <label for="type">departement</label>
+        <select name="" id="department" class="custom-select ml-1 mr-2" style="width: 130px;">
+            {% for ens in enseignant %}
+            <option value="{{ens.1}}">{{ens.1}}</option>
+            {% endfor %}            
+        </select>
+
+
+        <button class="btn btn-success ml-5" id="searchBtn_teacher_department">chercher</button>
+    </div>
+
+
+    <h6 class="hint-header">"chercher par département"</h6>
+
+    <div class="container" style="width : 60%">
+        <div id="table">
+          
+        </div>
+    </div>
+
+
+
+
+    <script src="{% static 'dashboard/js/order.js' %}"></script>
+{% endblock content %}

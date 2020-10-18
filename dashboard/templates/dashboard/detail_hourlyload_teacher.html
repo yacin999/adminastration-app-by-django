@@ -5,7 +5,12 @@
 
 
 {% block content %}
-<a href="" class="text-primary"><img src="{% static 'dashboard/imgs/document.png' %}" style="width: 25px" alt="no image">cliquer ici pour aficher le PDF </a>
+<a href="{% url 'generate_ttt_PDF' enseignant.slug %}" class="text-primary mb-4"><img src="{% static 'dashboard/imgs/document.png' %}" style="width: 25px" alt="no image">cliquer ici pour aficher le PDF </a>
+
+
+
+<h4 style="margin-top: 40px;">{{ enseignant }}</h4>
+
 
 <div id="table-container">
    <div class="our_table">
@@ -21,44 +26,49 @@
       <div class="our_row">
          <span class="our_cell">sunday</span>
 
-         {% if chargehoraire.science1_J1.occupe %}
-         <span class="our_cell bg-warning">
-               <div>{{chargehoraire.science1_J1.get_nature_display}}</div>
-               <div>{{chargehoraire.science1_J1.groupe}}</div>
-         {% else %}
-         <span class="our_cell"></span>
-         {% endif %}
-         </span>
-
-         {% if chargehoraire.science2_J1.occupe %}
+         {% if chargehoraire.first_first %}
             <span class="our_cell bg-warning">
-               <div>{{chargehoraire.science2_J1.get_nature_display}}</div>
-               <div>{{chargehoraire.science2_J1.groupe}}</div>
-            {% else %}
-               <span class="our_cell"></span>
-            {% endif %}
-           </span>
+               <div>{{ chargehoraire.first_first.module}}</div>
+               <div>{{ chargehoraire.first_first.groupe_type}}</div>
+               <div>{{chargehoraire.first_first.groupe}}</div>
+            </span>
+         {% else %}
+            <span class="our_cell"></span>
+         {% endif %}
+
+         {% if chargehoraire.first_second %}
+            <span class="our_cell bg-warning">
+               <div>{{ chargehoraire.first_second.module}}</div>
+               <div>{{ chargehoraire.first_second.groupe_type}}</div>
+               <div>{{chargehoraire.first_second.groupe}}</div>
+            </span>
+         {% else %}
+            <span class="our_cell"></span>
+         {% endif %}
+
 
       <span class="our_cell" ></span>
 
-         {% if chargehoraire.science3_J1.occupe %}
-            <span class="our_cell bg-warning">
-                  <div>{{chargehoraire.science3_J1.get_nature_display}}</div>
-                  <div>{{chargehoraire.science3_J1.groupe}}</div>
-         {% else %}
-            <span class="our_cell"></span>
-         {% endif %}
-            </span>
+      {% if chargehoraire.first_third %}
+      <span class="our_cell bg-warning">
+         <div>{{ chargehoraire.first_third.module}}</div>
+         <div>{{ chargehoraire.first_third.groupe_type}}</div>
+         <div>{{chargehoraire.first_third.groupe}}</div>
+      </span>
+      {% else %}
+         <span class="our_cell"></span>
+      {% endif %}
 
       
-         {% if chargehoraire.science4_J1.occupe %}
-            <span class="our_cell bg-warning">
-               <div>{{chargehoraire.science4_J1.get_nature_display}}</div>
-               <div>{{chargehoraire.science4_J1.groupe}}</div>
-         {% else %}
-            <span class="our_cell"></span>
-         {% endif %}
-            </span>
+      {% if chargehoraire.first_forth %}
+      <span class="our_cell bg-warning">
+         <div>{{ chargehoraire.first_forth.module}}</div>
+         <div>{{ chargehoraire.first_forth.groupe_type}}</div>
+         <div>{{chargehoraire.first_forth.groupe}}</div>
+      </span>
+      {% else %}
+         <span class="our_cell"></span>
+      {% endif %}
 
       </div>
 
@@ -66,91 +76,100 @@
          <span class="our_cell">monday</span>
 
       
-         {% if chargehoraire.science1_J2.occupe %}
-            <span class="our_cell bg-warning">
-               <div>{{chargehoraire.science1_J2.get_nature_display}}</div>
-               <div>{{chargehoraire.science1_J2.groupe}}</div>
-         {% else %}
-            <span class="our_cell" >
-         {% endif %}
+         {% if chargehoraire.second_first %}
+      <span class="our_cell bg-warning">
+         <div>{{ chargehoraire.second_first.module}}</div>
+         <div>{{ chargehoraire.second_first.groupe_type}}</div>
+         <div>{{chargehoraire.second_first.groupe}}</div>
       </span>
-
+      {% else %}
+         <span class="our_cell"></span>
+      {% endif %}
       
-         {% if chargehoraire.science2_J2.occupe %}
-            <span class="our_cell bg-warning">
-               <div>{{chargehoraire.science2_J2.get_nature_display}}</div>
-               <div>{{chargehoraire.science2_J2.groupe}}</div>
-            {% else %}
-            <span class="our_cell">
-         {% endif %}
-      </span>   
+      {% if chargehoraire.second_second %}
+      <span class="our_cell bg-warning">
+         <div>{{ chargehoraire.second_second.module}}</div>
+         <div>{{ chargehoraire.second_second.groupe_type}}</div>
+         <div>{{chargehoraire.second_second.groupe}}</div>
+      </span>
+      {% else %}
+         <span class="our_cell"></span>
+      {% endif %} 
 
       <span class="our_cell" ></span>
 
       
-         {% if chargehoraire.science3_J2.occupe %}
-            <span class="our_cell bg-warning">
-               <div>{{chargehoraire.science3_J2.get_nature_display}}</div>
-               <div>{{chargehoraire.science3_J2.groupe}}</div>
-            {% else %}
-            <span class="our_cell">
-         {% endif %}
+      {% if chargehoraire.second_third %}
+      <span class="our_cell bg-warning">
+         <div>{{ chargehoraire.second_third.module}}</div>
+         <div>{{ chargehoraire.second_third.groupe_type}}</div>
+         <div>{{chargehoraire.second_third.groupe}}</div>
       </span>
+      {% else %}
+         <span class="our_cell"></span>
+      {% endif %} 
 
       
-         {% if chargehoraire.science4_J2.occupe %}
-            <span class="our_cell bg-warning">
-               <div>{{chargehoraire.science4_J2.get_nature_display}}</div>
-               <div>{{chargehoraire.science4_J2.groupe}}</div>
-         {% else %}
-            <span class="our_cell">
-         {% endif %}
+      {% if chargehoraire.second_forth %}
+      <span class="our_cell bg-warning">
+         <div>{{ chargehoraire.second_forth.module}}</div>
+         <div>{{ chargehoraire.second_forth.groupe_type}}</div>
+         <div>{{chargehoraire.second_forth.groupe}}</div>
       </span>
+      {% else %}
+         <span class="our_cell"></span>
+      {% endif %} 
+
       </div>
 
       <div class="our_row">
       <span class="our_cell">tuesday</span>
 
       
-         {% if chargehoraire.science1_J3.occupe %}
-            <span class="our_cell bg-warning">
-               <div>{{chargehoraire.science1_J3.get_nature_display}}</div>
-               <div>{{chargehoraire.science1_J3.groupe}}</div>
-         {% else %}
-            <span class="our_cell">
-         {% endif %}
+      {% if chargehoraire.third_first %}
+      <span class="our_cell bg-warning">
+         <div>{{ chargehoraire.third_first.module}}</div>
+         <div>{{ chargehoraire.third_first.groupe_type}}</div>
+         <div>{{chargehoraire.third_first.groupe}}</div>
       </span>
+      {% else %}
+         <span class="our_cell"></span>
+      {% endif %} 
 
       
-         {% if chargehoraire.science2_J3.occupe %}
-            <span class="our_cell bg-warning">
-               <div>{{chargehoraire.science2_J3.get_nature_display}}</div>
-               <div>{{chargehoraire.science2_J3.groupe}}</div>
-            {% else %}
-            <span class="our_cell">
-         {% endif %}
+      {% if chargehoraire.third_second %}
+      <span class="our_cell bg-warning">
+         <div>{{ chargehoraire.third_second.module}}</div>
+         <div>{{ chargehoraire.third_second.groupe_type}}</div>
+         <div>{{chargehoraire.third_second.groupe}}</div>
       </span>
+      {% else %}
+         <span class="our_cell"></span>
+      {% endif %} 
 
       <span class="our_cell" ></span>
 
       
-         {% if chargehoraire.science3_J3.occupe %}
-            <span class="our_cell bg-warning">
-               <div>{{chargehoraire.science3_J3.get_nature_display}}</div>
-               <div>{{chargehoraire.science3_J3.groupe}}</div>
-            {% else %}
-            <span class="our_cell">
-         {% endif %}
+      {% if chargehoraire.third_third %}
+      <span class="our_cell bg-warning">
+         <div>{{ chargehoraire.third_third.module}}</div>
+         <div>{{ chargehoraire.third_third.groupe_type}}</div>
+         <div>{{chargehoraire.third_third.groupe}}</div>
       </span>
+      {% else %}
+         <span class="our_cell"></span>
+      {% endif %} 
       
-         {% if chargehoraire.science4_J3.occupe %}
-            <span class="our_cell bg-warning">
-               <div>{{chargehoraire.science4_J3.get_nature_display}}</div>
-               <div>{{chargehoraire.science4_J3.groupe}}</div>
-            {% else %}
-            <span class="our_cell">
-         {% endif %}
+      {% if chargehoraire.third_forth %}
+      <span class="our_cell bg-warning">
+         <div>{{ chargehoraire.third_forth.module}}</div>
+         <div>{{ chargehoraire.third_forth.groupe_type}}</div>
+         <div>{{chargehoraire.third_forth.groupe}}</div>
       </span>
+      {% else %}
+         <span class="our_cell"></span>
+      {% endif %} 
+
       </div>
 
       <div class="our_row">
@@ -158,90 +177,101 @@
          <span class="our_cell">wednesday</span>
 
       
-         {% if chargehoraire.science1_J4.occupe %}
-            <span class="our_cell bg-warning">
-               <div>{{chargehoraire.science1_J4.get_nature_display}}</div>
-               <div>{{chargehoraire.science1_J4.groupe}}</div>
+         {% if chargehoraire.forth_first %}
+         <span class="our_cell bg-warning">
+            <div>{{ chargehoraire.forth_first.module}}</div>
+            <div>{{ chargehoraire.forth_first.groupe_type}}</div>
+            <div>{{chargehoraire.forth_first.groupe}}</div>
+         </span>
          {% else %}
-            <span class="our_cell">
-         {% endif %}
-      </span>
+            <span class="our_cell"></span>
+         {% endif %} 
 
       
-         {% if chargehoraire.science2_J4.occupe %}
-            <span class="our_cell bg-warning">
-               <div>{{chargehoraire.science2_J4.get_nature_display}}</div>
-               <div>{{chargehoraire.science2_J4.groupe}}</div>
-            {% else %}
-            <span class="our_cell">
-         {% endif %}
-      </span>
+         {% if chargehoraire.forth_second %}
+         <span class="our_cell bg-warning">
+            <div>{{ chargehoraire.forth_second.module}}</div>
+            <div>{{ chargehoraire.forth_second.groupe_type}}</div>
+            <div>{{chargehoraire.forth_second.groupe}}</div>
+         </span>
+         {% else %}
+            <span class="our_cell"></span>
+         {% endif %} 
 
       <span class="our_cell" ></span>
 
-         {% if chargehoraire.science3_J4.occupe %}
-            <span class="our_cell bg-warning">
-               <div>{{chargehoraire.science3_J4.get_nature_display}}</div>
-               <div>{{chargehoraire.science3_J4.groupe}}</div>
-         {% else %}
-         <span class="our_cell">
-         {% endif %}
+      {% if chargehoraire.forth_third %}
+      <span class="our_cell bg-warning">
+         <div>{{ chargehoraire.forth_third.module}}</div>
+         <div>{{ chargehoraire.forth_third.groupe_type}}</div>
+         <div>{{chargehoraire.forth_third.groupe}}</div>
       </span>
+      {% else %}
+         <span class="our_cell"></span>
+      {% endif %} 
       
-         {% if chargehoraire.science4_J4.occupe %}
+      {% if chargehoraire.forth_forth %}
          <span class="our_cell bg-warning">
-               <div>{{chargehoraire.science4_J4.get_nature_display}}</div>
-               <div>{{chargehoraire.science4_J4.groupe}}</div>
-            {% else %}
-            <span class="our_cell">
-         {% endif %}
-      </span>
+            <div>{{ chargehoraire.forth_forth.module}}</div>
+            <div>{{ chargehoraire.forth_forth.groupe_type}}</div>
+            <div>{{chargehoraire.forth_forth.groupe}}</div>
+         </span>
+         {% else %}
+            <span class="our_cell"></span>
+         {% endif %} 
       </div>
 
       <div class="our_row">
          <span class="our_cell">thursday</span>
 
-         {% if chargehoraire.science1_J5.occupe %}
-            <span class="our_cell bg-warning">
-               <div>{{chargehoraire.science1_J5.get_nature_display}}</div>
-               <div>{{chargehoraire.science1_J5.groupe}}</div>
-         {% else %}
-         <span class="our_cell">
-         {% endif %}
-      </span>
-
-         {% if chargehoraire.science2_J5.occupe %}
+         {% if chargehoraire.fifth_first %}
          <span class="our_cell bg-warning">
-               <div>{{chargehoraire.science2_J5.get_nature_display}}</div>
-               <div>{{chargehoraire.science2_J5.groupe}}</div>
-            {% else %}
-            <span class="our_cell">
-         {% endif %}
-      </span>
+            <div>{{ chargehoraire.fifth_first.module}}</div>
+            <div>{{ chargehoraire.fifth_first.groupe_type}}</div>
+            <div>{{chargehoraire.fifth_first.groupe}}</div>
+         </span>
+         {% else %}
+            <span class="our_cell"></span>
+         {% endif %} 
+
+         {% if chargehoraire.fifth_second %}
+         <span class="our_cell bg-warning">
+            <div>{{ chargehoraire.fifth_second.module}}</div>
+            <div>{{ chargehoraire.fifth_second.groupe_type}}</div>
+            <div>{{chargehoraire.fifth_second.groupe}}</div>
+         </span>
+         {% else %}
+            <span class="our_cell"></span>
+         {% endif %} 
 
       <span class="our_cell"></span>
       
-         {% if chargehoraire.science3_J5.occupe %}
-         <span class="our_cell bg-warning">
-               <div>{{chargehoraire.science3_J5.get_nature_display}}</div>
-               <div>{{chargehoraire.science3_J5.groupe}}</div>
-            {% else %}
-            <span class="our_cell">
-         {% endif %}
-            </span>
-
-         {% if chargehoraire.science4_J5.occupe %}
-         <span class="our_cell bg-warning">
-               <div>{{chargehoraire.science4_J5.get_nature_display}}</div>
-               <div>{{chargehoraire.science4_J5.groupe}}</div>
-            {% else %}
-            <span class="our_cell">
-         {% endif %}
+      {% if chargehoraire.fifth_third %}
+      <span class="our_cell bg-warning">
+         <div>{{ chargehoraire.fifth_third.module}}</div>
+         <div>{{ chargehoraire.fifth_third.groupe_type}}</div>
+         <div>{{chargehoraire.fifth_third.groupe}}</div>
       </span>
+      {% else %}
+         <span class="our_cell"></span>
+      {% endif %} 
+
+      {% if chargehoraire.fifth_forth %}
+      <span class="our_cell bg-warning">
+         <div>{{ chargehoraire.fifth_forth.module}}</div>
+         <div>{{ chargehoraire.fifth_forth.groupe_type}}</div>
+         <div>{{chargehoraire.fifth_forth.groupe}}</div>
+      </span>
+      {% else %}
+         <span class="our_cell"></span>
+      {% endif %} 
+
       </div>
    </div>
 </div>
   
- 
+{% endblock %}
 
- {% endblock %}
+
+
+

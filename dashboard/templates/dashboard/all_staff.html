@@ -12,7 +12,7 @@
     <button class="btn btn-outline-primary my-2 my-sm-0" type="submit">Search</button>
   </form>
 
-  <button type="button" class="btn btn-primary mb-4 adding"><a href="{% url 'new-staff' %}">Add staff</a></button>
+  <button type="button" class="btn btn-primary mb-4 adding"><a href="{% url 'new-staff' %}">Ajouter staff</a></button>
 </div>
 
 <div class="container">
@@ -34,10 +34,10 @@
           <td>{{ staf.user.username}}</td>
           <td>{{ staf.user.email}}</td>
           <td>
-                {% if staf.user.is_staff %}
-                    <span style="color:#00ff14;">{{ staf.user.is_staff}}</span>
+                {% if staf.user.is_superuser %}
+                    <span style="color:#00ff14;">{{ staf.user.is_superuser}}</span>
                 {% else %}
-                    <span>{{ staf.user.is_staff}}</span>
+                    <span>{{ staf.user.is_superuser}}</span>
                 {% endif %}
             </td>
           <td class="td-btn">

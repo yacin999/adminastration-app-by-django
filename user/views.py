@@ -1,27 +1,33 @@
 from django.shortcuts import render, redirect
-from .forms  import RegisterForm
+from .forms  import RegisterForm, UserForm, StaffForm
+from .models import Staff, StaffPermission
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User
 from django.contrib import messages
 
 
-# Create your views here.
-
-
 def register(request):
-    if request.method == 'POST':
-        form = RegisterForm(request.POST)
-        if form.is_valid():
-            form.save()
-            #messages.success(request, 'you have successfuly registred')
-            return redirect('/')
+
+    
+    print("is this user staff !!! ", request.user.is_staff)
+
+    if (request.method == 'POST'):
+        userform = RegisterForm(request.POST)
+
+        if userform.is_valid():
+            user = userform.save(commit=False)
+            user.set_password(userform.cleaned_data["password1"])
+            user.save()
+            staff = Staff.objects.create(user=user)
     else:
-        form = RegisterForm()
+        userform = RegisterForm()
 
-    return render(request, 'user/register.html', {
-        'form': form
-    })
-
+    context = {
+        'title': 'new user',
+        'user': userform,
+    }
+    
+    return render(request, "user/register.html", context)
 
 def login_user(request):
     if request.method == 'POST':
@@ -30,11 +36,11 @@ def login_user(request):
         
         user = authenticate(request, username=username, password=password)
         if user is not None:
-            login(request, user)
-            if user.is_staff:
-                return redirect('all_teachers')
-            else:
+            if user.is_staff or user.is_superuser or user.staff.accepted:
+                login(request, user)
                 return redirect('admin_panel')
+            else:
+                messages.error(request, 'wait for the Admin until he confirm your accout')
         else:
             messages.warning(request, 'there is an error in the username or the password ')
         

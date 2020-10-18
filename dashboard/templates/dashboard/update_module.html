@@ -5,14 +5,46 @@
 
 
 {% block content %}
+<div class="create-module-container">
+  <div class="section-bar">creation d'un module</div>
+  <h6 class="pt-2 ml-3 text-danger" >all fields are required *</h6>
   <form method="post"> {% csrf_token %}
 
-    <!-- {{ form|crispy }} -->
-    {% bootstrap_form form %}
-    {% buttons %}
-      <input type="submit" value="save" class="btn btn-primary">
-    {% endbuttons %}  
+    <!-- <div class="row"> -->
+      {% for input in form %}
+        {% if forloop.counter <= 7 %}
+          {% if forloop.counter == 1 %}
+            <div class="row p-4">
+          {% endif %}
+          <div class="col-md-4 mb-5">
+            {{input}}
+            <div class="text-danger ml-3" class="error-input-message" id="error{{forloop.counter}}"  hidden><i class="fas fa-exclamation-triangle text-danger mr-1"></i></div>
+          </div>   
+          {% if forloop.counter == 7 %}
+            </div>
+          {% endif %}
+        {% else %}
+          {% if forloop.counter == 8 %}
+          <div class="section-bar" style="margin-bottom: 104px;"> selection du champs</div>
+            <div class="row mb-5">
+          {% endif %}
+          {% if forloop.counter == 11 %}
+            <div class="col-md-4 mt-5" style="display: inline-grid;">
+          {% else %}
+            <div class="col-md-4" style="display: inline-grid;">
+          {% endif %}
+              <label for="{{input.id_for_label}}">{{input.label}}</label>
+              {{input}}
+            </div>
+          {% if forloop.counter == 11 %}
+            </div>
+          {% endif %}
+        {% endif %}
+      {% endfor %}
+    <!-- </div> -->
+      <input type="submit" value="save" class="btn btn-primary mt-5">
+      <!-- <input type="submit" value="save and add another" class="btn btn-primary"> -->
   </form>
-  
+</div>
 
 {% endblock %}

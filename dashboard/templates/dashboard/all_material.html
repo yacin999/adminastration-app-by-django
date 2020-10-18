@@ -10,11 +10,11 @@
     <button class="btn btn-outline-primary my-2 my-sm-0" type="submit"><i class="fas fa-search"></i> Search</button>
   </form>
   {% if user.is_staff %}
-    <button type="button" class="btn btn-primary mb-4 adding"><a href="{% url 'new_material' %}"><i class="fas fa-plus-circle"></i> add Material</a></button>
+    <button type="button" class="btn btn-primary mb-4 adding"><a href="{% url 'new_material' %}"><i class="fas fa-plus-circle"></i> Ajouter Material</a></button>
   {% else %}
     {% for permission in user.staff.permissions.all %}
       {% if permission.name == "can_create_material" %}
-        <button type="button" class="btn btn-primary mb-4 adding"><a href="{% url 'new_material' %}"><i class="fas fa-plus-circle"></i> add Material</a></button>
+        <button type="button" class="btn btn-primary mb-4 adding"><a href="{% url 'new_material' %}"><i class="fas fa-plus-circle"></i> Ajouter Material</a></button>
       {% endif %}
     {% endfor %} 
   {% endif %}
@@ -25,7 +25,6 @@
     <thead class="thead">
       <tr>
         <th scope="col">#</th>
-        <th scope="col">img</th>
         <th scope="col">Nom de Produit</th>
         <th scope="col">disponible</th>    
         <!-- <th scope="col" class="text-center">Action</th> -->
@@ -35,15 +34,10 @@
       {% for mat in material %}
         <tr>
             <th scope="row">{{ forloop.counter|add:0 }}</th>
-            <td> <img class="thumbnail" src="{{ mat.imageURL }}" alt="image not available"></td>
             <td>{{ mat.name}}</td>
             <td>
               {% if mat.is_available %}
-                {% if request.user.is_staff %}
-                <span class="text-success">disponible</span>
-                {% else %}
                   <span class="btn btn-success btn-reserve" data-item-id="{{mat.id}}">reserver</span>
-                {% endif %}
               {% else %}
                 <span class="text-danger">pas disponible</span>
               {% endif %}
