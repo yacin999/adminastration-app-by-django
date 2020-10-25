@@ -8,24 +8,17 @@
 
     <div class="mb-5">
         
-        <label for="tableau"> le niveau :</label>
-        <select id="level" class="custom-select ml-1 mr-5" style="width: 130px;">
-            <option value="" selected disabled>-select-</option>
-            {% for level in niveau %}
-            <option value="{{level}}">{{level}}</option>
-            {% endfor %}  
-        </select>
-
-        <label for="tableau" class="ml-5">le semestre :</label>
-        <select id="semestre" class="custom-select ml-1 mr-5" style="width: 130px;" disabled>
-            <option value="" selected>-select-</option>
-        </select>
+        
+        
 
         <label for="type">departement</label>
         <select name="" id="depart" class="custom-select ml-1 mr-2" style="width: 150px;">
-            <option value="informatique">informatique</option>
-            <option value="mathématique">mathématique</option>
-            
+            <option value="">-select-</option>
+            {% for ens in enseignant|dictsort:'departement' %}
+            {% ifchanged %}
+            <option value="{{ens.get_departement_display}}">{{ens.get_departement_display}}</option>
+            {% endifchanged %} 
+            {% endfor %} 
         </select>
 
 

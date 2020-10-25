@@ -4,10 +4,7 @@
 {% block content %}
 
 <div class="container-search">
-  <form class="form-inline my-2 my-lg-0 search">
-    <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
-    <button class="btn btn-outline-primary my-2 my-sm-0" type="submit"><i class="fas fa-search"></i> Chercher</button>
-  </form>
+
   <button type="button" class="btn btn-primary mb-4 adding"><a href="{% url 'new-classroom' %}"><i class="fas fa-plus-circle"></i> ajouter salle</a></button> 
   
 </div>
@@ -19,7 +16,6 @@
         <th scope="col">Nom de salle</th>
         <th scope="col">type de salle</th>
         <th scope="col">bloc</th>
-        <th scope="col">disponible</th>
         <th scope="col" class="text-center">Action</th>
       </tr>
     </thead>
@@ -30,7 +26,6 @@
         <td>{{ salle.design}}</td>
         <td>{{ salle.get_type_of_display}}</td>
         <td>{{ salle.get_bloc_display}}</td>
-        <td>{{ salle.is_available}}</td>
         <td class="td-btn" style="width: 200px;">
           <a href="{% url 'update-classroom' salle.id %}"><i class="fas fa-pencil-alt text-primary mr-4 ml-4" style="font-size: 25px;"></i></a>
           <a href="{% url 'delete-classroom' salle.id %} "><i class="fas fa-minus-circle text-danger mr-4 ml-4" style="font-size: 25px;"></i></a>

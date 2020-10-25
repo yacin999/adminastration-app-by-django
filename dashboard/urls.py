@@ -52,7 +52,7 @@ urlpatterns = [
 # PDF urls ===================================================================================
     url(r'^(?P<id>\d+)/pdf$', views.generatePDF, name="pdf_emploi"), 
     path('<slug>/pdf', views.generate_ttt_PDF, name="generate_ttt_PDF"),   
-    path('<level>/<semester>/<department>/pdf', views.generate_teacher_hourlyL_PDF, name="generate_teacher_hourlyL_PDF"), 
+    path('<department>/t-hourlyL/pdf', views.generate_teacher_hourlyL_PDF, name="generate_teacher_hourlyL_PDF"), 
     path('<level>-<semester>-<cr_type>/cr-tt/pdf', views.generate_clarssR_timetable_PDF, name="generate_clarssR_timetable_PDF"), 
     path('<level>-<semester>/weekly-followup/pdf', views.generate_Weekly_teaching_followup_PDF, name="generate_Weekly_teaching_followup_PDF"), 
       

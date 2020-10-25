@@ -7,10 +7,7 @@
 {% block content %}
 
 <div class="container-search">
-  <form class="form-inline my-2 my-lg-0 search">
-    <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
-    <button class="btn btn-outline-primary my-2 my-sm-0" type="submit">Search</button>
-  </form>
+  
   <button type="button" class="btn btn-primary mb-4 adding"><a href="{% url 'new-module' %}">Ajouter Module</a></button> 
   
 </div>
@@ -26,6 +23,9 @@
           <th scope="col">niveau</th>
           <th scope="col">Coefficient</th>
           <th scope="col">Cridit</th>
+          <th scope="col">cours</th>
+          <th scope="col">TP</th>
+          <th scope="col">TD</th>
           <th scope="col" class="text-center">Action</th>
         </tr>
       </thead>
@@ -38,6 +38,9 @@
           <td>{{ module.niveau}}</td>
           <td>{{ module.coeff}}</td>
           <td>{{ module.credit}}</td>
+          <td>{{ module.cours}}</td>
+          <td>{{ module.tp}}</td>
+          <td>{{ module.td}}</td>
           <td class="td-btn">
             <a href="{% url 'update-module' module.slug %}"> <i class="fas fa-pencil-alt text-primary mr-4 ml-4" style="font-size: 25px;"></i></a>
             <a href="{% url 'delete-module' module.slug %} "><i class="fas fa-minus-circle text-danger mr-4 ml-4" style="font-size: 25px;"></i></a>

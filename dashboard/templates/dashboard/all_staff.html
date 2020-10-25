@@ -7,11 +7,7 @@
 {% block content %}
 
 <div class="container-search">
-  <form class="form-inline my-2 my-lg-0 search">
-    <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
-    <button class="btn btn-outline-primary my-2 my-sm-0" type="submit">Search</button>
-  </form>
-
+  
   <button type="button" class="btn btn-primary mb-4 adding"><a href="{% url 'new-staff' %}">Ajouter staff</a></button>
 </div>
 
@@ -24,6 +20,7 @@
           <th scope="col">Nom de utilisateur</th>
           <th scope="col">email</th>
           <th scope="col">est-il admin</th>
+          <th scope="col">est-il operateur</th>
           <th scope="col" class="text-center">Action</th>
         </tr>
       </thead>
@@ -40,6 +37,13 @@
                     <span>{{ staf.user.is_superuser}}</span>
                 {% endif %}
             </td>
+            <td>
+              {% if staf.user.is_staff %}
+                  <span style="color:#00ff14;">{{ staf.user.is_staff}}</span>
+              {% else %}
+                  <span>{{ staf.user.is_staff}}</span>
+              {% endif %}
+          </td>
           <td class="td-btn">
             <a href="{% url 'update-staff' staf.id %}"><i class="fas fa-user-edit text-primary mr-5 ml-5" style="font-size: 25px;"></i></a>
             <a href="{% url 'delete-staff' staf.id %}"> <i class="fas fa-user-times text-danger mr-5 ml-5" style="font-size: 25px;"></i></a>

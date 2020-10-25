@@ -15,6 +15,7 @@ import random
 import datetime
 from re import sub
 import json
+from dashboard import forms
 
 
 
@@ -275,6 +276,7 @@ def new_teacher(request):
 
             return redirect("all_teachers")
     else:
+            
         form = EnseignantModelForm()
     context = {
         'title': 'new teacher',
@@ -1198,8 +1200,10 @@ def confirm_anony_user(request):
             
             staff.accepted = True
             staff.save()
+            print("after confirming staff", staff, staff.accepted)
             timetable_permission = StaffPermission.objects.get(name="peut_lister_toutes_emploitems")
             reservation_permission = StaffPermission.objects.get(name="peut_lister_toutes_materials")
+            ordre_permission = StaffPermission.objects.get(name="peut_lister_toutes_ordres")
             
             staff.permissions.add(timetable_permission, reservation_permission)
             
@@ -1367,8 +1371,9 @@ def teacher_hourly_loader(request):
         return redirect("admin_panel")
 
     context = {
+        "enseignant" : Enseignant.objects.all(),
         "niveau": Niveau.objects.all(),
-        'plain_user': notif_user
+        'plain_user': notif_user,
     }
     return render(request, "dashboard/document_teacher_hourlyL.html", context)
 @login_required(login_url='login')
@@ -1376,41 +1381,42 @@ def load_teacher_hourlyL(request):
 
     loaded_data = json.loads(request.body)
 
-    timetable_name = '{}-{}'.format(loaded_data['level'], loaded_data ['semester'])
+    # timetable_name = '{}-{}'.format(loaded_data['level'], loaded_data ['semester'])
 
     teaching_followup_document = {}
     row_number = 1
 
-    try:
-        timetable_obj = EmploiTemps.objects.get(slug=timetable_name)
-    except EmploiTemps.DoesNotExist:
-        return HttpResponse(json.dumps("no result"))
+    # try:
+    #     timetable_obj = EmploiTemps.objects.get(slug=timetable_name)
+    # except EmploiTemps.DoesNotExist:
+    #     return HttpResponse(json.dumps("no result"))
         
+    timetables = EmploiTemps.objects.all()
+    for timetable_obj in timetables:
+        for tt_attr in dir(timetable_obj):
 
-    for tt_attr in dir(timetable_obj):
+            if tt_attr in timetable_atts:
 
-        if tt_attr in timetable_atts:
+                perd = getattr(timetable_obj, "{}".format(tt_attr))
 
-            perd = getattr(timetable_obj, "{}".format(tt_attr))
+                for p in perd.all():
+                    if p.enseignant.get_departement_display() == loaded_data['department']:
+                        if p.groupe_type == "Cours":
+                            teaching_followup_document["{}".format(row_number)] = {
+                                "teacher" : "{} {}".format(p.enseignant.nom, p.enseignant.prenom),
+                                "module" : p.module.designation,
+                                "nature": "C",
+                                "group" : "",                        
+                            }
+                        else :
+                            teaching_followup_document["{}".format(row_number)] = {
+                                "teacher" : "{} {}".format(p.enseignant.nom, p.enseignant.prenom),
+                                "module" : p.module.designation,
+                                "nature": p.groupe_type,
+                                "group" : p.groupe,                        
+                            }
 
-            for p in perd.all():
-                if p.enseignant.get_departement_display() == loaded_data['department']:
-                    if p.groupe_type == "Cours":
-                        teaching_followup_document["{}".format(row_number)] = {
-                            "teacher" : "{} {}".format(p.enseignant.nom, p.enseignant.prenom),
-                            "module" : p.module.designation,
-                            "nature": "C",
-                            "group" : "",                        
-                        }
-                    else :
-                        teaching_followup_document["{}".format(row_number)] = {
-                            "teacher" : "{} {}".format(p.enseignant.nom, p.enseignant.prenom),
-                            "module" : p.module.designation,
-                            "nature": p.groupe_type,
-                            "group" : p.groupe,                        
-                        }
-
-                    row_number +=1
+                        row_number +=1
 
     if teaching_followup_document == {}:
         return HttpResponse(json.dumps("no result"))
@@ -1572,51 +1578,50 @@ def generate_ttt_PDF(request, slug):
 
 # generate timetable of teacher template to PDF----------------------------------
 @login_required(login_url='login')
-def generate_teacher_hourlyL_PDF(request, level, semester, department):
+def generate_teacher_hourlyL_PDF(request, department):
 
 
-    print("timetable")
-    level = level
-    semester = semester
+   
     department = department
-    timetable_name = '{}-{}'.format(level, semester)
-
+    
     teaching_followup_document = {}
     row_number = 1
 
-    timetable_obj = EmploiTemps.objects.get(slug=timetable_name)
-    print("timetable", timetable_obj)
+    timetables = EmploiTemps.objects.all()
     # try:
     #     timetable_obj = EmploiTemps.objects.get(slug=timetable_name)
     # except EmploiTemps.DoesNotExist:
     #     return HttpResponse(json.dumps("no result"))
         
+    for timetable_obj in timetables:
+        
+        for tt_attr in dir(timetable_obj):
 
-    for tt_attr in dir(timetable_obj):
+            if tt_attr in timetable_atts:
 
-        if tt_attr in timetable_atts:
+                perd = getattr(timetable_obj, "{}".format(tt_attr))
 
-            perd = getattr(timetable_obj, "{}".format(tt_attr))
+                for p in perd.all():
+                    if p.enseignant.get_departement_display() == department:
+                        if p.groupe_type == "Cours":
+                            teaching_followup_document["{}".format(row_number)] = {
+                                "teacher" : "{} {}".format(p.enseignant.nom, p.enseignant.prenom),
+                                "module" : p.module.designation,
+                                "nature": "C",
+                                "group" : "",                        
+                            }
+                        else :
+                            teaching_followup_document["{}".format(row_number)] = {
+                                "teacher" : "{} {}".format(p.enseignant.nom, p.enseignant.prenom),
+                                "module" : p.module.designation,
+                                "nature": p.groupe_type,
+                                "group" : p.groupe,                        
+                            }
 
-            for p in perd.all():
-                if p.enseignant.get_departement_display() == department:
-                    if p.groupe_type == "Cours":
-                        teaching_followup_document["{}".format(row_number)] = {
-                            "teacher" : "{} {}".format(p.enseignant.nom, p.enseignant.prenom),
-                            "module" : p.module.designation,
-                            "nature": "C",
-                            "group" : "",                        
-                        }
-                    else :
-                        teaching_followup_document["{}".format(row_number)] = {
-                            "teacher" : "{} {}".format(p.enseignant.nom, p.enseignant.prenom),
-                            "module" : p.module.designation,
-                            "nature": p.groupe_type,
-                            "group" : p.groupe,                        
-                        }
+                        row_number +=1
 
-                    row_number +=1
-
+        
+    
     if teaching_followup_document == {}:
         return HttpResponse(json.dumps("no result"))
 

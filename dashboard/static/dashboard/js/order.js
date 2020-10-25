@@ -263,7 +263,6 @@ try {
 
 
 } catch (error) {
-    
 }
 
 
@@ -354,9 +353,34 @@ try {
         email_teacher.style.cssText = ""
     })
 
-} catch (error) {
+} catch (error) {}
+
+
+// anonymous user input verification part_______________________________
+try {
     
-}
+    let email_anony = document.getElementById("id_email")
+    email_anony.addEventListener("blur", ()=>{
+        const re = /^[^@]+@(univ-mascara)\.dz$/i;
+        let valid =  re.test(String(email_anony.value).toLowerCase());
+
+        if(!valid) {
+            let error_message = document.getElementById("error1")
+            console.log("error", error_message)
+            error_message.innerHTML = `<i class="fas fa-exclamation-triangle text-danger mr-1"></i> cette email n'est pas valide`
+            error_message.hidden = false
+            error_message.style.cssText = "background: #ffdbdb;width: 211px;text-align: center;border-radius: 5px"
+            email_anony.style.cssText = "border: 2px solid #dc3545;border-radius: 5px;"
+
+        }
+    })
+    email_anony.addEventListener("focus", ()=>{
+        let error_message = document.getElementById("error1")
+        error_message.innerHTML = ""
+        email_anony.style.cssText = ""
+    })
+
+} catch (error) {}
 
 
 
@@ -496,7 +520,9 @@ try {
         })
     })
 
-} catch (error) {}
+} catch (error) {
+    console.log("")
+}
 
 // teaching followup document ======================================================
 try {
@@ -639,62 +665,19 @@ try {
 
 // teacher hourly Loader ===========================================================
 try {
-    const level = document.getElementById("level")
+    // const level = document.getElementById("level")
+    // const semester = document.getElementById("semestre");
     const table_id = document.getElementById("table")
-    const semester = document.getElementById("semestre");
     const searchBtn_teacher_hourlyL = document.getElementById("searchBtn_teacher_hourlyL");
     const header = document.querySelector(".hint-header")
     const department = document.getElementById("depart")
 
-    level.addEventListener('change', (event) => {
-        event.preventDefault();
-        
-        // var num_groups = document.getElementById("nbr-group");
-        semester.innerHTML = "";
-        semester.disabled = false;
-        // num_groups.disabled = false;
-        semester.innerHTML = "<option value='' selected disabled>-select-</option>"
-        var option1 = document.createElement("option");
-        var option2 = document.createElement("option");
-        switch (level.value) {
-          case "licence1":
-          option1.textContent = "S1";
-          option2.textContent = "S2";
-          semester.appendChild(option1);
-          semester.appendChild(option2);
-          break;
-          case "licence2":
-          option1.textContent = "S3";
-          option2.textContent = "S4";
-          semester.appendChild(option1);
-          semester.appendChild(option2);
-          break;
-          case "Licence3":
-          option1.textContent = "S5";
-          option2.textContent = "S6";
-          semester.appendChild(option1);
-          semester.appendChild(option2);
-          break;
-          case "Master1":
-          option1.textContent = "M1";
-          option2.textContent = "M2";
-          semester.appendChild(option1);
-          semester.appendChild(option2);
-          break;
-          case "Master2":
-          option1.textContent = "M3";
-          option2.textContent = "M4";
-          semester.appendChild(option1);
-          semester.appendChild(option2);
-          break;
-        }
-      });
-    
+   
     searchBtn_teacher_hourlyL.addEventListener("click", ()=>{  
-        if (level.value === "" || semester.value === "") {
-            alert("vous devez sélectionner le niveau le semestre ")
-            return 
-        }
+        // if (level.value === "" || semester.value === "") {
+        //     alert("vous devez sélectionner le niveau le semestre ")
+        //     return 
+        // }
 
         fetch("http://127.0.0.1:8000/dashboard/load-document-tl",{
             method: "POST",
@@ -703,8 +686,6 @@ try {
                 'X-CSRFToken': getCookie('csrftoken')
             },
             body: JSON.stringify({
-                level : level.value,
-                semester : semester.value,
                 department : department.value
             })   
         })
@@ -723,6 +704,7 @@ try {
                 border-radius: 5px;
                 `
                 table_id.innerHTML = ""
+                document.getElementById("pdf-btn").hidden = true
             }else{
 
                 let timetable_container = `
@@ -766,7 +748,7 @@ try {
                 }
 
                 document.getElementById("pdf-btn").hidden = false
-                document.getElementById("url-anchor").setAttribute("href", `/dashboard/${level.value}/${semester.value}/${department.value}/pdf`)
+                document.getElementById("url-anchor").setAttribute("href", `/dashboard/${department.value}/t-hourlyL/pdf`)
                 console.log("our pdf btn", document.getElementById("pdf-btn"))
                 
                

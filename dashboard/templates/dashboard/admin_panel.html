@@ -84,8 +84,8 @@
                           <div class="dropdown-container">
                             <a class="sidebar-links" href="{% url 'all_emploitemps' %}">Tous les emploi du temps</a>
                             <a class="sidebar-links" href="{% url 'new-timetable' %}">Ajouter emploi du temps</a>
-                            <a class="sidebar-links" href="{% url 'teacher_hourly_loader' %}">Charger horaire des ensei </a>
-                            <a class="sidebar-links" href="{% url 'salle_document' %}">Emploi par salle </a>
+                            <a class="sidebar-links" href="{% url 'teacher_hourly_loader' %}">Charge horaire des ensei </a>
+                            <a class="sidebar-links" href="{% url 'salle_document' %}">Emploi par salle / niveau </a>
                             <a class="sidebar-links" href="{% url 'teacher_timetable' %}">Emploi par enseignant </a>
                             <a class="sidebar-links" href="{% url 'teaching_followup_document' %}">Fiche hebdomadaire d'enseignement</a>
                             <a class="sidebar-links" href="{% url 'teacher_dep' %}">Enseignement par departement</a>
@@ -94,62 +94,64 @@
                       </ul>
                     {% else %}
                       <ul class="list-unstyled components">
-                          
                             <li>
                               <span class="dropdown-btn"><i class="fas fa-angle-right"></i> Utilisateurs</span>
                               <div class="dropdown-container">
                                 {% for permission in user.staff.permissions.all %}
-                                {% if permission == "peut_lister_toutes_staff" %}
-                                  <a class="sidebar-links" href="{% url 'all_staff' %}">tous les utilisateurs</a>
-                                {% endif %}
-                                {% endfor %}
-                                {% for permission in user.staff.permissions.all %}
-                                {% if permission == "peut_créer_du_staff" %}
-                                <a class="sidebar-links" href="{% url 'new-staff' %}">ajouter staff</a>
-                                {% endif %}
+                                  {% if permission.name == "peut_lister_toutes_staff" %}
+                                    <a class="sidebar-links" href="{% url 'all_staff' %}">tous les utilisateurs</a>
+                                  {% endif %}
                                 {% endfor %}
 
-                                
-                                
-                                
+                                {% for permission in user.staff.permissions.all %}
+                                  {% if permission.name == "peut_créer_du_staff" %}
+                                  <a class="sidebar-links" href="{% url 'new-staff' %}">ajouter staff</a>
+                                  {% endif %}
+                                {% endfor %}
                               </div>
                             </li>
                             <li>
                               <span class="dropdown-btn"><i class="fas fa-angle-right"></i> Matérials</span>
                               <div class="dropdown-container">
-                                {% if permission ==  "peut_lister_toutes_materials" %}
-                                  <a class="sidebar-links" href="{% url 'all_material' %}">tous les matérials</a>
-                                {% endif %}
+                                {% for permission in user.staff.permissions.all %}
+                                  {% if permission.name ==  "peut_lister_toutes_materials" %}
+                                    <a class="sidebar-links" href="{% url 'all_material' %}">tous les matérials</a>
+                                  {% endif %}
+                                {% endfor %}
 
-                                {% if permission ==  "peut_créer_du_material" %}
-                                  <a class="sidebar-links" href="{% url 'new_material' %}">ajouter matérial</a>
-                                {% endif %}
-                                
+                                {% for permission in user.staff.permissions.all %}
+                                  {% if permission.name ==  "peut_créer_du_material" %}
+                                    <a class="sidebar-links" href="{% url 'new_material' %}">ajouter matérial</a>
+                                  {% endif %}
+                                {% endfor %}
                                 
                               </div>
                             </li>
                             <li>
                               <span class="dropdown-btn"><i class="fas fa-angle-right"></i> ordres</span>
                               <div class="dropdown-container">
-                                {% if permission ==  "peut_lister_toutes_ordres" %}
-                                  <a class="sidebar-links" href="{% url 'all_orders' %}">tous les ordres</a>
-                                {% endif %}
+                                {% for permission in user.staff.permissions.all %}
+                                  {% if permission.name ==  "peut_lister_toutes_ordres" %}
+                                    <a class="sidebar-links" href="{% url 'all_orders' %}">tous les ordres</a>
+                                  {% endif %}
+                                {% endfor %}
                                 
                               </div>
                             </li>
                             <li>
                               <span class="dropdown-btn"><i class="fas fa-angle-right"></i> Enseignants</span>
                               <div class="dropdown-container">
-                                {% for permission in request.user.staff.permissions.all %}
-                                  {% if permission ==  "peut_lister_toutes_enseignants" %}
-                                  {{permission}}
+                                {% for permission in user.staff.permissions.all %}
+                                  {% if permission.name ==  "peut_lister_toutes_enseignants" %}
                                   <a class="sidebar-links" href="{% url 'all_teachers' %}">tous les enseignants</a>
                                   {% endif %}
                                 {% endfor %}
 
-                                {% if permission ==  "peut_créer_du_enseignant" %}
-                                <a class="sidebar-links" href="{% url 'new-teacher' %}">ajouter enseignant</a>
-                                {% endif %}
+                                {% for permission in user.staff.permissions.all %}
+                                  {% if permission ==  "peut_créer_du_enseignant" %}
+                                  <a class="sidebar-links" href="{% url 'new-teacher' %}">ajouter enseignant</a>
+                                  {% endif %}
+                                {% endfor %}
                                 
                                 
                               </div>
@@ -157,15 +159,14 @@
                             <li>
                               <span class="dropdown-btn"><i class="fas fa-angle-right"></i> Modules</span>
                               <div class="dropdown-container">
-                                {% for permission in request.user.staff.permissions.all %}
-                                    {% if permission != "peut_lister_toutes_modules" %}
-                                    {% else %}
+                                {% for permission in user.staff.permissions.all %}
+                                    {% if permission.name == "peut_lister_toutes_modules" %}
                                     <a class="sidebar-links" href="{% url 'all_modules' %}">tous les Modules</a>
                                     {% endif %}
                                 {% endfor %}
 
-                                {% for permission in request.user.staff.permissions.all %}
-                                  {% if permission == "peut_créer_du_module" %}
+                                {% for permission in user.staff.permissions.all %}
+                                  {% if permission.name == "peut_créer_du_module" %}
                                     <a class="sidebar-links" href="{% url 'new-module' %}">ajouter module</a>
                                   {% endif %}
                                 {% endfor %}
@@ -176,13 +177,17 @@
                             <li>
                               <span class="dropdown-btn"><i class="fas fa-angle-right"></i> Salles</span>
                               <div class="dropdown-container">
-                                {% if permission ==  "peut_lister_toutes_salles" %}
-                                <a class="sidebar-links" href="{% url 'all_classrooms' %}">tous les Salles</a>
-                                {% endif %}
+                                {% for permission in user.staff.permissions.all %}
+                                  {% if permission.name ==  "peut_lister_toutes_salles" %}
+                                    <a class="sidebar-links" href="{% url 'all_classrooms' %}">tous les Salles</a>
+                                  {% endif %}
+                                {% endfor %}
 
-                                {% if permission ==  "peut_créer_du_salle" %}
-                                <a class="sidebar-links" href="{% url 'new-classroom' %}">ajouter salle</a>
-                                {% endif %}
+                                {% for permission in user.staff.permissions.all %}
+                                  {% if permission.name ==  "peut_créer_du_salle" %}
+                                  <a class="sidebar-links" href="{% url 'new-classroom' %}">ajouter salle</a>
+                                  {% endif %}
+                                {% endfor %}
                                 
                                 
                               </div>
@@ -191,33 +196,47 @@
                                 <span class="dropdown-btn"><i class="fas fa-angle-right"></i> Emploi du temps</span>
                               <div class="dropdown-container">
 
-                                {% if permission ==  "peut_lister_toutes_emploitems" %}
-                                <a class="sidebar-links" href="{% url 'all_emploitemps' %}">Tous les emploi du temps</a>
-                                {% endif %}
+                                {% for permission in user.staff.permissions.all %}
+                                  {% if permission.name ==  "peut_lister_toutes_emploitems" %}
+                                  <a class="sidebar-links" href="{% url 'all_emploitemps' %}">Tous les emploi du temps</a>
+                                  {% endif %}
+                                {% endfor %}
 
-                                {% if permission ==  "peut_créer_du_empoitemps" %}
-                                <a class="sidebar-links" href="{% url 'new-timetable' %}">Ajouter emploi du temps</a>
-                                {% endif %}
+                                {% for permission in user.staff.permissions.all %}
+                                  {% if permission.name ==  "peut_créer_du_empoitemps" %}
+                                  <a class="sidebar-links" href="{% url 'new-timetable' %}">Ajouter emploi du temps</a>
+                                  {% endif %}
+                                {% endfor %}
 
-                                {% if permission ==  "peut_afficher_charge_horaire_e" %}
-                                <a class="sidebar-links" href="{% url 'teacher_hourly_loader' %}">Charger horaire des ensei </a>
-                                {% endif %}
+                                {% for permission in user.staff.permissions.all %}
+                                  {% if permission.name ==  "peut_afficher_charge_horaire_e" %}
+                                  <a class="sidebar-links" href="{% url 'teacher_hourly_loader' %}">Charger horaire des ensei </a>
+                                  {% endif %}
+                                {% endfor %}
 
-                                {% if permission ==  "peut_afficher_emploi_salle" %}
-                                <a class="sidebar-links" href="{% url 'salle_document' %}">Emploi par salle </a>
-                                {% endif %}
+                                {% for permission in user.staff.permissions.all %}
+                                  {% if permission.name ==  "peut_afficher_emploi_salle" %}
+                                  <a class="sidebar-links" href="{% url 'salle_document' %}">Emploi par salle / niveau </a>
+                                  {% endif %}
+                                {% endfor %}
 
-                                {% if permission ==  "peut_afficher_emploi_ens" %}
-                                <a class="sidebar-links" href="{% url 'teacher_timetable' %}">Emploi par enseignant </a>
-                                {% endif %}
+                                {% for permission in user.staff.permissions.all %}
+                                  {% if permission.name ==  "peut_afficher_emploi_ens" %}
+                                  <a class="sidebar-links" href="{% url 'teacher_timetable' %}">Emploi par enseignant </a>
+                                  {% endif %}
+                                {% endfor %}
 
-                                {% if permission ==  "peut_afficher_fiche_haib_sui_e" %}
-                                <a class="sidebar-links" href="{% url 'teaching_followup_document' %}">Fiche hebdomadaire d'enseignement</a>
-                                {% endif %}
+                                {% for permission in user.staff.permissions.all %}
+                                  {% if permission.name ==  "peut_afficher_fiche_haib_sui_e" %}
+                                  <a class="sidebar-links" href="{% url 'teaching_followup_document' %}">Fiche hebdomadaire d'enseignement</a>
+                                  {% endif %}
+                                {% endfor %}
 
-                                {% if permission ==  "peut_afficher_ens_département" %}
-                                <a class="sidebar-links" href="{% url 'teacher_dep' %}">Enseignement par departement</a>
-                                {% endif %}
+                                {% for permission in user.staff.permissions.all %}
+                                  {% if permission.name ==  "peut_afficher_ens_département" %}
+                                  <a class="sidebar-links" href="{% url 'teacher_dep' %}">Enseignement par departement</a>
+                                  {% endif %}
+                                {% endfor %}
                                 
                               </div>
                             </li>
@@ -259,7 +278,7 @@
                                           <li id="account-id" data-account-id="{{u.id}}">
                                             <p>Tu-ai un nouveau compte à confirmer de 
                                               <span>  
-                                                {{u.user.first_name}} {{u.user.last_name}}                                            
+                                                {{u.user.username}}                                         
                                               </span> 
                                               voulez-vous confirmer ce compte</p>
                                             <span>Tu-es confirmer ce compte?</span>
